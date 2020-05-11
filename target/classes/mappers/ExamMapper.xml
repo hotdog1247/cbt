@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.ExamMapper">
+	   	<resultMap type="SubjectVO" id="subjectResult">
+		<id property="sNo" column="s_no"/>
+		<id property="sName" column="s_name"/>
+		<association property="tNo" column="t_no" resultMap="testResult" />
+	</resultMap>
+	<resultMap type="TestVO" id="testResult">
+		<id property="tNo" column="t_no"/>
+		<id property="tName" column="t_name"/>
+		<id property="tYear" column="t_year"/>
+		<id property="tOrder" column="t_order"/>
+	</resultMap>
+	<resultMap type="ExamVO" id="examResult">
+		<id property="eNo" column="e_no"/>
+		<id property="eName" column="e_name"/>
+		<id property="eDescription" column="e_description"/>
+		<id property="eContent" column="e_content"/>
+		<id property="eContent2" column="e_content2"/>
+		<id property="eContent3" column="e_content3"/>
+		<id property="eContent4" column="e_content4"/>
+		<id property="eAnswer" column="e_answer"/>
+		<id property="eSolving" column="e_solving"/>
+		<id property="eAnswerRate" column="e_answer_rate"/>
+		<association property="tNo" column="t_no" resultMap="testResult"/>
+		<association property="sNo" column="s_no" resultMap="subjectResult"/>
+	</resultMap>
+	<insert id="insert">
+		insert into exam (t_no, s_no, e_no, e_name, e_content, e_content2, e_content3, e_content4, e_answer)
+		values (#{tNo.tNo},#{sNo.sNo},#{eNo},#{eName},#{eContent},#{eContent2},#{eContent3},#{eContent4},#{eAnswer})
+	</insert>
+	<select id="list" resultType="ExamVO">
+		select * from exam
+	</select>
+	<select id="readByNo" resultType="ExamVO">
+		select * from exam where t_no=#{tNo.tNo} and s_no=#{sNo.sNo} and e_no=#{eNo}
+	</select>
+	<update id="update">
+		update exam set e_answer_rate=#{eAnswerRate}
+	</update>
+	<delete id="delete">
+		delete from exam where t_no=#{tNo.tNo} and s_no=#{sNo.sNo} and e_no=#{eNo}
+	</delete>
+	<select id="selectList" resultMap="examResult">
+		select * from exam e left join test t on e.t_no = t.t_no where t.t_no=#{tNo.tNo} order by e_no limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="list2" resultMap="examResult">
+		select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=#{tNo.tNo}
+	</select>
+	<select id="totalSearchCount" resultType="int">
+		select count(*) from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=#{tNo}
+	</select>
+	<select id="subjectExam" resultMap="examResult">
+		select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=#{tNo.tNo} and s.s_no=#{sNo.sNo}
+	</select>
+</mapper>

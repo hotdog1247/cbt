@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+<!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">bean : 설정타입을 설정
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/book_spring"/>
+		<property name="username" value="root"/>
+		<property name="password" value="rootroot"/>
+	</bean> -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"><!-- bean : 설정타입을 설정 --><!-- log4j를 찍도록 설정 -->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/cbt_project"/>
+		<property name="username" value="user_cbt_project"/>
+		<property name="password" value="rootroot"/><!-- logback.xml, log4jdbc.log4j2.properties 파일을 src/main/resources에 추가 -->
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/><!-- 객체면 ref, 기본 데이터일 경우 value -->
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/><!-- mybatis-config.xml 파일을 src/main/resources에 추가 -->
+		<property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml"/><!-- mapper들의 위치를 설정, 설정 안 했을시 persistenceException의 원인 중 하나 -->
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache"><!-- sqlSession을 각각 열고 닫는걸 자동으로 함 -->
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<aop:aspectj-autoproxy/><!-- aop 기능 활성화 -->
+	<aop:config/><!-- aop 기능 활성화 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"><!-- transaction를 사용하기 위함 -->
+		<property name="dataSource" ref="dataSource"/><!-- transaction를 사용하기 위함 -->
+	</bean><!-- transaction를 사용하기 위함 -->
+	<tx:annotation-driven/><!-- transaction를 사용하기 위함 -->
+	<context:component-scan base-package="com.yi.persistence"/><!-- context:component-scan base-package : 이 경로에 있는 건 bean으로 등록하겠다 -->
+	<context:component-scan base-package="com.yi.service"/><!-- context:component-scan base-package : 이 경로에 있는 건 bean으로 등록하겠다 -->
+	<context:component-scan base-package="com.yi.aop"/><!-- context:component-scan base-package : 이 경로에 있는 건 bean으로 등록하겠다 -->
+</beans>

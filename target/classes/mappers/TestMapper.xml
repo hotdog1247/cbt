@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.TestMapper">
+	<select id="readByNo" resultType="TestVO">
+		select * from test where t_no=#{tNo}
+	</select>
+	<select id="list" resultType="TestVO">
+		select * from test
+	</select>
+	<insert id="insert">
+		insert into test values (#{tNo}, #{tName}, #{tYear}, #{tOrder})
+	</insert>
+	<delete id="delete">
+		delete from test where t_no=#{tNo}
+	</delete>
+	<update id="update"><!-- 쓸 일이 없을듯 -->
+		update test set t_name=#{tName} where t_no=#{tNo}
+	</update>
+</mapper>
