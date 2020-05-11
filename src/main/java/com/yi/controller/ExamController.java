@@ -88,36 +88,23 @@ public class ExamController {
 	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model) throws Exception {
 		String tNo3 = (String) map.get("tNo");
 		int tNo2 =Integer.parseInt(tNo3);
-//		System.out.println("tNo : "+map.get("tNo"));
 		Map<String, Object> eNo = new HashMap<String, Object>();
 		Map<String, Object> sNo = new HashMap<String, Object>();
 		TestVO tNo = testService.readByNo(tNo2);
-		/* List<ExamVO> list = examService.list2(tNo); */
 		List<SubjectVO> subject = subjectService.list2(tNo);
-		/* int examLength = list.size(); */
 		for(SubjectVO s : subject) {
 			int i = s.getsNo();
-//			System.out.println("과목 : "+s.toString());
-//			System.out.println("============================================");
 			List<ExamVO> subjectvo =  examService.subjectExam(tNo, s);
 			int answerCnt = 0;
 			int examCnt = 0;
 			for(ExamVO e : subjectvo) {
-				/* int j = e.geteNo(); */
 				List<Object> exam = new ArrayList<Object>();
 				exam.add(e);
-//				System.out.println("과목번호 : "+e.getsNo().getsNo());
-//				System.out.println("문제번호 : "+e.geteNo());
-//				System.out.println("정답 : "+e.geteAnswer());
-				System.out.println("이미지 이름 : "+e.geteDescription());
-				System.out.println("이미지 이름 : "+e.toString());
 				if(map.get("eNo"+e.geteNo()+"") == null) {
-					System.out.println("체크값 : "+0);
 					int checkingval = 0;
 					exam.add(checkingval);
 				}
 				else {
-					System.out.println("체크값 : "+map.get("eNo"+e.geteNo()+""));
 					int checkingval = Integer.parseInt((String)map.get("eNo"+e.geteNo()+""));
 					exam.add(checkingval);
 					if(checkingval == e.geteAnswer()) {
@@ -126,47 +113,13 @@ public class ExamController {
 				}
 				examCnt++;
 				eNo.put("eNo"+e.geteNo(), exam);
-				System.out.println("============================================");
 			}
-			System.out.println("맞춘 갯수 : "+answerCnt);
 			List<Object> sub = new ArrayList<Object>();
 			sub.add(s);
 			sub.add(answerCnt);
 			sub.add(examCnt);
 			sNo.put("subject"+i, sub);
 		}
-//		System.out.println("문제 갯수 :"+examLength);
-//		for(ExamVO e : examService.list2(tNo)) {
-//			System.out.println("정답들 : "+e.geteAnswer());
-//		}
-//		System.out.println("============================================");
-//		for(int i = 1; i<examLength+1; i++) {
-//			ExamVO e = list.get(i-1);
-//			List<Object> exam = new ArrayList<Object>();
-//			exam.add(e);
-//			System.out.println("과목번호2 : "+e.getsNo().getsNo());
-//			System.out.println("문제번호2 : "+e.geteNo());
-//			System.out.println("정답2 : "+e.geteAnswer());
-//			if(map.get("eNo"+i+"") == null) {
-//				System.out.println("체크값 : "+0);
-//				int checkingval = 0;
-//				exam.add(checkingval);
-//			}
-//			else {
-//				System.out.println("체크값 : "+map.get("eNo"+i+""));
-//				int checkingval = Integer.parseInt((String)map.get("eNo"+i+""));
-//				exam.add(checkingval);
-//			}
-//			eNo.put("eNo"+i, exam);
-//			System.out.println("============================================");
-//		}
-//		for(int i = 0; i<eNo.size();i++) {
-//			
-//		}
-//		System.out.println("subject of map : "+sNo.get("subject"));
-//		System.out.println("cnt of map : "+sNo.get("cnt"));
-		System.out.println(sNo.keySet());
-		System.out.println(eNo.keySet());
 		model.addAttribute("exam", eNo);
 		model.addAttribute("subject", sNo);
 		return "exam/examResult";
@@ -175,11 +128,6 @@ public class ExamController {
 	@RequestMapping(value = "displayFile", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> displayFile(String fileName){
 		ResponseEntity<byte[]> entity = null;
-		System.out.println("fileName : "+fileName);
-		/*
-		 * File file = new File(fileName); if(!file.exists()) { entity = new
-		 * ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST); }
-		 */
 		InputStream in = null;
 		try {
 			in = new FileInputStream(uploadPath+"/"+fileName);
