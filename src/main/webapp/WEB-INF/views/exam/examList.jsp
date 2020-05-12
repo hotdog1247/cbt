@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 <style>
 	#container{
-		width: 1200px;
+		width: 1000px;
 		margin: 0 auto;	
 	}
 	.exWrap{
@@ -18,21 +18,35 @@
 		width: 650px;
 		float: left;
 		padding: 5px;
-		background-color: green;
 	}
 	#container1{
-		width: 1000px;
-		overflow: hidden;
+		width: 700px;
+		height:390px;		
 		float: left;
 		background-color: steelblue;
+		color: white;
+	}
+	#exams{
+		height:300px;
+		overflow: auto;
 	}
 	#container2{
-		width: 160px;
-		height:300px;
-		/* overflow: hidden; */
-		overflow:auto;
+		width: 200px;
+		height:400px;
+		color:white;
 		float: right;
-		background-color: seagreen;
+		background-color: steelblue;
+	}
+	#container2>form>p>input{
+		width: 100px;
+		display:block;
+		margin: 0 auto;
+		border: 1px solid steelblue;
+		color: steelblue;
+		background-color: white;
+		padding: 5px 10px;
+		font-size: 1.5rem;
+		border-radius: 15%;
 	}
 	.box-footer{
 		clear: both;
@@ -41,7 +55,25 @@
 	.box-footer li{
 		list-style: none;
 		float: left;
-		margin-right: 15px;
+		margin: 15px;
+	}
+	.box-footer li a{
+		text-decoration: none;
+		color: steelblue;
+		font-size: 1.5rem;
+	}
+	.active{
+		color: green;
+	}
+	#titleExam{
+		text-align: center;
+	}
+	.omr{
+		text-align: center;
+	}
+	#container2_exam{
+		height:400px;
+		overflow:auto;
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -62,7 +94,9 @@
 			$(".exWrap").find("input[name='"+eNo+"a']").eq(chk-1).attr("checked", flag);
 		})
 		$(document).on("click", ".idx", function() {
- 			var page = $(this).text();
+ 			$(".pagination li").removeClass();
+ 			$(this).parent().addClass("active");
+			var page = $(this).text();
 			var tNo = ${selectList[1].tNo.tNo};
  			var tName = $("titleExam").text();
 			var tYear = ${selectList[1].tNo.tYear};
@@ -144,9 +178,9 @@
 </script>
 </head>
 <body>
-	<h1 id="titleExam">${tNo.tName}</h1>
-	<div id="container">
+	<div id="container">	
 		<div id="container1">
+			<h1 id="titleExam">${tNo.tName}</h1>
 			<div id="exams">
 				<c:forEach var="exam" items="${selectList}">
 					<div class="exWrap ${exam.eNo%2==0?'right':'left' }">
@@ -165,30 +199,34 @@
 				<div class="text-center">
 					<ul class="pagination">
 						<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-							<li class="${pageMaker.cri.page == idx?'active':'' }"><a href="#" class="idx">${idx }</a></li>
+							<li><a href="#" class="idx">${idx }</a></li>
 						</c:forEach>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<form action="listPage" method="post" id="examSubmit">
-			<input type="hidden" name="tNo" value="${tNo.tNo}">
-			<div id="container2">
-				<p>답안지</p>
-				<c:forEach var="exam" items="${list}">
-					<p class="omr">
-						<span class="eNo2">${exam.eNo }</span>.
-						<input type="radio" name="eNo${exam.eNo}" value="1" class="contentChk2" data-eno="${exam.eNo}">
-						<input type="radio" name="eNo${exam.eNo}" value="2" class="contentChk2" data-eno="${exam.eNo}">
-						<input type="radio" name="eNo${exam.eNo}" value="3" class="contentChk2" data-eno="${exam.eNo}">
-						<input type="radio" name="eNo${exam.eNo}" value="4" class="contentChk2" data-eno="${exam.eNo}">
-					</p>
-				</c:forEach>
+		<div id="container2">
+			<form action="listPage" method="post" id="examSubmit">
+				<input type="hidden" name="tNo" value="${tNo.tNo}">
+				<div id="container2_exam">
+					<c:forEach var="exam" items="${list}">
+						<p class="omr">
+							<span class="eNo2">${exam.eNo }</span>.
+							<input type="radio" name="eNo${exam.eNo}" value="1" class="contentChk2" data-eno="${exam.eNo}">
+							<input type="radio" name="eNo${exam.eNo}" value="2" class="contentChk2" data-eno="${exam.eNo}">
+							<input type="radio" name="eNo${exam.eNo}" value="3" class="contentChk2" data-eno="${exam.eNo}">
+							<input type="radio" name="eNo${exam.eNo}" value="4" class="contentChk2" data-eno="${exam.eNo}">
+							<c:if test="${exam.eNo%5==0}">
+								<hr>
+							</c:if>
+						</p>
+					</c:forEach>
+				</div>
 				<p>
 					<input type="submit" value="제출" id="resultSubmit">
 				</p>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

@@ -16,14 +16,14 @@ public class PageMaker {
 	private void calculatorData() {
 		//현재 페이지의 끝 번호를 구한다. ex)15/10=Math.ceil(1.5)->2*10 = 20
 		endPage = (int) (Math.ceil(cri.getPage()/(double)displayPageNum)*displayPageNum);
-		System.out.println(endPage);
+		System.out.println("endPage : "+endPage);
 		//현재 페이지의 시작 번호를 구한다. ex)20-10+1 = 11
 		startPage = (endPage - displayPageNum)+1;
-		System.out.println(startPage);
+		System.out.println("startPage : "+startPage);
 		//실제 끝번호를 구함
 		//ex)153/10 = Math.ceil(15.3)=16
 		int tempEndPage = (int) (Math.ceil(totalCount/(double)cri.getPerPageNum()));
-		System.out.println(tempEndPage);
+		System.out.println("tempEndPage : "+tempEndPage);
 		//만약, 실제 끝번호보다 가상 끝 번호가 클 경우, 실제 끝번호로 변경을 해줌
 		if(endPage>tempEndPage) {
 			endPage = tempEndPage;

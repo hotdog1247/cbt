@@ -16,3 +16,11 @@ select * from exam e left join test t on e.t_no = t.t_no where t.t_no=1 order by
 
 select *
 	from exam;
+	
+
+select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where e.t_no=1;
+select * from exam e left join test t on e.t_no = t.t_no where t.t_no=1;
+select * from exam e left join test t on e.t_no = t.t_no where t.t_no=2;
+
+select * from member;
+delete from member where m_id = 'hotdog';

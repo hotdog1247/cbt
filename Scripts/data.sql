@@ -1,6 +1,8 @@
+
 insert into test values
 (1, '정보처리기사', 2019, 3),
 (2, '리눅스마스터 2급', 2019, 3);
+
 insert into subject values
 (1, 1, '데이터베이스'),
 (1, 2, '전자 계산기 구조'),

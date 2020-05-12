@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>시험결과</title>
 <style>
 	table{
 		border-collapse: collapse;
@@ -14,8 +14,43 @@
 	}
 	th, td{
 		border: 1px solid steelblue;
+		padding: 10px;
+	}
+	.examResult{
+		width: 900px;
+		height: 300px;
+		border: 1px solid steelblue;
+		padding: 30px;
+		margin: 10px;
+	}
+	.examResult:nth-child(2n){
+		background-color: green;
+	}
+	.examResult:nth-child(2n-1){
+		background-color: steelblue;
+	}
+	#exContainer{
+		height:400px;
+		overflow: auto;
 	}
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+	$(function() {
+		var flag = false;
+		$("#exContainer").hide();
+		$("#exRes").click(function() {
+			if(flag == false){
+				$("#exContainer").show();
+				flag = true;
+			}
+			else {
+				$("#exContainer").hide();
+				flag = false;
+			}
+		})
+	})
+</script>
 </head>
 <body>
 	<h1>시험결과</h1>
@@ -25,46 +60,30 @@
 			<th>정답갯수</th>
 			<th>점수</th>
 		</tr>
-		<%-- <c:set var="answerCnt" value="0" />
-		<c:forEach begin="0" end="${fn:length(sNo)}" var="sub">
-			<tr>
-				<td>${sNo[sub].sName }</td>
-				<td>
-					<c:forEach var="cnt" items="${exam }">
-						<c:if test="${subject[sub].sNo==exam.sNo.sNo }" var="cnt2">
-							<p>${answer+1}</p>	
-						</c:if>
-					</c:forEach>
-				</td>
-			</tr>
-		</c:forEach> --%>
-		<%-- <c:forEach begin="1" end="${fn:length(subject)}" var="sub"> --%>
 		<c:forEach items="${subject}" var="sub">
 			<tr>
-				<td>${sub.value[0].sName}</td>
-				<td>${sub.value[1]}개</td>
-<%-- 				<c:set var="eNoCnt" value="0"/>
-				<c:forEach var="ex" items="${exam}">
-						<c:set var="sNoCnt" value="${ex.value[0].eNo}"/>
-						<c:if test="${ex.value[0].sNo.sNo==sub.value[0].sNo}" var="ss">
- 							<c:if test="${sNoCnt<ex.value[0].eNo }">
-								<c:set var="sNoCnt" value="${ex.value[0].eNo}"/>
-							</c:if>
-							<c:set var="eNoCnt" value="${eNoCnt+1 }"/>
-							<td>${sNoCnt }/${eNoCnt}</td>
-							<c:if test="${sNoCnt==ex.value[0].eNo}">
-								<td>${sNoCnt}/ddddd</td>
-								<td>${eNoCnt}</td>
-							</c:if>
-							<c:set var="cnt22" value="${eNoCnt }"/>
-							<td>${cnt22 }</td>
-						</c:if>
-						<td>${eNoCnt }</td>
-				</c:forEach> --%>
-				<td>${sub.value[1]/sub.value[2]*100 }점</td>
+				<td>${sub[0].sName}</td>
+				<td>${sub[1]}개</td>
+				<td>${sub[1]/sub[2]*100}점</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<button id="">틀린문제보기</button>
+	<button id="exRes">틀린문제보기</button>
+	<div id="exContainer">
+		<c:forEach var="ex" items="${exam}">
+			<div class="examResult">
+				<c:if test="${ex[0].eAnswer!=ex[1]}">
+					<p>${ex[0].eNo}번 문제 : ${ex[0].eName } => 답:  ${ex[0].eAnswer}, 오답 : ${ex[1]}</p>
+					<c:if test="${0 ne ex[0].eDescription}">
+						<p><img src="${pageContext.request.contextPath}/displayFile?fileName=${ex[0].tNo.tYear}_${ex[0].tNo.tOrder}_${ex[0].tNo.tName}/img/${ex[0].eNo}.png" class="eDescription"></p>
+					</c:if>
+					<p>- ${ex[0].eContent}</p>
+					<p>- ${ex[0].eContent2}</p>
+					<p>- ${ex[0].eContent3}</p>
+					<p>- ${ex[0].eContent4}</p>
+				</c:if>
+			</div>
+		</c:forEach>
+	</div>
 </body>
 </html>

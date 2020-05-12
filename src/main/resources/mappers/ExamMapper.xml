@@ -49,7 +49,7 @@
 		select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=#{tNo.tNo}
 	</select>
 	<select id="totalSearchCount" resultType="int">
-		select count(*) from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=#{tNo}
+		select count(*) from exam e left join test t on e.t_no = t.t_no where t.t_no=#{tNo}
 	</select>
 	<select id="subjectExam" resultMap="examResult">
 		select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=#{tNo.tNo} and s.s_no=#{sNo.sNo}

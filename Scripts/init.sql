@@ -42,7 +42,7 @@ CREATE TABLE cbt_project.exam (
 	s_no          INT  NOT NULL COMMENT '과목번호', -- 과목번호
 	e_no          INT  NOT NULL COMMENT '문제번호', -- 문제번호
 	e_name        TEXT NOT NULL COMMENT '문제명', -- 문제명
-	e_description INT  NULL     COMMENT '지문', -- 지문
+	e_description iNT  NULL     COMMENT '지문', -- 지문
 	e_content     TEXT NULL     COMMENT '보기1', -- 보기1
 	e_content2    TEXT NULL     COMMENT '보기4', -- 보기4
 	e_content3    TEXT NULL     COMMENT '보기2', -- 보기2
@@ -70,7 +70,7 @@ CREATE TABLE cbt_project.test_result (
 	r_date   DATE        NOT NULL COMMENT '응시날짜', -- 응시날짜
 	r_pass   TINYINT     NULL     COMMENT '합격여부', -- 합격여부
 	r_score  INT         NOT NULL COMMENT '점수', -- 점수
-	r_ex_cnt VARCHAR(10) NOT NULL COMMENT '갯수' -- 갯수
+	r_ex_cnt INT         NOT NULL COMMENT '갯수' -- 갯수
 )
 COMMENT '시험결과현황';
 
@@ -96,6 +96,27 @@ ALTER TABLE cbt_project.member
 	ADD CONSTRAINT PK_member -- 회원 기본키
 		PRIMARY KEY (
 			m_id -- 회원아이디
+		);
+
+-- 회원 유니크 인덱스
+CREATE UNIQUE INDEX UIX_member
+	ON cbt_project.member ( -- 회원
+		m_nickname ASC -- 회원별칭
+	);
+
+-- 오답
+CREATE TABLE cbt_project.incorrect (
+	r_no        INT  NOT NULL COMMENT '결과번호', -- 결과번호
+	e_incorrect INT  NOT NULL COMMENT '체크값', -- 체크값
+	e_solving   TEXT NULL     COMMENT '해석' -- 해석
+)
+COMMENT '오답';
+
+-- 오답
+ALTER TABLE cbt_project.incorrect
+	ADD CONSTRAINT PK_incorrect -- 오답 기본키
+		PRIMARY KEY (
+			r_no -- 결과번호
 		);
 
 -- 과목
@@ -138,6 +159,16 @@ ALTER TABLE cbt_project.test_result
 		)
 		REFERENCES cbt_project.test ( -- 시험
 			t_no -- 시험번호
+		);
+
+-- 오답
+ALTER TABLE cbt_project.incorrect
+	ADD CONSTRAINT FK_test_result_TO_incorrect -- 시험결과현황 -> 오답
+		FOREIGN KEY (
+			r_no -- 결과번호
+		)
+		REFERENCES cbt_project.test_result ( -- 시험결과현황
+			r_no -- 결과번호
 		);
 		
 	

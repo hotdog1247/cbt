@@ -1,6 +1,5 @@
 package com.yi.controller;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,10 +43,11 @@ public class ExamController {
 	private String uploadPath;
 
 	@RequestMapping(value = "/exam/list", method = RequestMethod.GET)
-	public String examGet(Model model, SearchCriteria cri) throws Exception {
+	public String examGet(Model model,TestVO tNo) throws Exception {
 		PageMaker pageMaker = new PageMaker();
+		SearchCriteria cri = new SearchCriteria();
 		pageMaker.setCri(cri);		
-		TestVO tNo = testService.readByNo(1);
+//		TestVO tNo = testService.readByNo(2);
 		pageMaker.setTotalCount(examService.totalSearchCount(tNo.gettNo()));
 		List<ExamVO> selectList = examService.selectList(tNo, cri);
 		List<ExamVO> list = examService.list2(tNo);	
@@ -88,12 +88,11 @@ public class ExamController {
 	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model) throws Exception {
 		String tNo3 = (String) map.get("tNo");
 		int tNo2 =Integer.parseInt(tNo3);
-		Map<String, Object> eNo = new HashMap<String, Object>();
-		Map<String, Object> sNo = new HashMap<String, Object>();
+		List<Object> eNo = new ArrayList<Object>();
+		List<Object> sNo = new ArrayList<Object>();
 		TestVO tNo = testService.readByNo(tNo2);
 		List<SubjectVO> subject = subjectService.list2(tNo);
 		for(SubjectVO s : subject) {
-			int i = s.getsNo();
 			List<ExamVO> subjectvo =  examService.subjectExam(tNo, s);
 			int answerCnt = 0;
 			int examCnt = 0;
@@ -112,13 +111,13 @@ public class ExamController {
 					}
 				}
 				examCnt++;
-				eNo.put("eNo"+e.geteNo(), exam);
+				eNo.add(exam);
 			}
 			List<Object> sub = new ArrayList<Object>();
 			sub.add(s);
 			sub.add(answerCnt);
 			sub.add(examCnt);
-			sNo.put("subject"+i, sub);
+			sNo.add(sub);
 		}
 		model.addAttribute("exam", eNo);
 		model.addAttribute("subject", sNo);
