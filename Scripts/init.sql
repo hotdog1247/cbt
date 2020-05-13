@@ -81,6 +81,9 @@ ALTER TABLE cbt_project.test_result
 			r_no -- 결과번호
 		);
 
+ALTER TABLE cbt_project.test_result
+	MODIFY COLUMN r_no INT NOT NULL AUTO_INCREMENT COMMENT '결과번호';
+
 -- 회원
 CREATE TABLE cbt_project.member (
 	m_id       VARCHAR(15) NOT NULL COMMENT '회원아이디', -- 회원아이디

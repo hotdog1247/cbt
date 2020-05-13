@@ -5,25 +5,20 @@ public class PageMaker {
 	private int startPage;//시작 번호
 	private int endPage;//끝 번호
 	private boolean prev;//이전 여부
-	private boolean next;//이후 여부
-	
+	private boolean next;//이후 여부	
 	private int displayPageNum = 10;//보여지는 페이지 번호의 수
 	private Criteria cri;
-	public PageMaker() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
+	public PageMaker() {}
+	
 	private void calculatorData() {
 		//현재 페이지의 끝 번호를 구한다. ex)15/10=Math.ceil(1.5)->2*10 = 20
 		endPage = (int) (Math.ceil(cri.getPage()/(double)displayPageNum)*displayPageNum);
-		System.out.println("endPage : "+endPage);
 		//현재 페이지의 시작 번호를 구한다. ex)20-10+1 = 11
 		startPage = (endPage - displayPageNum)+1;
-		System.out.println("startPage : "+startPage);
 		//실제 끝번호를 구함
 		//ex)153/10 = Math.ceil(15.3)=16
 		int tempEndPage = (int) (Math.ceil(totalCount/(double)cri.getPerPageNum()));
-		System.out.println("tempEndPage : "+tempEndPage);
 		//만약, 실제 끝번호보다 가상 끝 번호가 클 경우, 실제 끝번호로 변경을 해줌
 		if(endPage>tempEndPage) {
 			endPage = tempEndPage;
@@ -33,53 +28,67 @@ public class PageMaker {
 		//다음 페이지 존재 여부
 		next=(endPage*cri.getPerPageNum()>=totalCount)?false:true;
 	}
+	
 	public int getTotalCount() {
 		return totalCount;
 	}
+	
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 		calculatorData();//totalCount가 있어야 구랗 수 있다.
 	}
+	
 	public int getStartPage() {
 		return startPage;
 	}
+	
 	public void setStartPage(int startPage) {
 		this.startPage = startPage;
 	}
+	
 	public int getEndPage() {
 		return endPage;
 	}
+	
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	
 	public boolean isPrev() {
 		return prev;
 	}
+	
 	public void setPrev(boolean prev) {
 		this.prev = prev;
 	}
+	
 	public boolean isNext() {
 		return next;
 	}
+	
 	public void setNext(boolean next) {
 		this.next = next;
 	}
+	
 	public int getDisplayPageNum() {
 		return displayPageNum;
 	}
+	
 	public void setDisplayPageNum(int displayPageNum) {
 		this.displayPageNum = displayPageNum;
 	}
+	
 	public Criteria getCri() {
 		return cri;
 	}
+	
 	public void setCri(Criteria cri) {
 		this.cri = cri;
 	}
+	
 	@Override
 	public String toString() {
 		return "PageMaker [totalCount=" + totalCount + ", startPage=" + startPage + ", endPage=" + endPage + ", prev="
 				+ prev + ", next=" + next + ", displayPageNum=" + displayPageNum + ", cri=" + cri + "]";
 	}
-	
 }

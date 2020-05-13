@@ -27,14 +27,21 @@
 		<beans:constructor-arg value="C:/Users/lenovo/Desktop/cbt"/><!-- 생성자로 싱글톤 만듬 -->
 	</beans:bean>
 	
-<!-- 	<beans:bean id="authInterceptor" class="com.yi.interceptor.AuthInterceptor"/>
+	<beans:bean id="authInterceptor" class="com.yi.interceptor.AuthInterceptor"/>
 	<interceptors>
 		<interceptor>
-			<mapping path="/sboard/register"/>
-			<mapping path="/sboard/readPage"/>
+			<mapping path="/"/>	
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
-	</interceptors> -->
+		<interceptor>
+			<mapping path="/exam/**"/>	
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/test/**"/>	
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
 	<context:component-scan base-package="com.yi.controller" />
 	
 	

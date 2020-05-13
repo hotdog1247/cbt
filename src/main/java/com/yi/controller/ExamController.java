@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +44,15 @@ public class ExamController {
 	private String uploadPath;
 
 	@RequestMapping(value = "/exam/list", method = RequestMethod.GET)
-	public String examGet(Model model,TestVO tNo) throws Exception {
+	public String examGet(Model model,TestVO vo) throws Exception {
 		PageMaker pageMaker = new PageMaker();
 		SearchCriteria cri = new SearchCriteria();
 		pageMaker.setCri(cri);		
-//		TestVO tNo = testService.readByNo(2);
+		TestVO tNo = testService.readBytYearAndtNameAndtOrder(vo.gettName(), vo.gettYear(), vo.gettOrder());
+		System.out.println("testvo : "+tNo.toString());
 		pageMaker.setTotalCount(examService.totalSearchCount(tNo.gettNo()));
 		List<ExamVO> selectList = examService.selectList(tNo, cri);
-		List<ExamVO> list = examService.list2(tNo);	
+		List<ExamVO> list = examService.list2(tNo);
 		model.addAttribute("selectList", selectList);
 		model.addAttribute("list", list);
 		model.addAttribute("cri", cri);
@@ -70,9 +72,6 @@ public class ExamController {
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(examService.totalSearchCount(test.gettNo()));
 			List<ExamVO> selectList = examService.selectList(test, cri);
-			for(ExamVO e : selectList) {
-				System.out.println("e : "+e.toString());
-			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("selectList", selectList);
 			map.put("pageMaker", pageMaker);
@@ -85,7 +84,7 @@ public class ExamController {
 	}
 	
 	@RequestMapping(value = "/exam/listPage", method = RequestMethod.POST)
-	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model) throws Exception {
+	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model, HttpSession session) throws Exception {
 		String tNo3 = (String) map.get("tNo");
 		int tNo2 =Integer.parseInt(tNo3);
 		List<Object> eNo = new ArrayList<Object>();
@@ -119,6 +118,7 @@ public class ExamController {
 			sub.add(examCnt);
 			sNo.add(sub);
 		}
+		String mId = (String)session.getAttribute("Auth");
 		model.addAttribute("exam", eNo);
 		model.addAttribute("subject", sNo);
 		return "exam/examResult";

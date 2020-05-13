@@ -33,4 +33,14 @@ public class TestService {
 		dao.update(vo);
 	};
 
+	public List<TestVO> listBytName(String tName) throws Exception {
+		return dao.listBytName(tName);
+	};
+
+	public List<TestVO> listBytYearAndtName(String tName, int tYear) throws Exception {
+		return dao.listBytYearAndtName(tName, tYear);
+	};
+	public TestVO readBytYearAndtNameAndtOrder(String tName, int tYear, int tOrder) throws Exception{
+		return dao.readBytYearAndtNameAndtOrder(tName, tYear, tOrder);
+	};
 }

@@ -15,10 +15,10 @@
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">HOME</h3>
+					<h3 class="box-title">좋은 결과를 바라며</h3>
 				</div>
 				<div class="box-body">
-					content 들어갈 위치
+					<img src="${pageContext.request.contextPath }/resources/dist/img/엉클샘.jpg" class="img-circle"/>
 				</div>
 			</div>
 		</div>

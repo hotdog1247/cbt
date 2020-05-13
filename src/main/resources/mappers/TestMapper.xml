@@ -16,4 +16,13 @@
 	<update id="update"><!-- 쓸 일이 없을듯 -->
 		update test set t_name=#{tName} where t_no=#{tNo}
 	</update>
+	<select id="listBytName" resultType="TestVO">
+		select * from test where t_name=#{tName}
+	</select>
+	<select id="listBytYearAndtName" resultType="TestVO">
+		select * from test where t_name=#{tName} and t_year=#{tYear}
+	</select>
+	<select id="readBytYearAndtNameAndtOrder" resultType="TestVO">
+		select * from test where t_name=#{tName} and t_year=#{tYear} and t_order=#{tOrder}
+	</select>
 </mapper>

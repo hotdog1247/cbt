@@ -2,7 +2,6 @@ package com.yi.persistence;
 
 import java.util.List;
 
-
 import com.yi.domain.TestVO;
 
 public interface TestDAO {
@@ -17,4 +16,9 @@ public interface TestDAO {
 
 	public void update(TestVO vo) throws Exception;
 
+	public List<TestVO> listBytName(String tName) throws Exception;
+
+	public List<TestVO> listBytYearAndtName(String tName, int tYear) throws Exception;
+
+	public TestVO readBytYearAndtNameAndtOrder(String tName, int tYear, int tOrder) throws Exception;
 }

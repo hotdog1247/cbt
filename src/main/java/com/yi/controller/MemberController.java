@@ -31,7 +31,13 @@ public class MemberController {
 			model.addAttribute("error", "pw가 틀림");
 			return "/member/login";
 		}
-		session.setAttribute("Auth", vo.getmId());
+		System.out.println("nickName : "+vo.getmNickname());
+		if(vo.getmNickname() == null) {
+			session.setAttribute("Auth", vo.getmId());
+		}
+		else {
+			session.setAttribute("Auth", vo.getmNickname());
+		}
 		return "redirect:/";
 	}
 
