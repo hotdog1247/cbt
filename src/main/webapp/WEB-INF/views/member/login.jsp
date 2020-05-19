@@ -7,7 +7,7 @@
 <script>
 	$(function() {
 		$("form input[type='button']").click(function() {
-			
+			window.location.href="member/insert";
 		})
 	})
 </script>

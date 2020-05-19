@@ -31,13 +31,7 @@ public class MemberController {
 			model.addAttribute("error", "pw가 틀림");
 			return "/member/login";
 		}
-		System.out.println("nickName : "+vo.getmNickname());
-		if(vo.getmNickname() == null) {
-			session.setAttribute("Auth", vo.getmId());
-		}
-		else {
-			session.setAttribute("Auth", vo.getmNickname());
-		}
+		session.setAttribute("Auth", vo.getmId());
 		return "redirect:/";
 	}
 
@@ -49,6 +43,6 @@ public class MemberController {
 	@RequestMapping(value = "member/insert", method = RequestMethod.POST)
 	public String memberPost(MemberVO member) throws Exception {
 		memberService.insert(member);
-		return "member/login";
+		return "redirect:/login";
 	}
 }

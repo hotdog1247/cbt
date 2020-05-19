@@ -88,8 +88,7 @@ ALTER TABLE cbt_project.test_result
 CREATE TABLE cbt_project.member (
 	m_id       VARCHAR(15) NOT NULL COMMENT '회원아이디', -- 회원아이디
 	m_password VARCHAR(20) NOT NULL COMMENT '회원비밀번호', -- 회원비밀번호
-	m_name     VARCHAR(20) NULL     COMMENT '회원이름', -- 회원이름
-	m_nickname VARCHAR(20) NULL     COMMENT '회원별칭', -- 회원별칭
+	m_name     VARCHAR(20) NOT NULL COMMENT '회원이름', -- 회원이름
 	m_email    VARCHAR(50) NOT NULL COMMENT '회원이메일' -- 회원이메일
 )
 COMMENT '회원';
@@ -101,15 +100,11 @@ ALTER TABLE cbt_project.member
 			m_id -- 회원아이디
 		);
 
--- 회원 유니크 인덱스
-CREATE UNIQUE INDEX UIX_member
-	ON cbt_project.member ( -- 회원
-		m_nickname ASC -- 회원별칭
-	);
-
 -- 오답
 CREATE TABLE cbt_project.incorrect (
+	i_no        INT  NOT NULL COMMENT '번호', -- 번호
 	r_no        INT  NOT NULL COMMENT '결과번호', -- 결과번호
+	e_no        INT  NOT NULL COMMENT '문제번호', -- 문제번호
 	e_incorrect INT  NOT NULL COMMENT '체크값', -- 체크값
 	e_solving   TEXT NULL     COMMENT '해석' -- 해석
 )
@@ -119,8 +114,11 @@ COMMENT '오답';
 ALTER TABLE cbt_project.incorrect
 	ADD CONSTRAINT PK_incorrect -- 오답 기본키
 		PRIMARY KEY (
-			r_no -- 결과번호
+			i_no -- 번호
 		);
+
+ALTER TABLE cbt_project.incorrect
+	MODIFY COLUMN i_no INT NOT NULL AUTO_INCREMENT COMMENT '번호';
 
 -- 과목
 ALTER TABLE cbt_project.subject
@@ -166,7 +164,7 @@ ALTER TABLE cbt_project.test_result
 
 -- 오답
 ALTER TABLE cbt_project.incorrect
-	ADD CONSTRAINT FK_test_result_TO_incorrect -- 시험결과현황 -> 오답
+	ADD CONSTRAINT FK_test_result_TO_incorrect2 -- 시험결과현황 -> 오답2
 		FOREIGN KEY (
 			r_no -- 결과번호
 		)

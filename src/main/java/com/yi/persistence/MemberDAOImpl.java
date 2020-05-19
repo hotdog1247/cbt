@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.yi.domain.MemberVO;
 
-
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 	private static final String namespace = "mappers.MemberMapper.";
@@ -42,7 +41,6 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, Object> map = new HashMap<>();
 		map.put("mId", vo.getmId());
 		map.put("mPassword", vo.getmPassword());
-		map.put("mNickname", vo.getmNickname());
 		map.put("mName", vo.getmName());
 		sqlSession.update(namespace + "update", map);
 	}

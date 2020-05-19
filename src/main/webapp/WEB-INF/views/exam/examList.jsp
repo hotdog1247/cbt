@@ -176,8 +176,8 @@
 		})
 	})
 </script>
-</head>
-<body>
+<%@ include file="../include/header.jsp" %>
+<div class="content">
 	<div id="container">	
 		<div id="container1">
 			<h1 id="titleExam">${tNo.tName}</h1>
@@ -228,5 +228,5 @@
 			</form>
 		</div>
 	</div>
-</body>
-</html>
+</div>
+<%@ include file="../include/footer.jsp" %>

@@ -51,8 +51,8 @@
 		})
 	})
 </script>
-</head>
-<body>
+<%@ include file="../include/header.jsp" %>
+<div class="content">
 	<h1>시험결과</h1>
 	<table>
 		<tr>
@@ -85,5 +85,5 @@
 			</div>
 		</c:forEach>
 	</div>
-</body>
-</html>
+</div>
+<%@ include file="../include/footer.jsp" %>

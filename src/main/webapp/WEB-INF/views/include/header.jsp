@@ -54,12 +54,12 @@
               </li>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="${pageContext.request.contextPath }/resources/dist/img/장패.jpg" class="user-image" alt="User Image"/>
+                  <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="user-image" alt="User Image"/>
                   <span class="hidden-xs">${Auth }</span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="user-header">
-                    <img src="${pageContext.request.contextPath }/resources/dist/img/장패.jpg" class="img-circle" alt="User Image" />
+                    <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="img-circle" alt="User Image" />
                     <p>
                       ${Auth }
                     </p>
@@ -89,7 +89,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="${pageContext.request.contextPath }/resources/dist/img/장패.jpg" class="img-circle" alt="User Image" />
+              <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
               <p>${Auth }</p>
@@ -109,7 +109,7 @@
           <ul class="sidebar-menu">
             <!-- <li class="header">MAIN NAVIGATION</li> -->
             <li><a href="${pageContext.request.contextPath }/test/list"><i class="fa fa-book"></i> <span>문제풀기</span></a></li>
-            <li class="treeview">
+<%--             <li class="treeview">
               <a href="#">
                 <i class="fa fa-laptop"></i>
                 <span>시험종류</span>
@@ -120,7 +120,7 @@
                 	<li class="test"><a href="#"><i class="fa fa-circle-o"></i>${test.tName }</a></li>
                 </c:forEach>
               </ul>
-            </li>
+            </li> --%>
             
             <li class="treeview active">
               <a href="#">
