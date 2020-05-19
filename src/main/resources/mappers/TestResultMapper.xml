@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mappers.TestMapper">
+<mapper namespace="mappers.TestResultMapper">
 	<select id="readByNo" resultType="TestVO">
 		select * from test where t_no=#{tNo}
 	</select>
