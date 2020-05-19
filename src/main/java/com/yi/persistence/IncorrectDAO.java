@@ -7,7 +7,7 @@ import com.yi.domain.TestResultVO;
 
 public interface IncorrectDAO {
 	
-	public IncorrectVO readByNo(TestResultVO rNo) throws Exception;
+	public List<IncorrectVO> readByrNo(TestResultVO rNo) throws Exception;
 
 	public List<IncorrectVO> list(TestResultVO rNo) throws Exception;
 

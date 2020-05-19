@@ -14,6 +14,6 @@
 		delete from member where m_id = #{mId}
 	</delete>
 	<update id="update">
-		update member set m_password=#{map.mPassword}, m_name=#{map.mName} where where m_id = #{map.mId}
+		update member set m_password=#{mPassword}, m_name=#{mName} where where m_id = #{mId}
 	</update>
 </mapper>

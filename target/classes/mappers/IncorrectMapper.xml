@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.IncorrectMapper">
+	<resultMap type="MemberVO" id="memberResult">
+		<id property="mId" column="m_id"/>
+		<id property="mPassword" column="m_password"/>
+		<id property="mName" column="m_name"/>
+		<id property="mEmail" column="m_email"/>
+	</resultMap>
+	<resultMap type="TestVO" id="testResult">
+		<id property="tNo" column="t_no"/>
+		<id property="tName" column="t_name"/>
+		<id property="tYear" column="t_year"/>
+		<id property="tOrder" column="t_order"/>
+	</resultMap>
+	<resultMap type="TestResultVO" id="testResultResult">
+		<id property="rNo" column="r_no"/>
+		<id property="rDate" column="r_date"/>
+		<id property="rPass" column="r_pass"/>
+		<id property="rScore" column="r_score"/>
+		<id property="rExCnt" column="r_ex_cnt"/>
+		<association property="mId" column="m_id" resultMap="memberResult"/>
+		<association property="tNo" column="t_no" resultMap="testResult"/>
+	</resultMap>
+	<resultMap type="IncorrectVO" id="incorrectResult">
+		<id property="iNo" column="i_no"/>
+		<id property="eNo" column="e_no"/>
+		<id property="eIncorrect" column="e_incorrect"/>
+		<id property="eSolving" column="e_solving"/>
+		<association property="rNo" column="r_no" resultMap="testResultResult"/>
+	</resultMap>
+	<select id="readByrNo" resultMap="incorrectResult">
+		select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.r_no=#{rNo.rNo}
+	</select>
+	<select id="list" resultMap="incorrectResult">
+		select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id
+	</select>
+	<insert id="insert">
+		insert into incorrect (r_no, e_no, e_incorrect, e_solving) values(#{rNo.rNo}, #{eNo}, #{eIncorrect}, #{eSolving})
+	</insert>
+	<update id="update">
+		update incorrect set e_solving = #{eSolving} where i_no=#{iNo}
+	</update>
+	<delete id="delete">
+		delete from incorrect where i_no=#{iNo}
+	</delete>
+	<select id="subList" resultMap="incorrectResult">
+		select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id
+	</select>
+</mapper>

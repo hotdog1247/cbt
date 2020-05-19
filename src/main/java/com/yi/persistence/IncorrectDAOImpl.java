@@ -16,8 +16,8 @@ public class IncorrectDAOImpl implements IncorrectDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public IncorrectVO readByNo(TestResultVO rNo) throws Exception {
-		return sqlSession.selectOne(namespace + "readByNo", rNo);
+	public List<IncorrectVO> readByrNo(TestResultVO rNo) throws Exception {
+		return sqlSession.selectList(namespace + "readByrNo", rNo);
 	}
 
 	@Override

@@ -7,6 +7,7 @@
 <script>
 	$(function() {
 		$("form input[type='button']").click(function() {
+			alert("확인");
 			window.location.href="member/insert";
 		})
 	})

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.ExamMapper">
-	   	<resultMap type="SubjectVO" id="subjectResult">
+	<resultMap type="SubjectVO" id="subjectResult">
 		<id property="sNo" column="s_no"/>
 		<id property="sName" column="s_name"/>
 		<association property="tNo" column="t_no" resultMap="testResult" />
@@ -31,10 +31,10 @@
 		values (#{tNo.tNo},#{sNo.sNo},#{eNo},#{eName},#{eContent},#{eContent2},#{eContent3},#{eContent4},#{eAnswer})
 	</insert>
 	<select id="list" resultType="ExamVO">
-		select * from exam
+		select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no
 	</select>
 	<select id="readByNo" resultType="ExamVO">
-		select * from exam where t_no=#{tNo.tNo} and s_no=#{sNo.sNo} and e_no=#{eNo}
+		select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.e_no=#{eNo}
 	</select>
 	<update id="update">
 		update exam set e_answer_rate=#{eAnswerRate}

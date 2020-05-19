@@ -34,11 +34,15 @@
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 		<interceptor>
-			<mapping path="/exam/**"/>	
+			<mapping path="/exam/*"/>	
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 		<interceptor>
-			<mapping path="/test/**"/>	
+			<mapping path="/test/*"/>	
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/member/testResult"/>	
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 	</interceptors>

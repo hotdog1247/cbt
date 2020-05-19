@@ -128,7 +128,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="#"><i class="fa fa-circle-o"></i>시험현황</a></li>
+                <li class="active"><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-circle-o"></i>시험현황</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i>오답노트</a></li>
               </ul>
             </li>
@@ -147,7 +147,7 @@
                     <li>
                       <a href="#"><i class="fa fa-circle-o"></i> Level Two <i class="fa fa-angle-left pull-right"></i></a>
                       <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                        <li><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-circle-o"></i> Level Three</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
                       </ul>
                     </li>

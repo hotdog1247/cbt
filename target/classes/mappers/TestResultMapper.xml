@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.TestResultMapper">
-	<select id="readByNo" resultType="TestVO">
-		select * from test where t_no=#{tNo}
+	<resultMap type="MemberVO" id="memberResult">
+		<id property="mId" column="m_id"/>
+		<id property="mPassword" column="m_password"/>
+		<id property="mName" column="m_name"/>
+		<id property="mEmail" column="m_email"/>
+	</resultMap>
+	<resultMap type="TestVO" id="testResult">
+		<id property="tNo" column="t_no"/>
+		<id property="tName" column="t_name"/>
+		<id property="tYear" column="t_year"/>
+		<id property="tOrder" column="t_order"/>
+	</resultMap>
+	<resultMap type="TestResultVO" id="testResultResult">
+		<id property="rNo" column="r_no"/>
+		<id property="rDate" column="r_date"/>
+		<id property="rPass" column="r_pass"/>
+		<id property="rScore" column="r_score"/>
+		<id property="rExCnt" column="r_ex_cnt"/>
+		<association property="mId" column="m_id" resultMap="memberResult"/>
+		<association property="tNo" column="t_no" resultMap="testResult"/>
+	</resultMap>
+	<select id="readByNo" resultMap="testResultResult">
+		select * from test_result tr left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.r_no=#{rNo}
 	</select>
-	<select id="list" resultType="TestVO">
-		select * from test
+	<select id="list" resultMap="testResultResult">
+		select * from test_result tr left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.t_no=#{tNo.tNo}
 	</select>
 	<insert id="insert">
-		insert into test values (#{tNo}, #{tName}, #{tYear}, #{tOrder})
+		insert into test_result (m_id, t_no, r_date, r_pass, r_score, r_ex_cnt) values (#{mId.mId}, #{tNo.tNo}, #{rDate}, #{rPass}, #{rScore}, #{rExCnt})
 	</insert>
 	<delete id="delete">
-		delete from test where t_no=#{tNo}
+		delete from test_result where r_no=#{rNo}
 	</delete>
-	<update id="update"><!-- 쓸 일이 없을듯 -->
-		update test set t_name=#{tName} where t_no=#{tNo}
-	</update>
-	<select id="listBytName" resultType="TestVO">
-		select * from test where t_name=#{tName}
+	<select id="readBymId" resultMap="testResultResult">
+		select * from test_result tr left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.m_id=#{mId.mId}
 	</select>
-	<select id="listBytYearAndtName" resultType="TestVO">
-		select * from test where t_name=#{tName} and t_year=#{tYear}
+	<select id="lastRNo" resultType="int">
+		select last_insert_id()
 	</select>
-	<select id="readBytYearAndtNameAndtOrder" resultType="TestVO">
-		select * from test where t_name=#{tName} and t_year=#{tYear} and t_order=#{tOrder}
+	<select id="lastRNo2" resultType="int">
+		select r_no from test_result order by r_no desc limit 0, 1
 	</select>
 </mapper>

@@ -1,7 +1,6 @@
 package com.yi.domain;
 
 public class MemberVO {
-	private int mNo;
 	private String mId;
 	private String mPassword;
 	private String mName;
@@ -10,24 +9,15 @@ public class MemberVO {
 	public MemberVO() {
 	}
 
-	public MemberVO(int mNo) {
-		this.mNo = mNo;
+	public MemberVO(String mId) {
+		this.mId = mId;
 	}
 
-	public MemberVO(int mNo, String mId, String mPassword, String mName, String mEmail) {
-		this.mNo = mNo;
+	public MemberVO(String mId, String mPassword, String mName, String mEmail) {
 		this.mId = mId;
 		this.mPassword = mPassword;
 		this.mName = mName;
 		this.mEmail = mEmail;
-	}
-
-	public int getmNo() {
-		return mNo;
-	}
-
-	public void setmNo(int mNo) {
-		this.mNo = mNo;
 	}
 
 	public String getmId() {
@@ -64,8 +54,7 @@ public class MemberVO {
 
 	@Override
 	public String toString() {
-		return "MemberVO [mNo=" + mNo + ", mId=" + mId + ", mPassword=" + mPassword + ", mName=" + mName + ", mEmail="
-				+ mEmail + "]";
+		return "MemberVO [mId=" + mId + ", mPassword=" + mPassword + ", mName=" + mName + ", mEmail=" + mEmail + "]";
 	}
 
 }

@@ -6,11 +6,12 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.yi.domain.MemberVO;
 import com.yi.domain.TestResultVO;
-import com.yi.domain.TestVO;
 
+@Repository
 public class TestResultDAOImpl implements TestResultDAO {
 	private static final String namespace = "mappers.TestResultMapper.";
 	@Autowired
@@ -18,31 +19,41 @@ public class TestResultDAOImpl implements TestResultDAO {
 
 	@Override
 	public void insert(TestResultVO tr) throws Exception {
-		sqlSession.insert(namespace+"insert", tr);
+		sqlSession.insert(namespace + "insert", tr);
 	}
 
 	@Override
-	public TestResultVO readByNo(int rNo, MemberVO mNo, TestVO tNo) throws Exception {
+	public TestResultVO readByNo(int rNo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("rNo", rNo);
-		map.put("mNo", mNo);
-		map.put("tNo", tNo);
-		return sqlSession.selectOne(namespace+"readByNo", map);
+		return sqlSession.selectOne(namespace + "readByNo", map);
 	}
 
 	@Override
 	public List<TestResultVO> list() throws Exception {
-		return sqlSession.selectList(namespace+"list");
-	}
-
-	@Override
-	public void update(int rNo) throws Exception {
-		sqlSession.update(namespace+"update", rNo);
+		return sqlSession.selectList(namespace + "list");
 	}
 
 	@Override
 	public void delete(int rNo) throws Exception {
-		sqlSession.delete(namespace+"update", rNo);
+		sqlSession.delete(namespace + "update", rNo);
+	}
+
+	@Override
+	public List<TestResultVO> readBymId(MemberVO mId) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mId", mId);
+		return sqlSession.selectList(namespace + "readBymId", map);
+	}
+
+	@Override
+	public int lastRNo() throws Exception {
+		return sqlSession.selectOne(namespace + "lastRNo");
+	}
+
+	@Override
+	public int lastRNo2() throws Exception {
+		return sqlSession.selectOne(namespace + "lastRNo2");
 	}
 
 }
