@@ -1,5 +1,6 @@
 package com.yi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yi.domain.ExamVO;
+import com.yi.domain.IncorrectVO;
 import com.yi.domain.MemberVO;
 import com.yi.domain.SubjectVO;
 import com.yi.domain.TestResultVO;
@@ -74,37 +76,89 @@ public class MemberController {
 	@RequestMapping(value = "member/testResult", method = RequestMethod.GET)
 	public String testResultGet(Model model, HttpSession session) throws Exception {
 		String m = (String) session.getAttribute("Auth");
-//		System.out.println("Id of member : "+ m);
 		MemberVO mId = memberService.readByNo(m);
-//		System.out.println("member : "+ mId);
 		List<TestResultVO> list = testResultService.readBymId(mId);
-//		System.out.println("list : "+ list.toString());
-//		for(TestResultVO tr : list) {
-//			System.out.println("tr : "+tr.toString());
-//		}
-//		incorrectService.readByNo(rNo);
+		List<List<IncorrectVO>> incorrectList = new ArrayList<List<IncorrectVO>>();
+		for(TestResultVO tr : list) {
+			System.out.println("tr : "+tr.toString());
+			List<IncorrectVO> incorrect =  incorrectService.readByNo(tr);
+			incorrectList.add(incorrect);
+		}		
+		model.addAttribute("incorrectList", incorrectList);
 		model.addAttribute("list", list);
-//		incorrectService.readByNo(mId);
 		return "/member/testResult";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "member/subject", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> subjectGet(Model model, HttpSession session, TestVO test) throws Exception {
-		ResponseEntity<Map<String, Object>> entity = null;
+	@RequestMapping(value = "member/incorrect", method = RequestMethod.GET)
+	public ResponseEntity<List<Object>> incorrectGet(Model model, HttpSession session, TestVO test, int rNo) throws Exception {
+		ResponseEntity<List<Object>> entity = null;
 		try {
+			TestResultVO tr =  testResultService.readByNo(rNo);
+			List<Object> list = new ArrayList<Object>();
+			List<IncorrectVO> incorrect =  incorrectService.readByNo(tr);
 			TestVO tNo = testService.readByNo(test.gettNo());
-			List<SubjectVO> subList = subjectService.list2(tNo);
-			for(SubjectVO s : subList) {
-				List<ExamVO> exList = examService.subjectExam(tNo, s);
-				for(ExamVO e : exList) {
-					e.geteAnswer();
-				}
-			}
+			List<ExamVO> e = examService.list2(tNo);
+			list.add(incorrect);
+			list.add(e);
+			entity = new ResponseEntity<List<Object>>(list ,HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<List<Object>>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "member/subject", method = RequestMethod.GET)
+	public ResponseEntity<List<Object>> subjectGet(Model model, HttpSession session, TestVO test, int rNo) throws Exception {
+		ResponseEntity<List<Object>> entity = null;
+		try {
+			TestResultVO tr =  testResultService.readByNo(rNo);
+			List<Object> list = new ArrayList<Object>();
+			List<IncorrectVO> incorrect =  incorrectService.readByNo(tr);
+			TestVO tNo = testService.readByNo(test.gettNo());
+			List<ExamVO> e = examService.list2(tNo);
+			List<SubjectVO> s = subjectService.list2(tNo);
+			list.add(incorrect);
+			list.add(e);
+			list.add(s);
+			System.out.println("들어왔나");
+			entity = new ResponseEntity<List<Object>>(list ,HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<Object>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+//	@ResponseBody
+//	@RequestMapping(value = "member/incorrect", method = RequestMethod.GET)
+//	public ResponseEntity<List<Object>> subjectGet(Model model, HttpSession session, TestVO test, int rNo) throws Exception {
+//		ResponseEntity<List<Object>> entity = null;
+//		try {
+//			TestResultVO tr =  testResultService.readByNo(rNo);
+//			List<IncorrectVO> incorrect =  incorrectService.readByNo(tr);
+//			TestVO tNo = testService.readByNo(test.gettNo());
+//			List<SubjectVO> subList = subjectService.list2(tNo);
+//			List<Object> list = new ArrayList<Object>();
+//			for(IncorrectVO i : incorrect) {
+//				for(SubjectVO s : subList) {
+//					List<Object> l = new ArrayList<Object>(); 
+//					ExamVO e = examService.readByNo(tNo, s, i.geteNo());
+//					if(e != null) {
+//						if(e.geteAnswer()!=i.geteIncorrect()) {
+//							l.add(e);
+//							l.add(i.geteIncorrect());
+//							list.add(l);
+//						}
+//					}
+//				}
+//				entity = new ResponseEntity<List<Object>>(list ,HttpStatus.OK);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			entity = new ResponseEntity<List<Object>>(HttpStatus.BAD_REQUEST);
+//		}
+//		return entity;
+//	}
 }

@@ -18,7 +18,7 @@
 	}
 	.examResult{
 		width: 900px;
-		height: 300px;
+		/* height: 300px; */
 		border: 1px solid steelblue;
 		padding: 30px;
 		margin: 10px;

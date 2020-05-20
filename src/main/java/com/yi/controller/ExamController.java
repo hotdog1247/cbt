@@ -97,8 +97,7 @@ public class ExamController {
 	}
 
 	@RequestMapping(value = "/exam/listPage", method = RequestMethod.POST)
-	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model,
-			HttpSession session) throws Exception {
+	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model, HttpSession session) throws Exception {
 		String tNo3 = (String) map.get("tNo");
 		int tNo2 = Integer.parseInt(tNo3);
 		List<Object> eNo = new ArrayList<Object>();
@@ -166,7 +165,9 @@ public class ExamController {
 					int checkingval = Integer.parseInt((String) map.get("eNo" + e.geteNo() + ""));
 					rIncorrect = checkingval;
 				}
-				incorrectService.insert(new IncorrectVO(0, tr, e.geteNo(), rIncorrect, e.geteSolving()));
+				if(e.geteAnswer() != rIncorrect) {
+					incorrectService.insert(new IncorrectVO(0, tr, e.geteNo(), rIncorrect, e.geteSolving()));
+				}
 			}
 		}
 		model.addAttribute("exam", eNo);

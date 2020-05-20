@@ -54,3 +54,27 @@ desc exam;
 desc test;
 desc subject;
 select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no;
+select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id;
+select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id left join subject s on s.t_no = t.t_no and s.t_no = tr.t_no where tr.r_no=2;
+select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.r_no=2;
+select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join subject s on s.t_no = tr.t_no where tr.r_no=2 and s.s_no =1;
+
+select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.r_no=1;
+
+select * from exam e where t_no =1;
+select * from incorrect i ;
+select * from test_result tr ;
+select * from subject s left join test t on s.t_no=t.t_no where t.t_no=1;
+select * from exam e left join subject s on e.s_no = s.s_no left join test t on e.t_no = t.t_no and s.t_no = t.t_no and e.t_no =s.t_no where t.t_no =1 and s.s_no =1;
+select i.e_no, e.e_no, i.e_incorrect, e.e_answer from incorrect i left join exam e on i.e_no =e.e_no where i.e_incorrect != e.e_answer;
+select count(*) from incorrect i left join exam e on i.e_no =e.e_no left join subject s on e.s_no = s.s_no where i.e_incorrect = e.e_answer group by s.s_no ;
+select avg(i.e_incorrect = e.e_answer) from incorrect i join exam e on i.e_no =e.e_no left join subject s on e.s_no = s.s_no group by s.s_no;
+select sum(e.e_no) from incorrect i join exam e on i.e_no =e.e_no left join subject s on e.s_no = s.s_no group by s.s_no;
+select * from incorrect i join exam e on i.e_no =e.e_no left join subject s on e.s_no = s.s_no;
+select * from incorrect i left join exam e on i.e_no =e.e_no left join subject s on e.s_no = s.s_no where i.e_incorrect != e.e_answer group by s.s_no ;
+select * from exam e left join subject s on e.s_no = s.s_no group by s.s_no ;
+
+select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.e_no=1 and e.t_no=1 and e.s_no=1;
+select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.e_no=2 and e.t_no=1 and e.s_no=1;
+select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.t_no=1;
+select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=1;
