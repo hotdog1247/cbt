@@ -70,39 +70,9 @@
 					})
 				}
 			})
-/* 			$.ajax({
-				url:"${pageContext.request.contextPath}/member/incorrect",
-				type:"get",
-				data: {
-					tNo : tNo,
-					rNo : rNo
-				},
-				dataType:"json",
-				success:function(res){
-					console.log(res);
-					$.each(res, function(i, exam) {
-						var $exSub = $("<p>").text(" => "+exam[0].sNo.sName+" <= ");
-			        	var $exName = $("<p>").text(exam[0].eNo+". "+exam[0].eName);
-			        	var $exContent = $("<p>").text(" - "+exam[0].eContent);
-			        	var $exContent2 = $("<p>").text(" - "+exam[0].eContent2);
-			        	var $exContent3 = $("<p>").text(" - "+exam[0].eContent3);
-			        	var $exContent4 = $("<p>").text(" - "+exam[0].eContent4);
-			        	var $exAns = $("<p>").text("( 정답 : "+exam[0].eAnswer+" / 오답 : "+exam[1]+" )");
-			        	var $div = $("<div>").addClass("incorrectEx");
-			        	$div.append($exSub);
-			        	$div.append($exName);
-			        	$div.append($exAns);
-			        	$div.append($exContent);
-			        	$div.append($exContent2);
-			        	$div.append($exContent3);
-			        	$div.append($exContent4);
-			        	$("#exams").append($div);
-			        });
-				}
-			}) */
 	})
 	$(document).on("click", ".subject", function() {
-		alert("incorrect");
+		$("#exams2").empty();
 		var tNo = $(this).attr("data-tNo");
 		var rNo = $(this).attr("data-rNo");
 			$.ajax({
@@ -115,66 +85,33 @@
 				dataType:"json",
 				success:function(res){
 					console.log(res);
-					/* $.each(res[2], function(i, sub) {
-						var cnt = 0;
-						var nonIncorrect = 0;
-						$.each(res[1], function(i, exam) {
-							$.each(res[0], function(i, incorrect) {
-								if(exam.eNo==incorrect.eNo){
-									if(exam.eAnswer==incorrect.eIncorrect){
-										console.log("확인");
-										if(sub.sNo==exam.sNo.sNo){
-											nonIncorrect = nonIncorrect+1;
-											console.log("증가1");
-										}
-										cnt=cnt+1;
-										console.log("증가2");
-									}
-								}
-							})
-						})
-						console.log(nonIncorrect);
-						console.log(cnt);
-						var $subScore = $("<p>").text(((nonIncorrect/cnt)*100));
-						var subPass = true;
-						if(((nonIncorrect/cnt)*100)<40){
-							subPass = false;
-						}
-						var $subPass = $("<p>").text(subPass);
-						var $subName = $("<p>").text(sub.sName);
-						var $div = $("<div>").addClass("subject");
-						$div.append($subName);
-						$div.append($subScore);
-						$div.append($subPass);
-						$("exam2").append($div);
-					}) */
 					$.each(res[2], function(i, sub) {
-
+						var cnt = 0;
+						var cnt2 = 0;
 						$.each(res[1], function(i, exam) {
-							var cnt = 0;
-							var cnt2 = 0;
-							$.each(res[0], function(i, incorrect) {
-								if(sub.sNo==exam.sNo.sNo){
-									cnt2++;
+							if(sub.sNo==exam.sNo.sNo){
+								cnt++;
+								$.each(res[0], function(i, incorrect) {
 									if(exam.eNo==incorrect.eNo){
-										cnt++;
-										if(exam.eAnswer!=incorrect.eIncorrect){
-												
-										}
-										else{
-											
-										}
+										cnt2++;
 									}
-									else{
-										
-									}
-								}
-							})
-							console.log(sub.sName);
-							console.log("cnt : "+cnt);
-							console.log("cnt2 : "+cnt2);
+								})
+							}
 						})
-
+						var exCnt = cnt-cnt2;
+						var exScore = Math.round(exCnt/cnt*100);
+						var sPass = true;
+						if(exScore<40){
+							sPass = false;
+						}
+						var $subName = $("<p>").text(sub.sName);
+						var $score = $("<p>").text(exScore+"점");
+						var $sPass = $("<p>").text(sPass);
+						var $div = $("<div>").addClass("sub");
+						$div.append($subName);
+						$div.append($score);
+						$div.append($sPass);
+						$("#exams2").append($div);
 					})
 				}
 			})

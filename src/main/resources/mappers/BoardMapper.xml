@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.BoardMapper">
+	<resultMap type="MemberVO" id="memberResult">
+		<id property="mId" column="m_id"/>
+		<id property="mPassword" column="m_password"/>
+		<id property="mName" column="m_name"/>
+		<id property="mEmail" column="m_email"/>
+	</resultMap>
+	<resultMap type="BoardVO" id="boardResult">
+		<id property="bNo" column="b_no"/>
+		<id property="bTitle" column="b_title"/>
+		<id property="bContent" column="b_content"/>
+		<id property="bDate" column="b_date"/>
+		<id property="viewCnt" column="view_cnt"/>
+		<id property="replyCnt" column="reply_cnt"/>
+		<association property="mId" column="m_id" resultMap="boardResult"/>
+	</resultMap>
+	<select id="readByNo" resultMap="boardResult">
+		select * from board b left join member m on b.m_id=m.m_id where b_no=#{bNo}
+	</select>
+	<select id="list" resultMap="boardResult">
+		select * from board b left join member m on b.m_id=m.m_id
+	</select>
+	<insert id="insert">
+		insert into board (m_id, b_title, b_content, b_date, view_cnt, reply_cnt) values (#{mId.mId}, #{bTitle}, #{bContent}, CURRENT_TIMESTAMP, 0, 0)
+	</insert>
+	<update id="update">
+		update board set b_title=#{bTitle}, b_content=#{bContent} where b_no=#{bNo}
+	</update>
+	<delete id="delete">
+		delete from board where b_no=#{bNo}
+	</delete>
+	<sql id="search"> <!-- 공통된 부분을 참조할 수 있도록 처리함 -->
+		<if test="searchType == 't'.toString()">
+			where b_title like CONCAT('%','${keyword}','%')
+		</if>
+		<if test="searchType == 'c'.toString()">
+			where b_content like CONCAT('%','${keyword}','%')
+		</if>
+		<if test="searchType == 'w'.toString()">
+			where m_id like CONCAT('%','${keyword}','%')
+		</if>
+		<if test="searchType == 'tc'.toString()">
+			where b_title like CONCAT('%','${keyword}','%') or b_content like CONCAT('%','${keyword}','%')
+		</if>
+		<if test="searchType == 'cw'.toString()">
+			where b_content like CONCAT('%','${keyword}','%') or m_id like CONCAT('%','${keyword}','%')
+		</if>
+		<if test="searchType == 'tcw'.toString()">
+			where b_title like CONCAT('%','${keyword}','%') or b_content like CONCAT('%','${keyword}','%') or m_id like CONCAT('%','${keyword}','%')
+		</if>
+	</sql>
+	<select id="listSearchCriteria" resultType="BoardVO">
+		select * from board
+			<include refid="search"/>
+			order by b_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="totalSearchCount" resultType="int">
+		select count(*) from board
+		<include refid="search"/>
+	</select>
+</mapper>

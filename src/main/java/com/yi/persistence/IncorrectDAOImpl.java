@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.yi.domain.IncorrectVO;
+import com.yi.domain.MemberVO;
 import com.yi.domain.TestResultVO;
 
 @Repository
@@ -38,6 +39,11 @@ public class IncorrectDAOImpl implements IncorrectDAO {
 	@Override
 	public void update(IncorrectVO incorrectVO) throws Exception {
 		sqlSession.update(namespace + "update", incorrectVO);
+	}
+
+	@Override
+	public List<IncorrectVO> readBymId(MemberVO mId) throws Exception {
+		return sqlSession.selectList(namespace + "readBymId", mId);
 	}
 
 }

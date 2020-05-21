@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.ExamMapper">
-	<resultMap type="SubjectVO" id="subjectResult">
-		<id property="sNo" column="s_no"/>
-		<id property="sName" column="s_name"/>
-		<association property="tNo" column="t_no" resultMap="testResult" />
-	</resultMap>
 	<resultMap type="TestVO" id="testResult">
 		<id property="tNo" column="t_no"/>
 		<id property="tName" column="t_name"/>
 		<id property="tYear" column="t_year"/>
 		<id property="tOrder" column="t_order"/>
+	</resultMap>
+	<resultMap type="SubjectVO" id="subjectResult">
+		<id property="sNo" column="s_no"/>
+		<id property="sName" column="s_name"/>
+		<association property="tNo" column="t_no" resultMap="testResult" />
 	</resultMap>
 	<resultMap type="ExamVO" id="examResult">
 		<id property="eNo" column="e_no"/>

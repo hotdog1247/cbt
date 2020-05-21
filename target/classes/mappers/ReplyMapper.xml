@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.ReplyMapper">
+	<resultMap type="MemberVO" id="memberResult">
+		<id property="mId" column="m_id"/>
+		<id property="mPassword" column="m_password"/>
+		<id property="mName" column="m_name"/>
+		<id property="mEmail" column="m_email"/>
+	</resultMap>
+	<resultMap type="BoardVO" id="boardResult">
+		<id property="bNo" column="b_no"/>
+		<id property="bTitle" column="b_title"/>
+		<id property="bContent" column="b_content"/>
+		<id property="bDate" column="b_date"/>
+		<id property="viewCnt" column="view_cnt"/>
+		<id property="replyCnt" column="reply_cnt"/>
+		<association property="mId" column="m_id" resultMap="memberResult"/>
+	</resultMap>
+	<resultMap type="ReplyVO" id="replyResult">
+		<id property="rNo" column="r_no"/>
+		<id property="rContent" column="r_content"/>
+		<id property="rDate" column="r_date"/>
+		<association property="mId" column="m_id" resultMap="memberResult"/>
+		<association property="bNo" column="b_no" resultMap="boardResult"/>
+	</resultMap>
+	<select id="readByNo" resultMap="replyResult">
+		select * reply r left join board b on r.b_no=b.b_no left join member m on r.m_id=m.m_id and b.m_id=m.m_id where r.r_no=#{rNo} and b.b_no=#{bNo.bNo} and m.m_id=#{mId.mId}
+	</select>
+	<select id="list" resultMap="replyResult">
+		select * reply r left join board b on r.b_no=b.b_no left join member m on r.m_id=m.m_id and b.m_id=m.m_id
+	</select>
+	<insert id="insert">
+		insert into reply (m_id, b_no, r_content, r_date) values (#{mId.mId}, #{bNo.bNo}, #{rContent}, CURRENT_TIMESTAMP)
+	</insert>
+	<delete id="delete">
+		delete from reply where r_no=#{rNo} and b_no=#{bNo.bNo} and m_id=#{mId.mId} 
+	</delete>
+	<update id="update">
+		update reply set r_content=#{rContent}, r_date=CURRENT_TIMESTAMP where r_no=#{rNo} and b_no=#{bNo.bNo} and m_id=#{mId.mId}
+	</update>
+</mapper>

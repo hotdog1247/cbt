@@ -78,3 +78,5 @@ select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s
 select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.e_no=2 and e.t_no=1 and e.s_no=1;
 select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.t_no=1;
 select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=1;
+
+select * from board b;

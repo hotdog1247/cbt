@@ -120,6 +120,65 @@ ALTER TABLE cbt_project.incorrect
 ALTER TABLE cbt_project.incorrect
 	MODIFY COLUMN i_no INT NOT NULL AUTO_INCREMENT COMMENT '번호';
 
+-- 게시판
+CREATE TABLE cbt_project.board (
+	b_no      INT          NOT NULL COMMENT '게시판번호', -- 게시판번호
+	m_id      VARCHAR(15)  NOT NULL COMMENT '회원아이디', -- 회원아이디
+	b_title   VARCHAR(100) NOT NULL COMMENT '게시판제목', -- 게시판제목
+	b_content TEXT         NOT NULL COMMENT '게시판내용', -- 게시판내용
+	b_date    TIMESTAMP    NOT NULL DEFAULT now() COMMENT '작성시간', -- 작성시간
+	view_cnt  INT          NULL     COMMENT '조회수', -- 조회수
+	reply_cnt INT          NULL     COMMENT '댓글수' -- 댓글수
+)
+COMMENT '게시판';
+
+-- 게시판
+ALTER TABLE cbt_project.board
+	ADD CONSTRAINT PK_board -- 게시판 기본키
+		PRIMARY KEY (
+			b_no -- 게시판번호
+		);
+
+ALTER TABLE cbt_project.board
+	MODIFY COLUMN b_no INT NOT NULL AUTO_INCREMENT COMMENT '게시판번호';
+
+-- 댓글
+CREATE TABLE cbt_project.reply (
+	r_no      INT         NOT NULL COMMENT '댓글번호', -- 댓글번호
+	m_id      VARCHAR(15) NOT NULL COMMENT '회원아이디', -- 회원아이디
+	b_no      INT         NOT NULL COMMENT '게시판번호', -- 게시판번호
+	r_content TEXT        NOT NULL COMMENT '댓글내용', -- 댓글내용
+	r_date    TIMESTAMP   NOT NULL DEFAULT now() COMMENT '작성시간' -- 작성시간
+)
+COMMENT '댓글';
+
+-- 댓글
+ALTER TABLE cbt_project.reply
+	ADD CONSTRAINT PK_reply -- 댓글 기본키
+		PRIMARY KEY (
+			r_no, -- 댓글번호
+			m_id, -- 회원아이디
+			b_no  -- 게시판번호
+		);
+
+ALTER TABLE cbt_project.reply
+	MODIFY COLUMN r_no INT NOT NULL AUTO_INCREMENT COMMENT '댓글번호';
+
+-- 이미지
+CREATE TABLE cbt_project.image (
+	i_name    VARCHAR(150) NOT NULL COMMENT '이미지이름', -- 이미지이름
+	b_no      INT          NOT NULL COMMENT '게시판번호', -- 게시판번호
+	i_regdate TIMESTAMP    NULL     DEFAULT now() COMMENT '등록날짜' -- 등록날짜
+)
+COMMENT '이미지';
+
+-- 이미지
+ALTER TABLE cbt_project.image
+	ADD CONSTRAINT PK_image -- 이미지 기본키
+		PRIMARY KEY (
+			i_name -- 이미지이름
+		);
+
 -- 과목
 ALTER TABLE cbt_project.subject
 	ADD CONSTRAINT FK_test_TO_subject -- 시험 -> 과목
@@ -171,7 +230,36 @@ ALTER TABLE cbt_project.incorrect
 		REFERENCES cbt_project.test_result ( -- 시험결과현황
 			r_no -- 결과번호
 		);
-		
+
+-- 게시판
+ALTER TABLE cbt_project.board
+	ADD CONSTRAINT FK_member_TO_board -- 회원 -> 게시판
+		FOREIGN KEY (
+			m_id -- 회원아이디
+		)
+		REFERENCES cbt_project.member ( -- 회원
+			m_id -- 회원아이디
+		);
+
+-- 댓글
+ALTER TABLE cbt_project.reply
+	ADD CONSTRAINT FK_board_TO_reply -- 게시판 -> 댓글
+		FOREIGN KEY (
+			b_no -- 게시판번호
+		)
+		REFERENCES cbt_project.board ( -- 게시판
+			b_no -- 게시판번호
+		);
+
+-- 댓글
+ALTER TABLE cbt_project.reply
+	ADD CONSTRAINT FK_member_TO_reply -- 회원 -> 댓글
+		FOREIGN KEY (
+			m_id -- 회원아이디
+		)
+		REFERENCES cbt_project.member ( -- 회원
+			m_id -- 회원아이디
+		);
 	
 -- 사용자 추가
 drop user if exists 'user_cbt_project'@'localhost';

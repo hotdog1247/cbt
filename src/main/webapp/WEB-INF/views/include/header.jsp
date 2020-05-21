@@ -31,7 +31,7 @@
           </a>
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-              <li class="dropdown messages-menu">
+              <!-- <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-envelope-o"></i>
                 </a>
@@ -51,7 +51,7 @@
                 </a>
                 <ul class="dropdown-menu">
                 </ul>
-              </li>
+              </li> -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="user-image" alt="User Image"/>
@@ -75,9 +75,9 @@
                 </ul>
               </li>
               <!-- Control Sidebar Toggle Button -->
-              <li>
+<!--               <li>
                 <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </nav>
@@ -109,19 +109,6 @@
           <ul class="sidebar-menu">
             <!-- <li class="header">MAIN NAVIGATION</li> -->
             <li><a href="${pageContext.request.contextPath }/test/list"><i class="fa fa-book"></i> <span>문제풀기</span></a></li>
-<%--             <li class="treeview">
-              <a href="#">
-                <i class="fa fa-laptop"></i>
-                <span>시험종류</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-               <ul class="treeview-menu">
-                <c:forEach var="test" items="${testList}">
-                	<li class="test"><a href="#"><i class="fa fa-circle-o"></i>${test.tName }</a></li>
-                </c:forEach>
-              </ul>
-            </li> --%>
-            
             <li class="treeview active">
               <a href="#">
                 <i class="fa fa-edit"></i> <span>시험현황</span>
@@ -129,11 +116,10 @@
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-circle-o"></i>시험현황</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>오답노트</a></li>
+                <li><a href="${pageContext.request.contextPath }/member/incorrectEx"><i class="fa fa-circle-o"></i>오답노트</a></li>
               </ul>
             </li>
-           
-            <li class="treeview">
+<%--             <li class="treeview">
               <a href="#">
                 <i class="fa fa-share"></i> <span>Multilevel</span>
                 <i class="fa fa-angle-left pull-right"></i>
@@ -155,7 +141,8 @@
                 </li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
               </ul>
-            </li>
+            </li> --%>
+            <li><a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-book"></i> <span>자유게시판</span></a></li>
           </ul>
         </section>
       </aside>

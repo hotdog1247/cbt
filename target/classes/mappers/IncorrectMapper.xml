@@ -47,4 +47,7 @@
 	<select id="subList" resultMap="incorrectResult">
 		select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id
 	</select>
+	<select id="readBymId" resultMap="incorrectResult">
+		select * from incorrect i left join test_result tr on i.r_no = tr.r_no left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where m.m_id=#{mId.mId}
+	</select>
 </mapper>

@@ -2,7 +2,6 @@ package com.yi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -130,6 +129,12 @@ public class MemberController {
 			entity = new ResponseEntity<List<Object>>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
+	}
+	@RequestMapping(value = "member/incorrectEx", method = RequestMethod.GET)
+	public String incorrectExGet(Model model, HttpSession session) throws Exception {
+		MemberVO mId = memberService.readByNo((String)session.getAttribute("Auth"));
+		
+		return null;
 	}
 //	@ResponseBody
 //	@RequestMapping(value = "member/incorrect", method = RequestMethod.GET)
