@@ -55,10 +55,9 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void increaseCnt(BoardVO vo, MemberVO mId) throws Exception {
+	public void increaseCnt(BoardVO vo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("vo", vo);
-		map.put("mId", mId);
 		sqlSession.update(namespace + "increaseCnt", map);
 	}
 

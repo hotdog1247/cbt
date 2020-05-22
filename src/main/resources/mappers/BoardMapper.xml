@@ -14,7 +14,7 @@
 		<id property="bDate" column="b_date"/>
 		<id property="viewCnt" column="view_cnt"/>
 		<id property="replyCnt" column="reply_cnt"/>
-		<association property="mId" column="m_id" resultMap="boardResult"/>
+		<association property="mId" column="m_id" resultMap="memberResult"/>
 	</resultMap>
 	<select id="readByNo" resultMap="boardResult">
 		select * from board b left join member m on b.m_id=m.m_id where b_no=#{bNo}
@@ -39,7 +39,7 @@
 			where b_content like CONCAT('%','${keyword}','%')
 		</if>
 		<if test="searchType == 'w'.toString()">
-			where m_id like CONCAT('%','${keyword}','%')
+			where b.m_id like CONCAT('%','${keyword}','%')
 		</if>
 		<if test="searchType == 'tc'.toString()">
 			where b_title like CONCAT('%','${keyword}','%') or b_content like CONCAT('%','${keyword}','%')
@@ -51,13 +51,16 @@
 			where b_title like CONCAT('%','${keyword}','%') or b_content like CONCAT('%','${keyword}','%') or m_id like CONCAT('%','${keyword}','%')
 		</if>
 	</sql>
-	<select id="listSearchCriteria" resultType="BoardVO">
-		select * from board
+	<select id="listSearchCriteria" resultMap="boardResult">
+		select * from board b left join member m on b.m_id=m.m_id
 			<include refid="search"/>
 			order by b_no desc limit #{pageStart}, #{perPageNum}
 	</select>
 	<select id="totalSearchCount" resultType="int">
-		select count(*) from board
+		select count(*) from board 
 		<include refid="search"/>
 	</select>
+	<update id="increaseCnt">
+		update board set view_cnt=#{viewCnt}+1 where b_no=#{bNo} and m_id=#{mId.mId} 
+	</update>
 </mapper>

@@ -5,17 +5,14 @@
 <html><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 	$(function () {
-		$("form").submit(function() {
-			if($("input[name='mId']").val() typeof null){
-				alert("아이디 입력");
-				return false;
-			}
-		})
+		$(".idAndPw").hide();
+		var flag = false;
+		
 	})
 </script>
   <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <title>아이디 및 비밀번호 찾기</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -29,26 +26,45 @@
   			<a href="#"><b>돌아가기</b></a>
   		</div>
   		<div class="login-box-body">
-  			<form action="${pageContext.request.contextPath }/member/insert" method="post">
+  				<div class="row">
+  					<div class="col-xs-6 col">
+  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 찾기">
+  					</div>
+  					<div class="col-xs-6 col">
+  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="비밀번호 찾기">
+  					</div>
+  				</div>
+  		</div>
+  		<div class="login-box-body idAndPw1">
+  			<form action="login" method="post">
   				<div class="form-group has-feedback">
   					<input type="text" name="mId" class="form-control" placeholder="회원 ID">
   					<span class="glyphicon glyphicon-heart form-control-feedback"></span>
   				</div>
   				<div class="form-group has-feedback">
-  					<input type="password" name="mPassword" class="form-control" placeholder="회원 비밀번호">
+  					<input type="password" name="mPassword" class="form-control" placeholder="회원  비밀번호">
   					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
   				</div>
+  				<div class="row">
+  					<div class="col-xs-12">
+  						<input type="submit" class="btn btn-primary btn-block btn-flat" value="찾기"> 						
+  					</div>
+  				</div>
+  			</form>
+  		</div>
+  		<div class="login-box-body idAndPw2">
+  			<form action="login" method="post">
   				<div class="form-group has-feedback">
-  					<input type="text" name="mName" class="form-control" placeholder="회원이름">
-  					<span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+  					<input type="text" name="mId" class="form-control" placeholder="회원 ID">
+  					<span class="glyphicon glyphicon-heart form-control-feedback"></span>
   				</div>
   				<div class="form-group has-feedback">
-  					<input type="email" name="mEmail" class="form-control" placeholder="회원 Email">
-  					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  					<input type="password" name="mPassword" class="form-control" placeholder="회원  비밀번호">
+  					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
   				</div>
   				<div class="row">
-  					<div class="col-xs-12 col">
-  						<input type="submit" class="btn btn-primary btn-block btn-flat" value="회원가입">
+  					<div class="col-xs-12">
+  						<input type="submit" class="btn btn-primary btn-block btn-flat" value="찾기"> 						
   					</div>
   				</div>
   			</form>

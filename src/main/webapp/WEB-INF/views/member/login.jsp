@@ -6,12 +6,38 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 	$(function() {
-		$("form input[type='button']").click(function() {
-			alert("확인");
+		$(".signIn").click(function() {
 			window.location.href="member/insert";
-		})
+		}) 
+		$(".signSerach").click(function() {
+	/* 		if(flag== false){
+				$(".idAndPw").show();
+				flag = true;
+			}
+			else{
+				$(".idAndPw").hide();
+				flag = false;
+			} */
+			window.location.href="member/find";
+		}) 
+		<c:if test="${error !=null}">
+			alert("${error}");
+		</c:if>
+		/* $(".idAndPw").hide();
+		var flag = false; */
 	})
 </script>
+<style>
+/* 	.idAndPwParent{
+		position: relative;
+	}
+	.idAndPw{
+		position: absolute;
+		left: 5px;
+		top: 0;
+		background-color: steelblue;
+	} */
+</style>
   <head>
     <meta charset="UTF-8">
     <title>로그인</title>
@@ -25,31 +51,44 @@
   <body class="login-page">
   	<div class="login-box">
   		<div class="login-logo">
-  			<a href="#"><b>로그인</b></a>
+  			<a href="#"><b>HOTDOG</b></a>
   		</div>
   		<div class="login-box-body">
-  			<p class="login-box-msg">Login</p>
-  			<c:if test="${error !=null}">
-  				<p>${error }</p>
-  			</c:if>
   			<form action="login" method="post">
   				<div class="form-group has-feedback">
-  					<input type="text" name="mId" class="form-control" placeholder="user Id">
-  					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  					<input type="text" name="mId" class="form-control" placeholder="회원 ID">
+  					<span class="glyphicon glyphicon-heart form-control-feedback"></span>
   				</div>
   				<div class="form-group has-feedback">
-  					<input type="password" name="mPassword" class="form-control" placeholder="user pw">
+  					<input type="password" name="mPassword" class="form-control" placeholder="회원  비밀번호">
   					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
   				</div>
   				<div class="row">
-  					<div class="col-xs-12 col">
-  						<input type="submit" class="btn btn-primary btn-block btn-flat" value="sign in">
-  						<input type="button" class="btn btn-primary btn-block btn-flat" value="sign up">
+  					<div class="col-xs-12">
+  						<input type="submit" class="btn btn-primary btn-block btn-flat" value="로그인">
+  						<input type="button" class="btn btn-danger btn-block btn-flat signIn" value="회원가입">
+  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 및 비밀번호 찾기"> 						
   					</div>
   				</div>
+<!--   				<div class="row idAndPw">
+  					<div class="col-xs-12">
+  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 찾기">
+  					</div>
+  					<div class="col-xs-12">
+  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="비밀번호 찾기">
+  					</div>
+  				</div> -->
   			</form>
   		</div>
   	</div>
+<!-- 	<div class="modal-header idAndPw">
+		<div class="col-xs-6">
+  			<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 찾기">
+  		</div>
+  		<div class="col-xs-6">
+  			<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="비밀번호 찾기">
+  		</div>
+  	</div> -->
   </body>
     <script src="${pageContext.request.contextPath }/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>

@@ -38,7 +38,7 @@
 									<td>
 										<a href="${pageContext.request.contextPath}/board/read?bNo=${board.bNo}&page=${pageMaker.cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}">${board.bTitle } [${board.replyCnt}]</a>
 									</td>
-									<td>${board.mId }</td>
+									<td>${board.mId.mId }</td>
 									<td><fmt:formatDate value="${board.bDate }" pattern="yyyy-MM-dd HH:mm"/></td>
 									<td><span class="badge bg-red">${board.viewCnt }</span></td>
 								</tr>

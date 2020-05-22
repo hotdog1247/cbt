@@ -35,6 +35,9 @@ public class BoardController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(boardService.totalSearchCount(cri));
+		for(BoardVO b : list) {
+			System.out.println("board : "+b.toString());
+		}
 		model.addAttribute("cri", cri);
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
@@ -58,10 +61,12 @@ public class BoardController {
 		BoardVO vo = boardService.readByNo(bNo);
 		if (!flag) {
 			MemberVO m = memberService.readByNo((String)session.getAttribute("Auth"));
-			boardService.increaseCnt(vo, m);
+			System.out.println("m : "+m.toString());
+			System.out.println("vo : "+vo.toString());
+			boardService.increaseCnt(vo);
+			System.out.println("증가 왜 안되노");
 			flag = false;
 		}
-		System.out.println("readPage안이다!!!");
 		model.addAttribute("cri", cri);
 		model.addAttribute("board", vo);
 		return "/board/readPage";

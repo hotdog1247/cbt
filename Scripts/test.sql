@@ -80,3 +80,6 @@ select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s
 select * from exam e left join test t on e.t_no = t.t_no left join subject s on e.s_no=s.s_no where t.t_no=1;
 
 select * from board b;
+select * from board b left join member m on b.m_id=m.m_id;
+update board set view_cnt=0+1 where b_no=1 and m_id='hotdog';
+update board set view_cnt=0 where b_no=1 and m_id='hotdog';

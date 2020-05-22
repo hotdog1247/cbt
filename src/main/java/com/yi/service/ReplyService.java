@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yi.domain.BoardVO;
+import com.yi.domain.Criteria;
 import com.yi.domain.MemberVO;
 import com.yi.domain.ReplyVO;
 import com.yi.persistence.ReplyDAO;
@@ -33,5 +34,17 @@ public class ReplyService {
 
 	public void delete(int rNo, BoardVO bNo, MemberVO mId) throws Exception {
 		dao.delete(rNo, bNo, mId);
+	};
+	
+	public List<ReplyVO> listBybNo(BoardVO bNo) throws Exception{
+		return dao.listBybNo(bNo);
+	};
+	
+	public int totalCount(int bNo) throws Exception{
+		return dao.totalCount(bNo);
+	}
+
+	public List<ReplyVO> listPage(int bno, Criteria cri) throws Exception {
+		return dao.listPage(bno, cri);
 	};
 }

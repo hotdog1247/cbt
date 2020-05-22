@@ -166,4 +166,8 @@ public class MemberController {
 //		}
 //		return entity;
 //	}
+	@RequestMapping(value = "member/find", method = RequestMethod.GET)
+	public String findGet() throws Exception {
+		return "member/find";
+	}
 }

@@ -38,4 +38,16 @@
 	<update id="update">
 		update reply set r_content=#{rContent}, r_date=CURRENT_TIMESTAMP where r_no=#{rNo} and b_no=#{bNo.bNo} and m_id=#{mId.mId}
 	</update>
+	<select id="listBybNo">
+		select * reply r left join board b on r.b_no=b.b_no left join member m on r.m_id=m.m_id and b.m_id=m.m_id where r.b_no=#{bNo.bNo}
+	</select>
+	<select id="totalCount" resultType="int">
+		select count(*) from reply where b_no=#{bNo}
+	</select>
+	<select id="listPage" resultType="ReplyVO">
+		select * from reply
+		where b_no = #{bNo}
+		order by r_no desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
 </mapper>

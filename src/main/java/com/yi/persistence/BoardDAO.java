@@ -22,5 +22,5 @@ public interface BoardDAO {
 
 	public int totalSearchCount(SearchCriteria cri) throws Exception;
 
-	public void increaseCnt(BoardVO vo, MemberVO mId) throws Exception;
+	public void increaseCnt(BoardVO vo) throws Exception;
 }

@@ -8,9 +8,9 @@
 	function getPageList(page){
 		$("#list").empty();
 		$("#pagination").empty();
-		var bno = ${board.bno};
+		var bNo = ${board.bNo};
 		$.ajax({
-			url:"${pageContext.request.contextPath}/replies/"+bno+"/"+page,
+			url:"${pageContext.request.contextPath}/replies/"+bNo+"/"+page,
 			type:"get",
 			dataType:"json",
 			success:function(res){
@@ -20,7 +20,7 @@
 				var source = $("#template").html();
 				var func = Handlebars.compile(source);
 				$(".timeline").append(func(res));
-				$("#replycnt").html(res.board.replycnt);
+				$("#replycnt").html(res.board.replyCnt);
 				$("#pagination").empty();
 				for(var i =res.pageMaker.startPage; i<=res.pageMaker.endPage;i++){
 					var $li = $("<li>");
@@ -66,30 +66,23 @@
 	})
 	$(function() {
 		$("#goList").click(function() {
-			window.location.href ="${pageContext.request.contextPath }/sboard/listPage?page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
+			window.location.href ="${pageContext.request.contextPath }/board/list?page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
 		})
 		$("#removeBoard").click(function() {
-			window.location.href ="${pageContext.request.contextPath }/sboard/deletePage?bno=${board.bno}&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
+			window.location.href ="${pageContext.request.contextPath }/board/delete?bno=${board.bNo}&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
 		})
  		$("#updateBoard").click(function() {
-			window.location.href ="${pageContext.request.contextPath }/sboard/updatePage?bno=${board.bno}&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
+			window.location.href ="${pageContext.request.contextPath }/board/update?bNo=${board.bNo}&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
 		})
  		$("#repliesDiv").click(function() {
 			getPageList(1);
 		})
 		$("#btnAdd").click(function() {
-			var bno = ${board.bno};
-			var replyer =$("#newReplyWriter").val();
-			var replytext =$("#newReplyText").val();
-			
-			//서버 주소 /replies/
-			//@RequestBody 서버에서 사용시
-			// 1. headers = "Content-Type":"application/json"
-			// 2. 보내는 data는 json String으로 변형해서 보내야 됨
-			// - "{bno:bno}"
-			
-			var json = JSON.stringify({"bno": bno, "replyer":replyer, "replytext":replytext});
-			
+			var bNo = ${board.bNo};
+			var mId =$("#newReplyWriter").val();
+			var replytext =$("#newReplyText").val();			
+			//{"rNo" :1, bNo:{bNo:1, mId : {mId:1}}}
+			var json = JSON.stringify({"bNo": {"bNo":bNo}, "mId":{"mId": mId}, "rContent":replytext});
 			$.ajax({
 				url:"${pageContext.request.contextPath}/replies/",
 				method:"post",
@@ -100,14 +93,7 @@
 					console.log(res);
 					if(res == "SUCCESS"){
 						alert("댓글이 등록됨");
-						//리스트 갱신
 						getPageList(1);
-/* 						var replycnt2 = $("#replycnt").text();
-						console.log(replycnt2);
-						var replycnt =parseInt(replycnt2);
-						console.log(replycnt);
-						replycnt++;
-						$("#replycnt").text(replycnt); */
 					}
 				}
 			})
@@ -124,7 +110,6 @@
 		var replytext = $(this).parent().parent().find(".timeline-body").text();
 		if($(this).html()=="Modify"){
 			$(this).html("OK");	
-			/* $(this).parent().parent().find(".timeline-body").remove(); */
 			$(this).parent().parent().find(".timeline-body").hide();
 			var $replytext2 = $("<input type='text' value='"+replytext+"' class='timeline-body2'>");
 			$(this).parent().parent().find(".timeline-body").after($replytext2);
@@ -144,7 +129,6 @@
 					console.log(res);
 					if(res == "SUCCESS"){
 						alert("댓글이 수정됨");
-						//리스트 갱신
 						getPageList(no);
 					}
 				}
@@ -169,12 +153,7 @@
 				console.log(res);
 				if(res == "SUCCESS"){
 					alert("댓글이 삭제됨");
-					//리스트 갱신
 					getPageList(no);
-/* 					var replycnt2 = $("#replycnt").text();
-					var replycnt =parseInt(replycnt2);
-					replycnt--;
-					$("#replycnt").text(replycnt); */
 				}
 			}
 		})
@@ -187,29 +166,23 @@
 				<div class="box-header">
 					<h3 class="box-title">READ</h3>
 					<div class="box-body text-right">
-						${board.bno }
+						${board.bNo }
 					</div>
 				</div>
 					<div class="box-body">
 						<div class="form-group">
 							<label>Title</label>
-							<input type="text" class="form-control" value="${board.title }" readonly>
+							<input type="text" class="form-control" value="${board.bTitle }" readonly>
 						</div>
 						<div class="form-group">
 							<label>Content</label>
-							<textarea rows="5" cols="30" class="form-control" readonly>${board.content }</textarea>
+							<textarea rows="5" cols="30" class="form-control" readonly>${board.bContent }</textarea>
 						</div>
 						<div class="form-group">
 							<label>Writer</label>
-							<input type="text" class="form-control" value="${board.writer }" readonly>
+							<input type="text" class="form-control" value="${board.mId.mId }" readonly>
 						</div>
-						<div class="form-group">
-							<label>Files</label>
-							<c:forEach var="file" items="${board.files }">
-								<img src="displayFile?fileName=${file }" class="sImg" data-src="${file }">
-							</c:forEach>
-						</div>
-						<input type="hidden" name="bno" value="${board.bno }">
+						<input type="hidden" name="bno" value="${board.bNo }">
 					</div>
 				<div class="box-footer">
 					<button class="btn btn-warning" id="updateBoard">Modify</button>
@@ -225,21 +198,21 @@
 		<div class="col-xs-12">
 			<div class="box box-success">
 				<div class="box-header">
-					<h3 class="box-title">ADD NEW REPLY</h3>
+					<h3 class="box-title">댓글달기</h3>
 				</div>
 				<div class="box-body">
-					<label>Writer</label>
+					<label>ID</label>
 					<input type="text" class="form-control" placeholder="user id" id="newReplyWriter" value="${Auth }" readonly>
-					<label>Replytext</label>
+					<label>내용</label>
 					<input type="text" class="form-control" placeholder="Replytext" id="newReplyText">
 				</div>
 				<div class="box-footer">
-					<button class="btn btn-primary" id="btnAdd">REPLY</button>
+					<button class="btn btn-primary" id="btnAdd">작성</button>
 				</div>
 			</div>
 			<ul class="timeline">
 				<li class="time-label" id="repliesDiv">
-					<span class="bg-green">Replies list [<span id="replycnt">${board.replycnt}</span>]</span>
+					<span class="bg-green">Replies list [<span id="replycnt">${board.replyCnt}</span>]</span>
 				</li>
 			</ul>
 			<div class="text-center">

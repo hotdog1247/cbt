@@ -43,8 +43,8 @@ public class BoardService {
 		return dao.totalSearchCount(cri);
 	}
 
-	public void increaseCnt(BoardVO vo, MemberVO mId) throws Exception {
-		dao.increaseCnt(vo, mId);
+	public void increaseCnt(BoardVO vo) throws Exception {
+		dao.increaseCnt(vo);
 	};
 
 }
