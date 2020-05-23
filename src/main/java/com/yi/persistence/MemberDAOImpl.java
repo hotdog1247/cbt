@@ -45,4 +45,20 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.update(namespace + "update", map);
 	}
 
+	@Override
+	public MemberVO findId(String mName, String mEmail) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("mName", mName);
+		map.put("mEmail", mEmail);
+		return sqlSession.selectOne(namespace+"findId", map);
+	}
+
+	@Override
+	public MemberVO findPw(String mId, String mEmail) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		map.put("mId", mId);
+		map.put("mEmail", mEmail);
+		return sqlSession.selectOne(namespace+"findPw", map);
+	}
+
 }

@@ -9,35 +9,45 @@
 		$(".signIn").click(function() {
 			window.location.href="member/insert";
 		}) 
-		$(".signSerach").click(function() {
-	/* 		if(flag== false){
-				$(".idAndPw").show();
-				flag = true;
-			}
-			else{
-				$(".idAndPw").hide();
-				flag = false;
-			} */
-			window.location.href="member/find";
-		}) 
 		<c:if test="${error !=null}">
 			alert("${error}");
 		</c:if>
-		/* $(".idAndPw").hide();
-		var flag = false; */
+		$(".searchId").click(function() {
+			var mName = $(".mNameForId").val();
+			var mEmail = $(".mEmailForId").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/find",
+				type:"get",
+				data:{
+					mName: mName,
+					mEmail:mEmail
+				},
+				dataType:"json",
+				success:function(res){
+					console.log(res);
+					alert("아이디 : "+res.mId);
+				}
+			})
+		})
+		$(".searchPw").click(function() {
+			var mId = $(".mIdForPw").val();
+			var mEmail = $(".mEmailForPw").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/find",
+				type:"get",
+				data:{
+					mId: mId,
+					mEmail:mEmail
+				},
+				dataType:"json",
+				success:function(res){
+					console.log(res);
+					alert("비밀번호 : "+res.mPassword);
+				}
+			})
+		})
 	})
 </script>
-<style>
-/* 	.idAndPwParent{
-		position: relative;
-	}
-	.idAndPw{
-		position: absolute;
-		left: 5px;
-		top: 0;
-		background-color: steelblue;
-	} */
-</style>
   <head>
     <meta charset="UTF-8">
     <title>로그인</title>
@@ -67,28 +77,88 @@
   					<div class="col-xs-12">
   						<input type="submit" class="btn btn-primary btn-block btn-flat" value="로그인">
   						<input type="button" class="btn btn-danger btn-block btn-flat signIn" value="회원가입">
-  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 및 비밀번호 찾기"> 						
+  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" data-toggle="modal" data-target="#myModal" value="아이디 및 비밀번호 찾기">						
   					</div>
   				</div>
-<!--   				<div class="row idAndPw">
-  					<div class="col-xs-12">
-  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 찾기">
-  					</div>
-  					<div class="col-xs-12">
-  						<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="비밀번호 찾기">
-  					</div>
-  				</div> -->
   			</form>
   		</div>
+		<div id="myModal" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		      <div class="modal-body">
+  				<div class="row">
+  					<div class="col-xs-6">
+  						<button type="button" class="btn btn-success btn-block btn-flat" data-toggle="modal" data-target="#myModalId">아이디 찾기</button>
+  					</div>
+  					<div class="col-xs-6">
+  						<button type="button" class="btn btn-info btn-block btn-flat" data-toggle="modal" data-target="#myModalPw">비밀번호 찾기</button>
+  					</div>
+		      	</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<div id="myModalId" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		      <div class="modal-body">
+				<div class="form-group has-feedback">
+  					<input type="text" name="mName" class="form-control mNameForId" placeholder="회원 이름">
+  					<span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+  				</div>
+  				<div class="form-group has-feedback">
+  					<input type="email" name="mEmail" class="form-control mEmailForId" placeholder="회원  이메일">
+  					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">
+  						<input type="button" class="btn btn-danger btn-block btn-flat searchId" value="찾기">
+  					</div>
+				</div>  				
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<div id="myModalPw" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		      <div class="modal-body">
+				<div class="form-group has-feedback">
+  					<input type="text" name="mId" class="form-control mIdForPw" placeholder="회원 ID">
+  					<span class="glyphicon glyphicon-heart form-control-feedback"></span>
+  				</div>
+  				<div class="form-group has-feedback">
+  					<input type="email" name="mEmail" class="form-control mEmailForPw" placeholder="회원  이메일">
+  					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">
+  						<input type="button" class="btn btn-danger btn-block btn-flat searchPw" value="찾기">
+  					</div>
+				</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
   	</div>
-<!-- 	<div class="modal-header idAndPw">
-		<div class="col-xs-6">
-  			<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="아이디 찾기">
-  		</div>
-  		<div class="col-xs-6">
-  			<input type="button" class="btn btn-warning btn-block btn-flat signSerach" value="비밀번호 찾기">
-  		</div>
-  	</div> -->
   </body>
     <script src="${pageContext.request.contextPath }/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>

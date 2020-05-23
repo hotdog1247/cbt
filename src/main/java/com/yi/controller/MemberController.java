@@ -130,44 +130,58 @@ public class MemberController {
 		}
 		return entity;
 	}
-	@RequestMapping(value = "member/incorrectEx", method = RequestMethod.GET)
-	public String incorrectExGet(Model model, HttpSession session) throws Exception {
-		MemberVO mId = memberService.readByNo((String)session.getAttribute("Auth"));
-		
-		return null;
-	}
-//	@ResponseBody
-//	@RequestMapping(value = "member/incorrect", method = RequestMethod.GET)
-//	public ResponseEntity<List<Object>> subjectGet(Model model, HttpSession session, TestVO test, int rNo) throws Exception {
-//		ResponseEntity<List<Object>> entity = null;
-//		try {
-//			TestResultVO tr =  testResultService.readByNo(rNo);
-//			List<IncorrectVO> incorrect =  incorrectService.readByNo(tr);
-//			TestVO tNo = testService.readByNo(test.gettNo());
-//			List<SubjectVO> subList = subjectService.list2(tNo);
-//			List<Object> list = new ArrayList<Object>();
-//			for(IncorrectVO i : incorrect) {
-//				for(SubjectVO s : subList) {
-//					List<Object> l = new ArrayList<Object>(); 
-//					ExamVO e = examService.readByNo(tNo, s, i.geteNo());
-//					if(e != null) {
-//						if(e.geteAnswer()!=i.geteIncorrect()) {
-//							l.add(e);
-//							l.add(i.geteIncorrect());
-//							list.add(l);
-//						}
-//					}
-//				}
-//				entity = new ResponseEntity<List<Object>>(list ,HttpStatus.OK);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			entity = new ResponseEntity<List<Object>>(HttpStatus.BAD_REQUEST);
-//		}
-//		return entity;
+//	@RequestMapping(value = "member/incorrectEx", method = RequestMethod.GET)
+//	public String incorrectExGet(Model model, HttpSession session) throws Exception {
+//		MemberVO mId = memberService.readByNo((String)session.getAttribute("Auth"));
+//		
+//		return null;
 //	}
+	@ResponseBody
 	@RequestMapping(value = "member/find", method = RequestMethod.GET)
-	public String findGet() throws Exception {
-		return "member/find";
+	public ResponseEntity<MemberVO> find(MemberVO vo) throws Exception {
+		System.out.println("find에 들어왔냐");
+		System.out.println("vo : "+vo.toString());
+		ResponseEntity<MemberVO> entity = null;
+		if(vo.getmName() != null) {
+			System.out.println("아이디 찾기냐");
+			MemberVO m = findId(vo);
+			if(m == null) {
+				entity = new ResponseEntity<MemberVO>(HttpStatus.NOT_FOUND);
+			}
+			entity = new ResponseEntity<MemberVO>(m,HttpStatus.OK);
+		}
+		else if(vo.getmId() != null) {
+			System.out.println("비밀번호 찾기냐");
+			MemberVO m = findPw(vo);
+			if(m == null) {
+				entity = new ResponseEntity<MemberVO>(HttpStatus.NOT_FOUND);
+			}
+			entity = new ResponseEntity<MemberVO>(m,HttpStatus.OK);
+		}
+		else {
+			entity = new ResponseEntity<MemberVO>(HttpStatus.BAD_REQUEST);
+		}
+		System.out.println("다 되었냐");
+		return entity;
+	}
+	
+	private MemberVO findId(MemberVO vo) throws Exception {
+		MemberVO vo2 = memberService.findId(vo.getmName(), vo.getmEmail());
+		if(vo2 == null) {
+			return null;
+		}
+		System.out.println("id : "+vo2.toString());
+		return vo2;
+	}
+	private MemberVO findPw(MemberVO vo) throws Exception {
+		MemberVO vo2 = memberService.findPw(vo.getmId(), vo.getmEmail());
+		if(vo2 == null) {
+			return null;
+		}
+		else {
+			
+		}
+		System.out.println("pw : "+vo2.toString());
+		return vo2;
 	}
 }

@@ -6,8 +6,38 @@
 <script>
 	$(function () {
 		$("form").submit(function() {
+			var idReg = /^[a-b]*{1}[a-b0-9]*{5,15}$/i;
+			var pwReg = /^[a-b0-9]*{8,20}$/i;
+			var nameReg = /^[가-힣]*{2,5}$/i;
+			var idc = $("input[name='mId']").val();
+			var pwc = $("input[name='mPassword']").val();
+			var namec = $("input[name='mName']").val();
 			if($("input[name='mId']").val() typeof null){
 				alert("아이디 입력");
+				return false;
+			}
+			if($("input[name='mPassword']").val() typeof null){
+				alert("비밀번호 입력");
+				return false;
+			}
+			if($("input[name='mId']").val() typeof null){
+				alert("이름 입력");
+				return false;
+			}
+			if($("input[name='mId']").val() typeof null){
+				alert("email 입력");
+				return false;
+			}
+			if(idReg.test(idc)){
+				alert("아이디가 조건에 맞지 않습니다");
+				return false;
+			}
+			if(pwReg.test(pwc)){
+				alert("비밀번호가 조건에 맞지 않습니다");
+				return false;
+			}
+			if(nameReg.test(namec)){
+				alert("이름이 조건에 맞지 않습니다");
 				return false;
 			}
 		})

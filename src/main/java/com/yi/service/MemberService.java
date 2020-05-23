@@ -32,4 +32,12 @@ public class MemberService {
 	public void update(MemberVO vo) throws Exception {
 		dao.update(vo);
 	};
+
+	public MemberVO findId(String mName, String mEmail) throws Exception {
+		return dao.findId(mName, mEmail);
+	};
+
+	public MemberVO findPw(String mId, String mEmail) throws Exception {
+		return dao.findPw(mId, mEmail);
+	};
 }

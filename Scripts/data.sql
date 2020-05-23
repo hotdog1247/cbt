@@ -12,6 +12,9 @@ insert into subject values
 (2, 1, '리눅스 운영 및 관리'),
 (2, 2, '리눅스 활용');
 
+insert into member values
+('hotdog', 'mrk1109', '이상원', 'ku0788@naver.com', 1);
+
 -- exam 문제 테이블을 csv file에서 데이터 불러옴
 desc exam;
 load data local infile 'C:/Users/lenovo/Desktop/cbt/exam_data.csv'

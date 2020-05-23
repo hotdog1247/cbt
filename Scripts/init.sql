@@ -89,7 +89,8 @@ CREATE TABLE cbt_project.member (
 	m_id       VARCHAR(15) NOT NULL COMMENT '회원아이디', -- 회원아이디
 	m_password VARCHAR(20) NOT NULL COMMENT '회원비밀번호', -- 회원비밀번호
 	m_name     VARCHAR(20) NOT NULL COMMENT '회원이름', -- 회원이름
-	m_email    VARCHAR(50) NOT NULL COMMENT '회원이메일' -- 회원이메일
+	m_email    VARCHAR(50) NOT NULL COMMENT '회원이메일', -- 회원이메일
+	m_admin    TINYINT     NOT NULL DEFAULT 0 COMMENT '관리자유무' -- 관리자유무
 )
 COMMENT '회원';
 
@@ -99,6 +100,12 @@ ALTER TABLE cbt_project.member
 		PRIMARY KEY (
 			m_id -- 회원아이디
 		);
+
+-- 회원 유니크 인덱스
+CREATE UNIQUE INDEX UIX_member
+	ON cbt_project.member ( -- 회원
+		m_email ASC -- 회원이메일
+	);
 
 -- 오답
 CREATE TABLE cbt_project.incorrect (
