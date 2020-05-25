@@ -83,3 +83,5 @@ select * from board b;
 select * from board b left join member m on b.m_id=m.m_id;
 update board set view_cnt=0+1 where b_no=1 and m_id='hotdog';
 update board set view_cnt=0 where b_no=1 and m_id='hotdog';
+
+select * from member;

@@ -10,26 +10,22 @@ public class TestResultVO {
 	private boolean rPass;
 	private int rScore;
 	private int rExCnt;
+	private int rTime;
 
 	public TestResultVO() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public TestResultVO(int rNo) {
-		super();
 		this.rNo = rNo;
 	}
 
 	public TestResultVO(int rNo, MemberVO mId, TestVO tNo) {
-		super();
 		this.rNo = rNo;
 		this.mId = mId;
 		this.tNo = tNo;
 	}
 
 	public TestResultVO(int rNo, MemberVO mId, TestVO tNo, Date rDate, boolean rPass, int rScore, int rExCnt) {
-		super();
 		this.rNo = rNo;
 		this.mId = mId;
 		this.tNo = tNo;
@@ -37,6 +33,17 @@ public class TestResultVO {
 		this.rPass = rPass;
 		this.rScore = rScore;
 		this.rExCnt = rExCnt;
+	}
+
+	public TestResultVO(int rNo, MemberVO mId, TestVO tNo, Date rDate, boolean rPass, int rScore, int rExCnt, int rTime) {
+		this.rNo = rNo;
+		this.mId = mId;
+		this.tNo = tNo;
+		this.rDate = rDate;
+		this.rPass = rPass;
+		this.rScore = rScore;
+		this.rExCnt = rExCnt;
+		this.rTime = rTime;
 	}
 
 	public int getrNo() {
@@ -95,10 +102,18 @@ public class TestResultVO {
 		this.rExCnt = rExCnt;
 	}
 
+	public int getrTime() {
+		return rTime;
+	}
+
+	public void setrTime(int rTime) {
+		this.rTime = rTime;
+	}
+
 	@Override
 	public String toString() {
 		return "TestResultVO [rNo=" + rNo + ", mId=" + mId + ", tNo=" + tNo + ", rDate=" + rDate + ", rPass=" + rPass
-				+ ", rScore=" + rScore + ", rExCnt=" + rExCnt + "]";
+				+ ", rScore=" + rScore + ", rExCnt=" + rExCnt + ", rTime=" + rTime + "]";
 	}
 
 }

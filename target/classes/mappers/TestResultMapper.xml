@@ -12,6 +12,7 @@
 		<id property="tName" column="t_name"/>
 		<id property="tYear" column="t_year"/>
 		<id property="tOrder" column="t_order"/>
+		<id property="tTime" column="t_time"/>
 	</resultMap>
 	<resultMap type="TestResultVO" id="testResultResult">
 		<id property="rNo" column="r_no"/>
@@ -19,6 +20,7 @@
 		<id property="rPass" column="r_pass"/>
 		<id property="rScore" column="r_score"/>
 		<id property="rExCnt" column="r_ex_cnt"/>
+		<id property="rTime" column="r_time"/>
 		<association property="mId" column="m_id" resultMap="memberResult"/>
 		<association property="tNo" column="t_no" resultMap="testResult"/>
 	</resultMap>

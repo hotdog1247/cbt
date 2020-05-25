@@ -144,6 +144,7 @@ public class ExamController {
 		double rScore2 = (((double)nonIncorrect/rExCnt)*100);
 		int rScore = (int)rScore2;
 		testResultService.insert(new TestResultVO(0, mem, tNo, new Date(), rPass, rScore, rExCnt));
+//		testResultService.insert(new TestResultVO(0, mem, tNo, new Date(), rPass, rScore, rExCnt));
 		int rCnt = testResultService.lastRNo2();
 		System.out.println("rCnt : "+rCnt);
 		TestResultVO tr = testResultService.readByNo(rCnt);

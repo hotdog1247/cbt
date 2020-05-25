@@ -19,4 +19,6 @@ public interface MemberDAO {
 	public MemberVO findId(String mName, String mEmail) throws Exception;
 
 	public MemberVO findPw(String mId, String mEmail) throws Exception;
+	
+	public MemberVO overlapMember(MemberVO vo) throws Exception;
 }

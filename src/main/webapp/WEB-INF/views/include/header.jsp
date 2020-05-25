@@ -18,7 +18,7 @@
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
       <header class="main-header">
-        <a href="${pageContext.request.contextPath }/resources/index2.html" class="logo">
+        <a href="${pageContext.request.contextPath }/" class="logo">
           <span class="logo-mini">TEST</span>
           <span class="logo-lg"><b>CBT</b> TEST</span>
         </a>
@@ -77,7 +77,7 @@
         </section>
       </aside>
       <div class="content-wrapper">
-        <section class="content-header">
-        </section>
+        <!-- <section class="content-header">
+        </section> -->
 	
 	

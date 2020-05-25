@@ -40,4 +40,8 @@ public class MemberService {
 	public MemberVO findPw(String mId, String mEmail) throws Exception {
 		return dao.findPw(mId, mEmail);
 	};
+	
+	public MemberVO overlapMember(MemberVO vo) throws Exception{
+		return dao.overlapMember(vo);
+	};
 }

@@ -130,20 +130,12 @@ public class MemberController {
 		}
 		return entity;
 	}
-//	@RequestMapping(value = "member/incorrectEx", method = RequestMethod.GET)
-//	public String incorrectExGet(Model model, HttpSession session) throws Exception {
-//		MemberVO mId = memberService.readByNo((String)session.getAttribute("Auth"));
-//		
-//		return null;
-//	}
+
 	@ResponseBody
 	@RequestMapping(value = "member/find", method = RequestMethod.GET)
 	public ResponseEntity<MemberVO> find(MemberVO vo) throws Exception {
-		System.out.println("find에 들어왔냐");
-		System.out.println("vo : "+vo.toString());
 		ResponseEntity<MemberVO> entity = null;
 		if(vo.getmName() != null) {
-			System.out.println("아이디 찾기냐");
 			MemberVO m = findId(vo);
 			if(m == null) {
 				entity = new ResponseEntity<MemberVO>(HttpStatus.NOT_FOUND);
@@ -151,7 +143,6 @@ public class MemberController {
 			entity = new ResponseEntity<MemberVO>(m,HttpStatus.OK);
 		}
 		else if(vo.getmId() != null) {
-			System.out.println("비밀번호 찾기냐");
 			MemberVO m = findPw(vo);
 			if(m == null) {
 				entity = new ResponseEntity<MemberVO>(HttpStatus.NOT_FOUND);
@@ -161,7 +152,6 @@ public class MemberController {
 		else {
 			entity = new ResponseEntity<MemberVO>(HttpStatus.BAD_REQUEST);
 		}
-		System.out.println("다 되었냐");
 		return entity;
 	}
 	
@@ -170,7 +160,6 @@ public class MemberController {
 		if(vo2 == null) {
 			return null;
 		}
-		System.out.println("id : "+vo2.toString());
 		return vo2;
 	}
 	private MemberVO findPw(MemberVO vo) throws Exception {
@@ -178,10 +167,30 @@ public class MemberController {
 		if(vo2 == null) {
 			return null;
 		}
-		else {
-			
-		}
-		System.out.println("pw : "+vo2.toString());
 		return vo2;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "member/overlap", method = RequestMethod.GET)
+	public ResponseEntity<MemberVO> overlap(MemberVO vo) throws Exception {
+		ResponseEntity<MemberVO> entity = null;
+		if(vo.getmId() != null) {
+			MemberVO m = memberService.overlapMember(vo);
+			if(m == null) {
+				entity = new ResponseEntity<MemberVO>(HttpStatus.NOT_FOUND);
+			}
+			entity = new ResponseEntity<MemberVO>(m,HttpStatus.OK);
+		}
+		else if(vo.getmEmail() != null) {
+			MemberVO m = memberService.overlapMember(vo);
+			if(m == null) {
+				entity = new ResponseEntity<MemberVO>(HttpStatus.NOT_FOUND);
+			}
+			entity = new ResponseEntity<MemberVO>(m,HttpStatus.OK);
+		}
+		else {
+			entity = new ResponseEntity<MemberVO>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 }

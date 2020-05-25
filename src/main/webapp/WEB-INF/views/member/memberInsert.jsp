@@ -5,41 +5,55 @@
 <html><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 	$(function () {
-		$("form").submit(function() {
-			var idReg = /^[a-b]*{1}[a-b0-9]*{5,15}$/i;
-			var pwReg = /^[a-b0-9]*{8,20}$/i;
-			var nameReg = /^[가-힣]*{2,5}$/i;
+		$(".joinMem").click(function() {
+			var idReg = /^[a-z0-9]{5,15}$/i;
+			var pwReg = /^[a-z0-9]{8,20}$/i;
+			var nameReg = /^[가-힣]{2,5}$/i;
 			var idc = $("input[name='mId']").val();
 			var pwc = $("input[name='mPassword']").val();
 			var namec = $("input[name='mName']").val();
-			if($("input[name='mId']").val() typeof null){
-				alert("아이디 입력");
-				return false;
-			}
-			if($("input[name='mPassword']").val() typeof null){
-				alert("비밀번호 입력");
-				return false;
-			}
-			if($("input[name='mId']").val() typeof null){
-				alert("이름 입력");
-				return false;
-			}
-			if($("input[name='mId']").val() typeof null){
-				alert("email 입력");
-				return false;
-			}
-			if(idReg.test(idc)){
+			if(idReg.test(idc)==false){
 				alert("아이디가 조건에 맞지 않습니다");
 				return false;
 			}
-			if(pwReg.test(pwc)){
+			if(!pwReg.test(pwc)){
 				alert("비밀번호가 조건에 맞지 않습니다");
 				return false;
 			}
-			if(nameReg.test(namec)){
+			if(!nameReg.test(namec)){
 				alert("이름이 조건에 맞지 않습니다");
 				return false;
 			}
+		})
+		$(".checkId").click(function() {
+			var id = $("input[name='mId']").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/overlap",
+				type:"get",
+				data:{
+					mId: id
+				},
+				dataType:"json",
+				success:function(res){
+					console.log(res);
+					alert("아이디 중복이다.");
+				}
+			})
+		})
+		$(".checkEmail").click(function() {
+			var email = $("input[name='mEmail']").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/overlap",
+				type:"get",
+				data:{
+					mEmail: email
+				},
+				dataType:"json",
+				success:function(res){
+					console.log(res);
+					alert("이메일 중복이다.");
+				}
+			})			
 		})
 	})
 </script>
@@ -60,25 +74,32 @@
   		</div>
   		<div class="login-box-body">
   			<form action="${pageContext.request.contextPath }/member/insert" method="post">
-  				<div class="form-group has-feedback">
-  					<input type="text" name="mId" class="form-control" placeholder="회원 ID">
-  					<span class="glyphicon glyphicon-heart form-control-feedback"></span>
+  				<div class="form-group has-feedback row">
+  					<div class="col-xs-8">
+  						<input type="text" name="mId" class="form-control" placeholder="회원 ID">
+  					</div>
+  					<div class="col-xs-4">
+  						<button type="button" class="btn btn-primary form-control checkId">중복확인</button>
+  						<!-- <label><input type="checkbox" checked="checked">확인완료</label> -->
+  					</div>
   				</div>
   				<div class="form-group has-feedback">
   					<input type="password" name="mPassword" class="form-control" placeholder="회원 비밀번호">
-  					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
   				</div>
   				<div class="form-group has-feedback">
   					<input type="text" name="mName" class="form-control" placeholder="회원이름">
-  					<span class="glyphicon glyphicon-pencil form-control-feedback"></span>
   				</div>
-  				<div class="form-group has-feedback">
-  					<input type="email" name="mEmail" class="form-control" placeholder="회원 Email">
-  					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+  				<div class="form-group has-feedback row">
+  					<div class="col-xs-8">
+						<input type="email" name="mEmail" class="form-control" placeholder="회원 Email">  					
+  					</div>
+  					<div class="col-xs-4">
+  						<button type="button" class="btn btn-primary form-control checkEmail">중복확인</button>
+  					</div>
   				</div>
   				<div class="row">
   					<div class="col-xs-12 col">
-  						<input type="submit" class="btn btn-primary btn-block btn-flat" value="회원가입">
+  						<input type="submit" class="btn btn-primary btn-block btn-flat joinMem" value="회원가입">
   					</div>
   				</div>
   			</form>

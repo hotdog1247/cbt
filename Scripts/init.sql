@@ -9,7 +9,8 @@ CREATE TABLE cbt_project.test (
 	t_no    INT         NOT NULL COMMENT '시험번호', -- 시험번호
 	t_name  VARCHAR(20) NOT NULL COMMENT '시험명', -- 시험명
 	t_year  INT         NOT NULL COMMENT '년도', -- 년도
-	t_order INT         NOT NULL COMMENT '차수' -- 차수
+	t_order INT         NOT NULL COMMENT '차수', -- 차수
+	t_time  INT         NULL     COMMENT '제한시간' -- 제한시간
 )
 COMMENT '시험';
 
@@ -70,7 +71,8 @@ CREATE TABLE cbt_project.test_result (
 	r_date   DATE        NOT NULL COMMENT '응시날짜', -- 응시날짜
 	r_pass   TINYINT     NULL     COMMENT '합격여부', -- 합격여부
 	r_score  INT         NOT NULL COMMENT '점수', -- 점수
-	r_ex_cnt INT         NOT NULL COMMENT '갯수' -- 갯수
+	r_ex_cnt INT         NOT NULL COMMENT '갯수', -- 갯수
+	r_time   INT         NULL     COMMENT '시험시간' -- 시험시간
 )
 COMMENT '시험결과현황';
 

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yi.domain.BoardVO;
-import com.yi.domain.MemberVO;
 import com.yi.domain.SearchCriteria;
 import com.yi.persistence.BoardDAO;
 

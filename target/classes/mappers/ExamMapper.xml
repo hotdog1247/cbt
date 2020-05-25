@@ -6,6 +6,7 @@
 		<id property="tName" column="t_name"/>
 		<id property="tYear" column="t_year"/>
 		<id property="tOrder" column="t_order"/>
+		<id property="tTime" column="t_time"/>
 	</resultMap>
 	<resultMap type="SubjectVO" id="subjectResult">
 		<id property="sNo" column="s_no"/>

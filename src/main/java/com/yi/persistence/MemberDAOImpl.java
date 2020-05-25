@@ -61,4 +61,9 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(namespace+"findPw", map);
 	}
 
+	@Override
+	public MemberVO overlapMember(MemberVO vo) throws Exception {
+		return sqlSession.selectOne(namespace+"overlapMember", vo);
+	}
+
 }

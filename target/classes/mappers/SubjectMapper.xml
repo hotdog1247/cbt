@@ -11,6 +11,7 @@
 		<id property="tName" column="t_name"/>
 		<id property="tYear" column="t_year"/>
 		<id property="tOrder" column="t_order"/>
+		<id property="tTime" column="t_time"/>
 	</resultMap>
 	<select id="readByNo" resultMap="subjectResult">
 		select * from subject s join test t on s.t_no = t.t_no  where t.t_no=#{tNo.tNo} and s.s_no=#{sNo.sNo}

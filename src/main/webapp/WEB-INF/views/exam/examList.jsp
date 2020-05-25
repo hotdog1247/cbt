@@ -8,45 +8,61 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	#container{
-		width: 1000px;
-		margin: 0 auto;	
+	::-webkit-scrollbar {
+		width: 14px;
+	}
+	::-webkit-scrollbar-track {
+		background-color: #b46868;
+		border-radius: 9px;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: #6c8927;
+		border-radius: 9px;
+	}
+	body{
+		margin: 0;
+		padding:0;
 	}
 	.exWrap{
-		margin: 10px;
-		border: 1px solid steelblue;
-		width: 650px;
+		width: 1200px;
+		margin: 20px;
 		float: left;
-		padding: 5px;
+		padding: 15px auto;
+		font-size: 1.5em;
 	}
 	#container1{
-		width: 700px;
-		height:390px;		
+		width: 1300px;
+		height:600px;		
 		float: left;
-		background-color: steelblue;
+		background-color: #003b32;
+		border: 15px outset #572313;
 		color: white;
 	}
 	#exams{
-		height:300px;
+		height:570px;
 		overflow: auto;
 	}
 	#container2{
-		width: 200px;
-		height:400px;
+		width: 300px;
+		height:600px;
 		color:white;
 		float: right;
-		background-color: steelblue;
+		border: 15px outset #572313;
+		background-color: #003b32;
+		font-size: 1.5em;
+	}
+	#container2 input[type='radio']{
+		margin: 10px;
 	}
 	#container2>form>p>input{
 		width: 100px;
 		display:block;
 		margin: 0 auto;
-		border: 1px solid steelblue;
-		color: steelblue;
-		background-color: white;
-		padding: 5px 10px;
+		color: white;
+		background-color: #b48464;
+		padding: 10px 10px;
 		font-size: 1.5rem;
-		border-radius: 15%;
+		border: 5px outset #572313;
 	}
 	.box-footer{
 		clear: both;
@@ -56,14 +72,14 @@
 		list-style: none;
 		float: left;
 		margin: 15px;
+		border: 5px outset #572313;
+		background-color:#b48464; 
 	}
 	.box-footer li a{
 		text-decoration: none;
-		color: steelblue;
+		color: #003b32;
 		font-size: 1.5rem;
-	}
-	.active{
-		color: green;
+		background-color:#b48464;
 	}
 	#titleExam{
 		text-align: center;
@@ -72,15 +88,58 @@
 		text-align: center;
 	}
 	#container2_exam{
-		height:400px;
+		height:570px;
 		overflow:auto;
+	}
+	#titleExam{
+		padding: 10px;
+		font-weight: bold;
+	}
+	#examTime{
+		text-align: right;
+		padding-right: 100px;
+		font-weight: bold; 
+	}
+	div.content{
+		background: #b48464;
+	}
+	div.box-footer{
+		background: #003b32;
+		border: 15px outset #572313; 
+	}
+	div.box-footer{
+	
+	}
+	#exBtn{
+		position: absolute;
+		top: 815px;
+		right: 100px;
+	}
+	a.idx{
+		background-color: red;
+		display: block;
+		color: red;
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
+	var setTime = ${tNo.tTime};
+	function ex_time() {
+		var hourEx = Math.floor(setTime/3600);
+		var minEx = Math.floor((setTime%3600)/60);
+		var m = hourEx+":"+minEx+":"+(setTime%60);
+		$("#examTime").html(m);
+		setTime--;
+		if (setTime < 0) {		
+			clearInterval(tid);
+			alert("종료");
+		}
+	}
 	var examCnt = new Array();
 	var examCnt2 = new Array();
 	$(function() {
+		window.onload = function TimerStart(){ tid=setInterval('ex_time()',1000) };
+		
 		$(document).on("click", ".contentChk", function() {/* 문제 체크시 */
 			var chk = $(this).val();
 			var eNo = $(this).parent().parent().find(".eNo").text();
@@ -177,10 +236,16 @@
 	})
 </script>
 <%@ include file="../include/header.jsp" %>
-<div class="content">
-	<div id="container">	
-		<div id="container1">
-			<h1 id="titleExam">${tNo.tName}</h1>
+	<div class="content">
+		<div class="row">	
+			<div class="col-xs-8">
+				<h1 id="titleExam">${tNo.tYear}년도 ${tNo.tOrder}차 ${tNo.tName}</h1>
+			</div>
+			<div class="col-xs-4">
+				<h1 id="examTime"></h1>
+			</div>
+		</div>
+		<div id="container1" class="style-1">
 			<div id="exams">
 				<c:forEach var="exam" items="${selectList}">
 					<div class="exWrap ${exam.eNo%2==0?'right':'left' }">
@@ -195,15 +260,6 @@
 							</div>
 				</c:forEach>
 			</div>
-			<div class="box-footer">
-				<div class="text-center">
-					<ul class="pagination">
-						<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-							<li><a href="#" class="idx">${idx }</a></li>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
 		</div>
 		<div id="container2">
 			<form action="listPage" method="post" id="examSubmit">
@@ -216,17 +272,25 @@
 							<input type="radio" name="eNo${exam.eNo}" value="2" class="contentChk2" data-eno="${exam.eNo}">
 							<input type="radio" name="eNo${exam.eNo}" value="3" class="contentChk2" data-eno="${exam.eNo}">
 							<input type="radio" name="eNo${exam.eNo}" value="4" class="contentChk2" data-eno="${exam.eNo}">
-							<c:if test="${exam.eNo%5==0}">
+							<c:if test="${exam.eNo%10==0}">
 								<hr>
 							</c:if>
 						</p>
 					</c:forEach>
 				</div>
-				<p>
+				<p id="exBtn">
 					<input type="submit" value="제출" id="resultSubmit">
 				</p>
 			</form>
 		</div>
+		<div class="box-footer">
+			<div class="text-center">
+				<ul class="pagination">
+					<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+						<li><a href="#" class="idx">${idx }</a></li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
 	</div>
-</div>
 <%@ include file="../include/footer.jsp" %>

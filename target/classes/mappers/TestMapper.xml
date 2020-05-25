@@ -8,7 +8,7 @@
 		select * from test
 	</select>
 	<insert id="insert">
-		insert into test values (#{tNo}, #{tName}, #{tYear}, #{tOrder})
+		insert into test values (#{tNo}, #{tName}, #{tYear}, #{tOrder}, #{tTime})
 	</insert>
 	<delete id="delete">
 		delete from test where t_no=#{tNo}
