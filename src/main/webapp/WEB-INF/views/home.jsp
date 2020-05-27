@@ -8,17 +8,12 @@
 		padding:0;
 	}
 	#container1{
-		width: 1300px;
+		width: 1650px;
 		margin:0 auto;
-		height:600px;		
-		float: left;
+		height:800px;		
 		background-color: #003b32;
 		border: 15px outset #572313;
 		color: white;
-	}
-	#exams{
-		height:570px;
-		overflow: auto;
 	}
 	div.content{
 		background: #b48464;
@@ -27,20 +22,15 @@
 </style>
 	<div class="content">
 		<div id="container1">
-			<div id="exams">
-				<c:forEach var="exam" items="${selectList}">
-					<div class="exWrap ${exam.eNo%2==0?'right':'left' }">
-						<p><span class="eNo">${exam.eNo }</span>. ${exam.eName }</p>
-								<c:if test="${0 ne exam.eDescription}">
-									<p><img src="${pageContext.request.contextPath}/displayFile?fileName=${exam.tNo.tYear}_${exam.tNo.tOrder}_${exam.tNo.tName}/img/${exam.eNo}.png" class="eDescription"></p>
-								</c:if>
-								<p><input type="radio" name="${exam.eNo}a" value="1" class="contentChk"><span class="content">${exam.eContent }</span></p>
-								<p><input type="radio" name="${exam.eNo}a" value="2" class="contentChk"><span class="content">${exam.eContent2 }</span></p>
-								<p><input type="radio" name="${exam.eNo}a" value="3" class="contentChk"><span class="content">${exam.eContent3 }</span></p>
-								<p><input type="radio" name="${exam.eNo}a" value="4" class="contentChk"><span class="content">${exam.eContent4 }</span></p>
-							</div>
-				</c:forEach>
-			</div>
+			<h1>${Auth }님 환영합니다.</h1>
+			<br><br>
+			<c:if test="${admin!=3 }">
+				<h2>주의사항 및 메뉴를 설명드리겠습니다.</h2>
+				<h2>첫 번째로 문제풀기를 통해 문제를 푸실 수 있고 제한시간 내 푸시지 않으시면 강제로 문제제출이 됩니다.</h2>	
+				<h2>두 번째로  시험현황 및 오답노트는 푸셨던 시험현황과 합격유무 및 세부과목들의 점수, 그리고 오답을 보실 수 있습니다.</h2>	
+				<h2>마지막으로 자유게시판은 자유 이용이나 욕설은 회원박탈입니다.</h2>	
+				<h2>주의사항 조심해주시고 즐거운 하루되시길 바랍니다.</h2>
+			</c:if>
 		</div>
 	</div>
 <%@ include file="include/footer.jsp" %>

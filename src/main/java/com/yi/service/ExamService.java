@@ -49,7 +49,7 @@ public class ExamService {
 		return dao.subjectExam(tNo, sNo);
 	}
 
-	public void eAnswerRateUpdate(ExamVO e) throws Exception{
-		dao.eAnswerRateUpdate(e);
+	public void viewExamUpdate(ExamVO e, int answer) throws Exception{
+		dao.viewExamUpdate(e, answer);
 	};
 }

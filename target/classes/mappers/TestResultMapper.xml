@@ -31,7 +31,7 @@
 		select * from test_result tr left join test t on tr.t_no = t.t_no left join member m on tr.m_id = m.m_id where tr.t_no=#{tNo.tNo}
 	</select>
 	<insert id="insert">
-		insert into test_result (m_id, t_no, r_date, r_pass, r_score, r_ex_cnt) values (#{mId.mId}, #{tNo.tNo}, #{rDate}, #{rPass}, #{rScore}, #{rExCnt})
+		insert into test_result (m_id, t_no, r_date, r_pass, r_score, r_ex_cnt, r_time) values (#{mId.mId}, #{tNo.tNo}, #{rDate}, #{rPass}, #{rScore}, #{rExCnt}, #{rTime})
 	</insert>
 	<delete id="delete">
 		delete from test_result where r_no=#{rNo}

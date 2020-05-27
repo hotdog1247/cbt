@@ -72,7 +72,7 @@
            	<li><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-edit"></i>시험현황 및 오답노트</a></li>
             <li><a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-book"></i> <span>자유게시판</span></a></li>
             <c:if test="${admin==3 }">
-            	<li><a href="${pageContext.request.contextPath }/test/add"><i class="fa fa-book"></i> <span>문제만들기</span></a></li>
+            	<li><a href="${pageContext.request.contextPath }/test/add"><i class="fa fa-edit"></i> <span>문제만들기</span></a></li>
             </c:if>
           </ul>
         </section>

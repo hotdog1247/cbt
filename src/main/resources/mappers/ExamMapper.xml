@@ -24,6 +24,7 @@
 		<id property="eAnswer" column="e_answer"/>
 		<id property="eSolving" column="e_solving"/>
 		<id property="eAnswerRate" column="e_answer_rate"/>
+		<id property="eViewCnt" column="e_view_cnt"/>
 		<association property="tNo" column="t_no" resultMap="testResult"/>
 		<association property="sNo" column="s_no" resultMap="subjectResult"/>
 	</resultMap>
@@ -55,7 +56,7 @@
 	<select id="subjectExam" resultMap="examResult">
 		select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.t_no=#{tNo.tNo} and e.s_no=#{sNo.sNo}
 	</select>
-	<update id="eAnswerRateUpdate">
-		update exam set e_answer_rate= (e_answer_rate/(+1))*100 where e_no=#{eNo} 
+	<update id="viewExamUpdate">
+		update exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no set e_view_cnt= e_view_cnt+1, e_answer_rate=#{answer}+e_answer_rate where e_no=#{eNo} and e.t_no=#{tNo.tNo} and e.s_no=#{sNo.sNo}
 	</update>
 </mapper>

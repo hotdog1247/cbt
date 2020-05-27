@@ -77,7 +77,10 @@ public class ExamDAOImpl implements ExamDAO {
 	}
 
 	@Override
-	public void eAnswerRateUpdate(ExamVO e) throws Exception {
-		sqlSession.update(namespace+"eAnswerRateUpdate", e);
+	public void viewExamUpdate(ExamVO e, int answer) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("e", e);
+		map.put("answer", answer);
+		sqlSession.update(namespace+"viewExamUpdate", map);
 	}
 }

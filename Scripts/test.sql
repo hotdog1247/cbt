@@ -93,3 +93,7 @@ select 1/4*100;
 select 2/4*100;
 
 select (0/(+1))*100;
+
+select * from exam;
+
+select * from test_result tr ;

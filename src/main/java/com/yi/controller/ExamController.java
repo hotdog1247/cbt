@@ -99,6 +99,7 @@ public class ExamController {
 	@RequestMapping(value = "/exam/listPage", method = RequestMethod.POST)
 	public String examPagePost(@RequestParam(required = false, defaultValue = "0") Map<String, Object> map, Model model, HttpSession session) throws Exception {
 		String tNo3 = (String) map.get("tNo");
+		int rTime = Integer.parseInt((String)map.get("rTime"));
 		int tNo2 = Integer.parseInt(tNo3);
 		List<Object> eNo = new ArrayList<Object>();
 		List<Object> sNo = new ArrayList<Object>();
@@ -143,7 +144,7 @@ public class ExamController {
 		MemberVO mem = memberService.readByNo(mId);
 		double rScore2 = (((double)nonIncorrect/rExCnt)*100);
 		int rScore = (int)rScore2;
-		testResultService.insert(new TestResultVO(0, mem, tNo, new Date(), rPass, rScore, rExCnt));
+		testResultService.insert(new TestResultVO(0, mem, tNo, new Date(), rPass, rScore, rExCnt, rTime));
 		int rCnt = testResultService.lastRNo2();
 		TestResultVO tr = testResultService.readByNo(rCnt);
 		for (SubjectVO s : subject) {
@@ -152,14 +153,18 @@ public class ExamController {
 				if (map.get("eNo" + e.geteNo() + "") == null) {
 					int checkingval = 0;
 					rIncorrect = checkingval;
-					examService.eAnswerRateUpdate(e);
 				} else {
 					int checkingval = Integer.parseInt((String) map.get("eNo" + e.geteNo() + ""));
 					rIncorrect = checkingval;
 				}
 				if(e.geteAnswer() != rIncorrect) {
 					incorrectService.insert(new IncorrectVO(0, tr, e.geteNo(), rIncorrect, e.geteSolving()));
+					examService.viewExamUpdate(e, 0);
 				}
+				else {
+					examService.viewExamUpdate(e, 1);
+				}
+				System.out.println("exam : "+e.toString());
 			}
 		}
 		model.addAttribute("exam", eNo);

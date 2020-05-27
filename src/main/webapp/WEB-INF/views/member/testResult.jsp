@@ -23,6 +23,100 @@
 		width: 400px;
 		overflow: auto;
 	}
+	hr{
+		clear: both;
+	}
+	.sub p{
+		float: left;
+		text-align: center;
+	}
+	.sub p:first-child{
+		width: 140px;
+	}
+	.sub p:nth-child(2){
+		width: 100px;
+	}
+	.sub p:nth-child(3){
+		width: 100px;
+	}	
+	::-webkit-scrollbar {
+		width: 14px;
+	}
+	::-webkit-scrollbar-track {
+		background-color: #b46868;
+		border-radius: 9px;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: #6c8927;
+		border-radius: 9px;
+	}
+	div.content{
+		background: #b48464;
+		min-height: 901px;
+	}
+	.examTable{
+		width:1260px;
+		background-color: #003b32;
+		border: 15px outset #572313;
+		color: white;
+		height: 600px;
+		overflow: auto;
+		float: left;
+	}
+	.examTable div{
+		overflow: hidden;
+	}
+	.examTable p{
+		text-align: center;
+		height:50px;
+		line-height : 50px;
+		float: left;
+		font-size: 1.5em;
+	}
+	.examTable div:first-child p{
+		font-size: 2em;
+		padding-top: 15px;
+	}	
+	.examTable div p:first-child {
+		width: 90px;
+	}	
+	.examTable div p:nth-child(2) {
+		width: 100px;
+	}	
+	.examTable div p:nth-child(3) {
+		width: 200px;
+	}	
+	.examTable div p:nth-child(4) {
+		width: 140px;
+	}	
+	.examTable div p:nth-child(5) {
+		width: 140px;
+	}	
+	.examTable div p:nth-child(6) {
+		width: 90px;
+	}	
+	.examTable div p:nth-child(7) {
+		width: 150px;
+	}	
+	.examTable div p:nth-child(8) {
+		width: 150px;
+	}	
+	.examTable div p:last-child{
+		width: 150px;
+	}
+	.examTable div p button{
+		border: 5px outset #572313;
+		background: #b48464;
+		color: white;
+	}
+	#subScore{
+		float: right;
+		width: 370px;
+		height: 600px;
+		background-color: #003b32;
+		border: 15px outset #572313;
+		color: white;
+	}	
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
@@ -72,7 +166,7 @@
 			})
 	})
 	$(document).on("click", ".subject", function() {
-		$("#exams2").empty();
+		$("#subScore").empty();
 		var tNo = $(this).attr("data-tNo");
 		var rNo = $(this).attr("data-rNo");
 			$.ajax({
@@ -85,6 +179,16 @@
 				dataType:"json",
 				success:function(res){
 					console.log(res);
+					var $subName2 = $("<p>").text("과목이름");
+					var $score2 = $("<p>").text("점수");
+					var $sPass2 = $("<p>").text("과락여부");
+					var $hr = $("<hr>");
+					var $div2 = $("<div>").addClass("sub");
+					$div2.append($subName2);
+					$div2.append($score2);
+					$div2.append($sPass2);
+					$div2.append($hr);
+					$("#subScore").append($div2);
 					$.each(res[2], function(i, sub) {
 						var cnt = 0;
 						var cnt2 = 0;
@@ -111,56 +215,46 @@
 						$div.append($subName);
 						$div.append($score);
 						$div.append($sPass);
-						$("#exams2").append($div);
+						$("#subScore").append($div);
 					})
 				}
 			})
 	})
 </script>
-<style>
-	.examTable{
-		border-collapse: collapse;
-		border: 1px solid steelblue;
-		text-align: center;
-	}
-	.examTable td, .examTable th{
-		border: 1px solid steelblue;
-		padding: 5px;
-	}	
-</style>
 <div class="content">
-	<table class="examTable">
-		<tr>
-			<th>년도</th>
-			<th>차수</th>
-			<th>시험명</th>
-			<th>응시날짜</th>
-			<th>합격여부</th>
-			<th>점수</th>
-			<th>과목별점수</th>
-			<th>오답보기</th>
-		</tr>
-		<c:forEach var="list" items="${list }">
-			<tr>
-				<td>${list.tNo.tYear }</td>
-				<td>${list.tNo.tOrder }</td>
-				<td>${list.tNo.tName }</td>
-				<td><fmt:formatDate value="${list.rDate }" pattern="yyyy-MM-dd"/></td>
-				<td>${list.rPass }</td>
-				<td>${list.rScore }</td>
-				<td><button class="subject" data-tNo="${list.tNo.tNo}" data-rNo="${list.rNo}">보기</button></td>
-				<td><button class="incorrect" data-tNo="${list.tNo.tNo}" data-rNo="${list.rNo}">보기</button></td>				
-				<%-- <td>${list.rNo }</button></td> --%>				
-			</tr>
-		</c:forEach>
-	</table>
-	<div id="exams"></div>
-	<div id="exams2">
-<%-- 		<c:forEach var="incorrect" items="${incorrectList}">
-			<c:forEach items="${incorrect }" var="i">
-				<p>${i}</p>
+	<div id="resWrap">
+		<div class="examTable">
+			<c:if test="${not empty list}">
+				<div>
+					<p>년도</p>
+					<p>차수</p>
+					<p>시험명</p>
+					<p>응시날짜</p>
+					<p>합격여부</p>
+					<p>점수</p>
+					<p>시간</p>
+					<p>과목별점수</p>
+					<p>오답보기</p>
+				</div>
+				<hr>
+			</c:if>
+			<c:forEach var="list" items="${list }">
+				<div>
+					<p>${list.tNo.tYear }</p>
+					<p>${list.tNo.tOrder }</p>
+					<p>${list.tNo.tName }</p>
+					<p><fmt:formatDate value="${list.rDate }" pattern="yyyy-MM-dd"/></span>
+					<p>${list.rPass }</p>
+					<p>${list.rScore }</p>
+					<p><fmt:formatNumber value="${list.rTime/3600 }" pattern="0"/> : <fmt:formatNumber value="${(list.rTime%3600)/60 }" pattern="0"/> : <fmt:formatNumber value="${list.rTime%60 }" pattern="0"/></p>
+					<p><button class="subject" data-tNo="${list.tNo.tNo}" data-rNo="${list.rNo}">보기</button></p>
+					<p><button class="incorrect" data-tNo="${list.tNo.tNo}" data-rNo="${list.rNo}">보기</button></p>								
+				</div>
 			</c:forEach>
-		</c:forEach> --%>
+		</div>
+		<div id="subScore"></div>
 	</div>
+	<div id="exams"></div>
+	
 </div>
 <%@ include file="../include/footer.jsp" %>

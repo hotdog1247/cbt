@@ -130,6 +130,7 @@
 		if (setTime < 0) {		
 			clearInterval(tid);
 			alert("종료");
+			$("#examSubmit").submit();
 		}
 	}
 	var examCnt = new Array();
@@ -226,6 +227,8 @@
 		$(document).on("click", "#resultSubmit", function() {
 			var sizing = $(".contentChk2").size()/4;
 			var map = new Map();
+			var tTime = ${tNo.tTime};
+			$("input[name='rTime']").val(tTime-setTime);
 			for(var i=1; i<=sizing;i++){
 				var i = $(".contentChk2[name='b"+i+"']").eq(1).attr("data-eno");
 				var i2 = $(".contentChk2[name='b"+i+"']:checked").val();
@@ -267,6 +270,7 @@
 		<div id="container2">
 			<form action="listPage" method="post" id="examSubmit">
 				<input type="hidden" name="tNo" value="${tNo.tNo}">
+				<input type="hidden" name="rTime" value="">
 				<div id="container2_exam">
 					<c:forEach var="exam" items="${list}">
 						<p class="omr">

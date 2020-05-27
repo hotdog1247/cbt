@@ -7,7 +7,7 @@ CREATE SCHEMA cbt_project;
 -- 시험
 CREATE TABLE cbt_project.test (
 	t_no    INT         NOT NULL COMMENT '시험번호', -- 시험번호
-	t_name  VARCHAR(20) NOT NULL COMMENT '시험명', -- 시험명
+	t_name  VARCHAR(20) NOT NULL COMMENT '시험이름', -- 시험이름
 	t_year  INT         NOT NULL COMMENT '년도', -- 년도
 	t_order INT         NOT NULL COMMENT '차수', -- 차수
 	t_time  INT         NULL     COMMENT '제한시간' -- 제한시간
@@ -20,6 +20,9 @@ ALTER TABLE cbt_project.test
 		PRIMARY KEY (
 			t_no -- 시험번호
 		);
+
+ALTER TABLE cbt_project.test
+	MODIFY COLUMN t_no INT NOT NULL AUTO_INCREMENT COMMENT '시험번호';
 
 -- 과목
 CREATE TABLE cbt_project.subject (
@@ -50,7 +53,8 @@ CREATE TABLE cbt_project.exam (
 	e_content4    TEXT NULL     COMMENT '보기3', -- 보기3
 	e_answer      INT  NOT NULL COMMENT '답', -- 답
 	e_solving     TEXT NULL     COMMENT '해설', -- 해설
-	e_answer_rate INT  NULL     COMMENT '정답률' -- 정답률
+	e_answer_rate INT  NULL     COMMENT '정답수', -- 정답수
+	e_view_cnt    INT  NULL     COMMENT '조회수' -- 조회수
 )
 COMMENT '문제';
 
@@ -188,6 +192,20 @@ ALTER TABLE cbt_project.image
 			i_name -- 이미지이름
 		);
 
+-- 시험 이름
+CREATE TABLE cbt_project.test_name (
+	tn_no  VARCHAR(20) NOT NULL COMMENT '시험번호', -- 시험번호
+	t_name VARCHAR(20) NOT NULL COMMENT '시험명' -- 시험명
+)
+COMMENT '시험 이름';
+
+-- 시험 이름
+ALTER TABLE cbt_project.test_name
+	ADD CONSTRAINT PK_test_name -- 시험 이름 기본키
+		PRIMARY KEY (
+			tn_no -- 시험번호
+		);
+
 -- 과목
 ALTER TABLE cbt_project.subject
 	ADD CONSTRAINT FK_test_TO_subject -- 시험 -> 과목
@@ -208,6 +226,16 @@ ALTER TABLE cbt_project.exam
 		REFERENCES cbt_project.subject ( -- 과목
 			t_no, -- 시험번호
 			s_no  -- 과목번호
+		);
+
+-- 문제
+ALTER TABLE cbt_project.exam
+	ADD CONSTRAINT FK_test_TO_exam -- 시험 -> 문제
+		FOREIGN KEY (
+			t_no -- 시험번호
+		)
+		REFERENCES cbt_project.test ( -- 시험
+			t_no -- 시험번호
 		);
 
 -- 시험결과현황
@@ -269,7 +297,6 @@ ALTER TABLE cbt_project.reply
 		REFERENCES cbt_project.member ( -- 회원
 			m_id -- 회원아이디
 		);
-	
 -- 사용자 추가
 drop user if exists 'user_cbt_project'@'localhost';
 grant all privileges on cbt_project.* to 'user_cbt_project'@'localhost' identified by 'rootroot';

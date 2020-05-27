@@ -13,6 +13,7 @@ public class ExamVO {
 	private int eAnswer;
 	private String eSolving;
 	private int eAnswerRate;
+	private int eViewCnt;
 
 	public ExamVO() {
 	}
@@ -23,8 +24,8 @@ public class ExamVO {
 		this.eNo = eNo;
 	}
 
-	public ExamVO(TestVO tNo, SubjectVO sNo, int eNo, String eName, int eDescription, String eContent,
-			String eContent2, String eContent3, String eContent4, int eAnswer, String eSolving, int eAnswerRate) {
+	public ExamVO(TestVO tNo, SubjectVO sNo, int eNo, String eName, int eDescription, String eContent, String eContent2,
+			String eContent3, String eContent4, int eAnswer, String eSolving, int eAnswerRate, int eViewCnt) {
 		super();
 		this.tNo = tNo;
 		this.sNo = sNo;
@@ -38,6 +39,7 @@ public class ExamVO {
 		this.eAnswer = eAnswer;
 		this.eSolving = eSolving;
 		this.eAnswerRate = eAnswerRate;
+		this.eViewCnt = eViewCnt;
 	}
 
 	public TestVO gettNo() {
@@ -136,12 +138,20 @@ public class ExamVO {
 		this.eAnswerRate = eAnswerRate;
 	}
 
+	public int geteViewCnt() {
+		return eViewCnt;
+	}
+
+	public void seteViewCnt(int eViewCnt) {
+		this.eViewCnt = eViewCnt;
+	}
+
 	@Override
 	public String toString() {
 		return "ExamVO [tNo=" + tNo + ", sNo=" + sNo + ", eNo=" + eNo + ", eName=" + eName + ", eDescription="
 				+ eDescription + ", eContent=" + eContent + ", eContent2=" + eContent2 + ", eContent3=" + eContent3
 				+ ", eContent4=" + eContent4 + ", eAnswer=" + eAnswer + ", eSolving=" + eSolving + ", eAnswerRate="
-				+ eAnswerRate + "]";
+				+ eAnswerRate + ", eViewCnt=" + eViewCnt + "]";
 	}
 
 }
