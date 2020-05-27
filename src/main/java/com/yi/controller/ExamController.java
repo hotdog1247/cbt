@@ -144,24 +144,15 @@ public class ExamController {
 		double rScore2 = (((double)nonIncorrect/rExCnt)*100);
 		int rScore = (int)rScore2;
 		testResultService.insert(new TestResultVO(0, mem, tNo, new Date(), rPass, rScore, rExCnt));
-//		testResultService.insert(new TestResultVO(0, mem, tNo, new Date(), rPass, rScore, rExCnt));
 		int rCnt = testResultService.lastRNo2();
-		System.out.println("rCnt : "+rCnt);
 		TestResultVO tr = testResultService.readByNo(rCnt);
-		System.out.println("tr : "+tr.toString());
-//		for(Object o : eNo) {
-//			System.out.println("o : "+o.toString());
-//			System.out.println(eNo.get(1).getClass());
-//			o.
-//		}
-//		System.out.println("tr : "+tr.toString());
-//		incorrectService.insert(new IncorrectVO(0, , eNo, eIncorrect, eSolving));
 		for (SubjectVO s : subject) {
 			for (ExamVO e : examService.subjectExam(tNo, s)) {
 				int rIncorrect = 0;
 				if (map.get("eNo" + e.geteNo() + "") == null) {
 					int checkingval = 0;
 					rIncorrect = checkingval;
+					examService.eAnswerRateUpdate(e);
 				} else {
 					int checkingval = Integer.parseInt((String) map.get("eNo" + e.geteNo() + ""));
 					rIncorrect = checkingval;

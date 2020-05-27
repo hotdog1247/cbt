@@ -47,5 +47,9 @@ public class ExamService {
 	};
 	public List<ExamVO> subjectExam(TestVO tNo, SubjectVO sNo) throws Exception{
 		return dao.subjectExam(tNo, sNo);
+	}
+
+	public void eAnswerRateUpdate(ExamVO e) throws Exception{
+		dao.eAnswerRateUpdate(e);
 	};
 }

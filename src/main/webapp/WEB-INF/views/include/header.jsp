@@ -33,15 +33,13 @@
             <ul class="nav navbar-nav">
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="user-image" alt="User Image"/>
                   <span class="hidden-xs">${Auth }</span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="user-header">
-                    <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="img-circle" alt="User Image" />
-                    <p>
-                      ${Auth }
-                    </p>
+                    <h1>
+                      ${Auth}
+                    </h1>
                   </li>
                   <li class="user-footer">
                     <div class="pull-left">
@@ -61,18 +59,21 @@
         <section class="sidebar">
           <!-- Sidebar user panel -->
           <div class="user-panel">
-            <div class="pull-left image">
+            <%-- <div class="pull-left image">
               <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
               <p>${Auth }</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
+            </div> --%>
           </div>
           <ul class="sidebar-menu">
             <li><a href="${pageContext.request.contextPath }/test/list"><i class="fa fa-book"></i> <span>문제풀기</span></a></li>
            	<li><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-edit"></i>시험현황 및 오답노트</a></li>
             <li><a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-book"></i> <span>자유게시판</span></a></li>
+            <c:if test="${admin==3 }">
+            	<li><a href="${pageContext.request.contextPath }/test/add"><i class="fa fa-book"></i> <span>문제만들기</span></a></li>
+            </c:if>
           </ul>
         </section>
       </aside>

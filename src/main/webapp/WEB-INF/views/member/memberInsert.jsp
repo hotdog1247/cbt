@@ -36,7 +36,10 @@
 				dataType:"json",
 				success:function(res){
 					console.log(res);
-					alert("아이디 중복이다.");
+					alert("아이디 중복입니다.");
+				},
+				error:function(res){
+					alert("아이디 중복아닙니다.");
 				}
 			})
 		})
@@ -52,6 +55,9 @@
 				success:function(res){
 					console.log(res);
 					alert("이메일 중복이다.");
+				},
+				error:function(res){
+					alert("이메일 중복아닙니다.");
 				}
 			})			
 		})

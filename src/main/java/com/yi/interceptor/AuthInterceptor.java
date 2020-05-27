@@ -12,7 +12,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		HttpSession session = request.getSession();
 		Object object = session.getAttribute("Auth");
-		System.out.println("Auth()object : "+object);
 		if (object == null) {// login 안 한 경우
 			response.sendRedirect(request.getContextPath() + "/login");
 			return false;// controller 진입을 막음

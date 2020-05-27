@@ -6,6 +6,7 @@
 		<id property="mPassword" column="m_password"/>
 		<id property="mName" column="m_name"/>
 		<id property="mEmail" column="m_email"/>
+		<id property="mAdmin" column="m_admin"/>
 	</resultMap>
 	<select id="readByNo" resultType="MemberVO">
 		select * from member where m_id = #{mId}

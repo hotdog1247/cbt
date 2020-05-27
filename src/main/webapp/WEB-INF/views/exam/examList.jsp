@@ -107,18 +107,15 @@
 		background: #003b32;
 		border: 15px outset #572313; 
 	}
-	div.box-footer{
-	
-	}
 	#exBtn{
 		position: absolute;
 		top: 815px;
 		right: 100px;
 	}
 	a.idx{
-		background-color: red;
+		background-color: #b48464 !important;
 		display: block;
-		color: red;
+		color: white !important;
 	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -178,6 +175,10 @@
 			        	var target2 = $(".omr").find("input[name='eNo"+exam.eNo+"']:checked").eq();
  			            var $div = $("<div>").addClass("exWrap").addClass(exam.eNo%2==0?"right":"left");
  			            var $p1 = $("<p>").html("<span class='eNo'>"+exam.eNo+"</span>."+exam.eName+"");
+ 			           	console.log(exam.eDescription);
+ 			            if (exam.eDescription!=0){
+ 			           		var $img = $("<img>").attr("src", "${pageContext.request.contextPath}/displayFile?fileName="+exam.tNo.tYear+"_"+exam.tNo.tOrder+"_"+exam.tNo.tName+"/img/"+exam.eNo+".png");
+ 			           	}
 						if(typeof target == "undefined"){
 							var $p2 = $("<p>").html("<input type='radio' name='"+exam.eNo+"a' value='1' class='contentChk'><span class='content'>"+exam.eContent+"</span>");
  	 			            var $p3 = $("<p>").html("<input type='radio' name='"+exam.eNo+"a' value='2' class='contentChk'><span class='content'>"+exam.eContent2+"</span>");
@@ -211,12 +212,14 @@
 							}
 						}
  			            $div.append($p1);
+ 			            $div.append($img);
 			        	$div.append($p2);
 			        	$div.append($p3);
 			        	$div.append($p4);
 			        	$div.append($p5);			        	
  			            $('#exams').append($div);
 			        });
+			        $("#exams").find(".exWrap").eq(0).find("input").focus();
 				}
 			})
 		})

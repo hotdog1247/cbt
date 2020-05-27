@@ -55,4 +55,7 @@
 	<select id="subjectExam" resultMap="examResult">
 		select * from exam e join test t on e.t_no = t.t_no join subject s on e.s_no=s.s_no and e.t_no = s.t_no where e.t_no=#{tNo.tNo} and e.s_no=#{sNo.sNo}
 	</select>
+	<update id="eAnswerRateUpdate">
+		update exam set e_answer_rate= (e_answer_rate/(+1))*100 where e_no=#{eNo} 
+	</update>
 </mapper>

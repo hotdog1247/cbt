@@ -75,4 +75,9 @@ public class ExamDAOImpl implements ExamDAO {
 		map.put("sNo", sNo);
 		return sqlSession.selectList(namespace+"subjectExam", map);
 	}
+
+	@Override
+	public void eAnswerRateUpdate(ExamVO e) throws Exception {
+		sqlSession.update(namespace+"eAnswerRateUpdate", e);
+	}
 }

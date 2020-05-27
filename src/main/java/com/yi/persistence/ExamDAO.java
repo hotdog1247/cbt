@@ -25,4 +25,6 @@ public interface ExamDAO {
 	public int totalSearchCount(int tNo);
 	
 	public List<ExamVO> subjectExam(TestVO tNo, SubjectVO sNo) throws Exception;
+	
+	public void eAnswerRateUpdate(ExamVO e) throws Exception;
 }

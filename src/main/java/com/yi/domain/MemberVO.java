@@ -5,6 +5,7 @@ public class MemberVO {
 	private String mPassword;
 	private String mName;
 	private String mEmail;
+	private int mAdmin;
 
 	public MemberVO() {
 	}
@@ -18,6 +19,14 @@ public class MemberVO {
 		this.mPassword = mPassword;
 		this.mName = mName;
 		this.mEmail = mEmail;
+	}
+
+	public MemberVO(String mId, String mPassword, String mName, String mEmail, int mAdmin) {
+		this.mId = mId;
+		this.mPassword = mPassword;
+		this.mName = mName;
+		this.mEmail = mEmail;
+		this.mAdmin = mAdmin;
 	}
 
 	public String getmId() {
@@ -52,9 +61,18 @@ public class MemberVO {
 		this.mEmail = mEmail;
 	}
 
+	public int getmAdmin() {
+		return mAdmin;
+	}
+
+	public void setmAdmin(int mAdmin) {
+		this.mAdmin = mAdmin;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberVO [mId=" + mId + ", mPassword=" + mPassword + ", mName=" + mName + ", mEmail=" + mEmail + "]";
+		return "MemberVO [mId=" + mId + ", mPassword=" + mPassword + ", mName=" + mName + ", mEmail=" + mEmail
+				+ ", mAdmin=" + mAdmin + "]";
 	}
 
 }

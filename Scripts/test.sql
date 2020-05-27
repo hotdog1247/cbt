@@ -85,3 +85,11 @@ update board set view_cnt=0+1 where b_no=1 and m_id='hotdog';
 update board set view_cnt=0 where b_no=1 and m_id='hotdog';
 
 select * from member;
+
+select * from test t ;
+
+select 1/2*100;
+select 1/4*100;
+select 2/4*100;
+
+select (0/(+1))*100;
