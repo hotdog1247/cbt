@@ -4,20 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <style>
-	.incorrectEx:nth-child(2n){
-		border: 1px solid steelblue;
-		padding: 10px;
-		border: 5px;
-		width: 350px;
-		background-color: red;
-	}
-	.incorrectEx:nth-child(2n-1){
-		border: 1px solid steelblue;
-		padding: 10px;
-		border: 5px;
-		width: 350px;
-		background-color: green;
-	}
 	#exams{
 		height: 500px;
 		width: 400px;
@@ -29,6 +15,7 @@
 	.sub p{
 		float: left;
 		text-align: center;
+		font-size: 1.1em;
 	}
 	.sub p:first-child{
 		width: 140px;
@@ -59,7 +46,7 @@
 		background-color: #003b32;
 		border: 15px outset #572313;
 		color: white;
-		height: 600px;
+		height: 450px;
 		overflow: auto;
 		float: left;
 	}
@@ -112,10 +99,23 @@
 	#subScore{
 		float: right;
 		width: 370px;
-		height: 600px;
+		height: 450px;
 		background-color: #003b32;
 		border: 15px outset #572313;
 		color: white;
+	}
+	#exams{
+		background-color: #003b32;
+		border: 15px outset #572313;
+		color: white;
+		width: 1646px;
+		height: 400px;
+		overflow: auto;
+	}
+	.incorrectEx{
+		margin: 10px;
+		padding: 10px;
+		font-size: 1.5em;	
 	}	
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -132,6 +132,7 @@
 				},
 				dataType:"json",
 				success:function(res){
+					$("#exams").empty();
 					$.each(res[1], function(i, exam) {
 						$.each(res[0], function(i, incorrect) {
 							if(exam.eNo==incorrect.eNo){
@@ -139,7 +140,7 @@
 									if(exam.eDescription != 0){
  										var $img = $("<img>").attr("src","${pageContext.request.contextPath}/displayFile?fileName="+exam.tNo.tYear+"_"+exam.tNo.tOrder+"_"+exam.tNo.tName+"/img/"+exam.eNo+".png");
 									}
-									var $exSub = $("<p>").text(" => "+exam.sNo.sName+" <= ");
+									var $exSub = $("<p>").text(" 과목 : "+exam.sNo.sName);
 						        	var $exName = $("<p>").text(exam.eNo+". "+exam.eName);
 						        	var $exContent = $("<p>").text(" - "+exam.eContent);
 						        	var $exContent2 = $("<p>").text(" - "+exam.eContent2);
@@ -244,7 +245,12 @@
 					<p>${list.tNo.tOrder }</p>
 					<p>${list.tNo.tName }</p>
 					<p><fmt:formatDate value="${list.rDate }" pattern="yyyy-MM-dd"/></span>
-					<p>${list.rPass }</p>
+					<c:if test="${list.rPass }">
+						<p>합격</p>
+					</c:if>
+					<c:if test="${!list.rPass }">
+						<p>불합격</p>
+					</c:if>
 					<p>${list.rScore }</p>
 					<p><fmt:formatNumber value="${list.rTime/3600 }" pattern="0"/> : <fmt:formatNumber value="${(list.rTime%3600)/60 }" pattern="0"/> : <fmt:formatNumber value="${list.rTime%60 }" pattern="0"/></p>
 					<p><button class="subject" data-tNo="${list.tNo.tNo}" data-rNo="${list.rNo}">보기</button></p>

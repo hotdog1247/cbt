@@ -97,3 +97,8 @@ select (0/(+1))*100;
 select * from exam;
 
 select * from test_result tr ;
+
+select * from test;
+
+update test set t_time = 9000 where t_no=4;
+delete from test where t_no=4; 

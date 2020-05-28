@@ -57,28 +57,20 @@
       </header>
       <aside class="main-sidebar">
         <section class="sidebar">
-          <!-- Sidebar user panel -->
           <div class="user-panel">
-            <%-- <div class="pull-left image">
-              <img src="${pageContext.request.contextPath }/resources/dist/img/sponge.jpg" class="img-circle" alt="User Image" />
-            </div>
-            <div class="pull-left info">
-              <p>${Auth }</p>
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div> --%>
           </div>
-          <ul class="sidebar-menu">
-            <li><a href="${pageContext.request.contextPath }/test/list"><i class="fa fa-book"></i> <span>문제풀기</span></a></li>
-           	<li><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-edit"></i>시험현황 및 오답노트</a></li>
-            <li><a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-book"></i> <span>자유게시판</span></a></li>
-            <c:if test="${admin==3 }">
-            	<li><a href="${pageContext.request.contextPath }/test/add"><i class="fa fa-edit"></i> <span>문제만들기</span></a></li>
-            </c:if>
-          </ul>
+          	<ul class="sidebar-menu">
+            	<li><a href="${pageContext.request.contextPath }/test/list"><i class="fa fa-book"></i> <span>문제풀기</span></a></li>
+           		<li><a href="${pageContext.request.contextPath }/member/testResult"><i class="fa fa-edit"></i>시험현황 및 오답노트</a></li>
+            	<li><a href="${pageContext.request.contextPath }/board/list"><i class="fa fa-book"></i> <span>자유게시판</span></a></li>
+            	<c:if test="${admin==3 }">
+            		<li><a href="#"><i class="fa fa-edit"></i> <span>문제생성</span></a></li>
+            	</c:if>
+			</ul>
+			<ul class="treeview-menu">
+                <li><a href="${pageContext.request.contextPath }/test/add"><i class="fa fa-circle-o"></i>문제추가</a></li>
+                <li><a href="${pageContext.request.contextPath }/test/newAdd"><i class="fa fa-circle-o"></i>새로생성</a></li>
+			</ul>
         </section>
       </aside>
       <div class="content-wrapper">
-        <!-- <section class="content-header">
-        </section> -->
-	
-	

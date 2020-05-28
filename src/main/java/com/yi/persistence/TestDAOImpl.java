@@ -62,5 +62,4 @@ public class TestDAOImpl implements TestDAO {
 		map.put("tOrder", tOrder);
 		return sqlSession.selectOne(namespace+"readBytYearAndtNameAndtOrder", map);
 	}
-
 }
