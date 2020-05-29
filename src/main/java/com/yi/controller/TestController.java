@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yi.domain.SubjectVO;
 import com.yi.domain.TestVO;
+import com.yi.service.SubjectService;
 import com.yi.service.TestService;
 
 @Controller
 public class TestController {
 	@Autowired
 	private TestService testService;
+	@Autowired
+	private SubjectService subjectService;
 
 	@RequestMapping(value = "/test/list", method = RequestMethod.GET)
 	public String testNameGet(Model model) throws Exception {
@@ -100,6 +103,7 @@ public class TestController {
 		ResponseEntity<List<String>> entity = null;
 		try {
 			vo.settNo(testService.list().size()+1);
+			System.out.println("vo : "+vo.toString());
 			testService.insert(vo);
 			List<TestVO> list = testService.list();
 			List<String> modelList = new ArrayList<>();
@@ -115,13 +119,20 @@ public class TestController {
 		}
 		return entity;
 	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/test/subAdd", method = RequestMethod.GET)
 	public ResponseEntity<List<String>> subRegister(TestVO test, SubjectVO subject) throws Exception {
 		ResponseEntity<List<String>> entity = null;
 		try {
+			System.out.println("test : " + test.toString());
 			TestVO testVo = testService.readBytYearAndtNameAndtOrder(test.gettName(), test.gettYear(), test.gettOrder());
-			
+			System.out.println("test : " + testVo.toString());
+			int subCnt = subjectService.list2(testVo).size()+1;
+			subject.setsNo(subCnt);
+			subject.settNo(testVo);
+			System.out.println("subject : "+subject.toString());
+			subjectService.insert(testVo, subject);
 			entity = new ResponseEntity<List<String>>( HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

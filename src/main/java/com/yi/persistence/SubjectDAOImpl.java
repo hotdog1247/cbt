@@ -61,4 +61,9 @@ public class SubjectDAOImpl implements SubjectDAO {
 		return sqlSession.selectList(namespace+"list2", map);
 	}
 
+	@Override
+	public int newSubjectCnt(TestVO tNo) throws Exception {
+		return sqlSession.selectOne(namespace+"newSubjectCnt", tNo);
+	}
+
 }

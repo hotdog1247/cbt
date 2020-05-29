@@ -63,6 +63,39 @@
 	.marginBot{
 		margin-bottom: 10px;
 	}
+	.formEx{
+		background-color: #b48464;
+		float: right;
+		width: 900px;
+	}
+	.formEx p{
+		margin: 10px;
+	}
+	.formEx label{
+		width: 150px;
+		float: left;
+	}
+	.formEx input{
+		width: 450px;
+	}
+	.chkEx{
+		float: left;
+		background-color: #b48464;
+		height: 100%;
+		font-size: 2.5em;
+		width: 200px;
+	}
+	.chkEx input{
+		width: 50px;
+		height: 50px;
+	}
+	.exEdit{
+		overflow: hidden;
+		width: 1200px;
+		margin: 10px auto;
+		background: red;
+		height: 550px;
+	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
@@ -70,6 +103,7 @@
 		var tName = $("input[name='newTName']").val();
 		var tYear = $("input[name='newTYear']").val();
 		var tOrder = $("input[name='newTOrder']").val();
+		var tTime = $("input[name='newTTime']").val();
 		var sName = $("input[name='newSName']").val();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/test/subAdd",
@@ -79,6 +113,7 @@
 				tName : tName,
 				tYear : tYear,
 				tOrder : tOrder,
+				tTime : tTime,
 				sName : sName
 			},
 			dataType:"json",
@@ -96,6 +131,7 @@
 		var tName = $("input[name='newTName']").val();
 		var tYear = $("input[name='newTYear']").val();
 		var tOrder = $("input[name='newTOrder']").val();
+		var tTime = $("input[name='newTTime']").val();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/test/testAdd",
 			type:"get",
@@ -103,7 +139,8 @@
 			data:{
 				tName : tName,
 				tYear : tYear,
-				tOrder : tOrder 
+				tOrder : tOrder,
+				tTime : tTime
 			},
 			dataType:"json",
 			success:function(res){
@@ -141,7 +178,7 @@
 				})
 			}
 		})
-		$("#container1").empty();
+		/* $("#container1").empty(); */
 		var $h1 = $("<h1>");
 		var tName = $("<span>").html(selectedVal);
 		$h1.append(tName);
@@ -173,7 +210,7 @@
 				})
 			}
 		})
-		$("#container1").empty();
+		/* $("#container1").empty(); */
 		var $h1 = $("<h1>");
 		var tName = $("<span>").html(selectedName+" ");
 		var tYear = $("<span>").html(selectedYear+"년");
@@ -184,14 +221,23 @@
 		var selectedName = $("select[name='tName']").val();
 		var selectedYear = $("select[name='tYear']").val();
 		var selectedOrder = $("select[name='tOrder']").val();
-		$("#container1").empty();
-		var $h1 = $("<h1>");
-		var tName = $("<span>").html(selectedName+" ");
-		var tYear = $("<span>").html(selectedYear+"년 ");
-		var tOrder = $("<span>").html(selectedOrder+"차");
-		$h1.append(tName);
-		$h1.append(tYear);
-		$h1.append(tOrder);
+		$.ajax({
+			url:"${pageContext.request.contextPath}/subject/listSubject",
+			type:"get",
+			headers:{"Content-Type":"application/json"},
+			data: {
+				tName : selectedName,
+				tYear : selectedYear
+			},
+			dataType:"json",
+			success:function(res){
+				$.each(res, function(i, obj) {
+					var $option = $("<option>").text(obj);
+					$option.attr("value", obj);
+					$("select[name='tYear']").append($option);
+				})
+			}
+		})
 	})
 </script>
 <%@ include file="../include/header.jsp" %>
@@ -237,17 +283,45 @@
 	<form action="${pageContext.request.contextPath}/test/add" method="post">
 		<div id="container1">
 			<c:forEach begin="1" end="100" step="1" var="i">
-				<p>${i }</p>
-				<div>
-					<input type="checkbox" name="examChk">
-					<input type="text" name="eName" placeholder="시험설명">
-					<input type="file" name="eDescription" placeholder="부가설명할 이미지(선택사항)">
-					<input type="text" name="eContent" placeholder="보기1">
-					<input type="text" name="eContent2" placeholder="보기2">
-					<input type="text" name="eContent3" placeholder="보기3">
-					<input type="text" name="eContent4" placeholder="보기4">
-					<input type="number" name="eAnswer" placeholder="정답" min="1" max="4">
-					<textarea rows="5" cols="20" name="eSolving" placeholder="문제해설(선택사항)"></textarea>
+				<div class="exEdit">
+					<div class="chkEx">
+						<span>${i }.</span>
+						<input type="checkbox" name="examChk">
+					</div>
+					<div class="formEx">
+						<p>
+							<label>시험설명(지문)</label>
+							<textarea rows="5" cols="110" name="eName" placeholder="시험설명"></textarea>
+						</p>
+						<p>
+							<label>부가설명(이미지)</label>
+							<input type="file" name="eDescription" placeholder="문제번호로 저장해주세요.(선택사항)">
+						</p>
+						<p>
+							<label>보기1</label>
+							<input type="text" name="eContent" placeholder="보기1"><br>
+						</p>
+						<p>
+							<label>보기2</label>
+							<input type="text" name="eContent2" placeholder="보기2"><br>
+						</p>
+						<p>
+							<label>보기3</label>
+							<input type="text" name="eContent3" placeholder="보기3"><br>
+						</p>
+						<p>
+							<label>보기4</label>
+							<input type="text" name="eContent4" placeholder="보기4">
+						</p>
+						<p>
+							<label>정답</label>
+							<input type="number" name="eAnswer" placeholder="정답" min="1" max="4">
+						</p>
+						<p>			
+							<label>해설</label>			
+							<textarea rows="8" cols="110" name="eSolving" placeholder="문제해설(선택사항)"></textarea>
+						</p>
+					</div>
 				</div>
 			</c:forEach>
 		</div>
@@ -267,7 +341,7 @@
 	        				<input type="number" name="newTOrder" placeholder="차수" min="1" max="9" class="btn btn-block btn-flat btn-ex">
 	        			</div>
 	        			<div class="col-xs-3 marginTop">
-	        				<input type="number" name="newTOrder" placeholder="시간(초)" min="1800" max="18000" step="60" class="btn btn-block btn-flat btn-ex">
+	        				<input type="number" name="newTTime" placeholder="시간(초)" min="1800" max="18000" step="60" class="btn btn-block btn-flat btn-ex">
 	        			</div>
 	        			<div class="col-xs-3 marginTop">
 	        				<input type="button" value="시험추가"  name="testAdd" class="btn btn-block btn-flat btn-ex"  data-toggle="collapse" data-target="#subForm">

@@ -16,6 +16,8 @@ public interface SubjectDAO {
 	public void delete(TestVO tNo, SubjectVO sNo) throws Exception;
 
 	public void update(TestVO tNo, SubjectVO sNo) throws Exception;
-	
+
 	public List<SubjectVO> list2(TestVO tNo) throws Exception;
+
+	public int newSubjectCnt(TestVO tNo) throws Exception;
 }

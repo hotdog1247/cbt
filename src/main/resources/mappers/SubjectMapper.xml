@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.SubjectMapper">
-   	<resultMap type="SubjectVO" id="subjectResult">
-		<id property="sNo" column="s_no"/>
-		<id property="sName" column="s_name"/>
-		<association property="tNo" column="t_no" resultMap="testResult" />
-	</resultMap>
-	<resultMap type="TestVO" id="testResult">
+   	<resultMap type="TestVO" id="testResult">
 		<id property="tNo" column="t_no"/>
 		<id property="tName" column="t_name"/>
 		<id property="tYear" column="t_year"/>
 		<id property="tOrder" column="t_order"/>
 		<id property="tTime" column="t_time"/>
+	</resultMap>
+   	<resultMap type="SubjectVO" id="subjectResult">
+		<id property="sNo" column="s_no"/>
+		<id property="sName" column="s_name"/>
+		<association property="tNo" column="t_no" resultMap="testResult" />
 	</resultMap>
 	<select id="readByNo" resultMap="subjectResult">
 		select * from subject s join test t on s.t_no = t.t_no  where t.t_no=#{tNo.tNo} and s.s_no=#{sNo.sNo}
@@ -20,7 +20,7 @@
 		select * from subject
 	</select>
 	<insert id="insert">
-		insert into subject values (#{tNo},#{sNo},#{sNname})
+		insert into subject (t_no, s_no, s_name)values (#{tNo.tNo},#{sNo},#{sName})
 	</insert>
 	<delete id="delete">
 		delete from subject where t_no=#{tNo} and s_no=#{sNo}
@@ -30,5 +30,8 @@
 	</update>
 	<select id="list2" resultMap="subjectResult">
 		select * from subject s left join test t on s.t_no=t.t_no where t.t_no=#{tNo.tNo}
+	</select>
+	<select id="newSubjectCnt" resultType="int">
+		select count(*) from subject where t_no=#{tNo.tNo}
 	</select>
 </mapper>

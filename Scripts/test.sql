@@ -101,4 +101,14 @@ select * from test_result tr ;
 select * from test;
 
 update test set t_time = 9000 where t_no=4;
-delete from test where t_no=4; 
+delete from test where t_no=4;
+
+
+
+select * from subject;
+select * from subject where t_no =3;
+select count(*) from subject where t_no =3;
+select * from subject where t_no =4;
+select count(*) from subject where t_no =4;
+select * from subject s left join test t on s.t_no=t.t_no where t.t_no=4;
+select count(*) from subject s left join test t on s.t_no=t.t_no where t.t_no=4;

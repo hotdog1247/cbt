@@ -37,4 +37,8 @@ public class SubjectService {
 	public List<SubjectVO> list2(TestVO tNo) throws Exception {
 		return dao.list2(tNo);
 	};
+	
+	public int newSubjectCnt(TestVO tNo) throws Exception{
+		return dao.newSubjectCnt(tNo);
+	};
 }
