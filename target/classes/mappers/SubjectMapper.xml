@@ -34,4 +34,7 @@
 	<select id="newSubjectCnt" resultType="int">
 		select count(*) from subject where t_no=#{tNo.tNo}
 	</select>
+	<select id="readByTest" resultMap="subjectResult">
+		select * from subject s join test t on s.t_no = t.t_no  where t.t_name=#{tNo.tName} and t.t_year=#{tNo.tYear} and t.t_order=#{tNo.tOrder}
+	</select>
 </mapper>

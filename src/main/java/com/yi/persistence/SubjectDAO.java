@@ -11,7 +11,7 @@ public interface SubjectDAO {
 
 	public List<SubjectVO> list() throws Exception;
 
-	public void insert(TestVO tNo, SubjectVO sNo) throws Exception;
+	public void insert(SubjectVO sNo) throws Exception;
 
 	public void delete(TestVO tNo, SubjectVO sNo) throws Exception;
 
@@ -20,4 +20,6 @@ public interface SubjectDAO {
 	public List<SubjectVO> list2(TestVO tNo) throws Exception;
 
 	public int newSubjectCnt(TestVO tNo) throws Exception;
+	
+	public List<SubjectVO> readByTest(TestVO tNo) throws Exception;
 }

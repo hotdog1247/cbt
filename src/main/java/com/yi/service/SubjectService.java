@@ -22,8 +22,8 @@ public class SubjectService {
 		return dao.list();
 	};
 
-	public void insert(TestVO tNo, SubjectVO sNo) throws Exception {
-		dao.insert(tNo, sNo);
+	public void insert(SubjectVO sNo) throws Exception {
+		dao.insert(sNo);
 	};
 
 	public void delete(TestVO tNo, SubjectVO sNo) throws Exception {
@@ -33,12 +33,16 @@ public class SubjectService {
 	public void update(TestVO tNo, SubjectVO sNo) throws Exception {
 		dao.update(tNo, sNo);
 	};
-	
+
 	public List<SubjectVO> list2(TestVO tNo) throws Exception {
 		return dao.list2(tNo);
 	};
-	
-	public int newSubjectCnt(TestVO tNo) throws Exception{
+
+	public int newSubjectCnt(TestVO tNo) throws Exception {
 		return dao.newSubjectCnt(tNo);
+	};
+
+	public List<SubjectVO> readByTest(TestVO tNo) throws Exception {
+		return dao.readByTest(tNo);
 	};
 }

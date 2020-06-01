@@ -31,11 +31,8 @@ public class SubjectDAOImpl implements SubjectDAO {
 	}
 
 	@Override
-	public void insert(TestVO tNo, SubjectVO sNo) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("tNo", tNo);
-		map.put("vo", sNo);
-		sqlSession.insert(namespace+"insert", map);
+	public void insert(SubjectVO sNo) throws Exception {
+		sqlSession.insert(namespace+"insert", sNo);
 	}
 
 	@Override
@@ -64,6 +61,13 @@ public class SubjectDAOImpl implements SubjectDAO {
 	@Override
 	public int newSubjectCnt(TestVO tNo) throws Exception {
 		return sqlSession.selectOne(namespace+"newSubjectCnt", tNo);
+	}
+
+	@Override
+	public List<SubjectVO> readByTest(TestVO tNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tNo", tNo);
+		return sqlSession.selectList(namespace+"readByTest", map);
 	}
 
 }

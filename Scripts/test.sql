@@ -112,3 +112,5 @@ select * from subject where t_no =4;
 select count(*) from subject where t_no =4;
 select * from subject s left join test t on s.t_no=t.t_no where t.t_no=4;
 select count(*) from subject s left join test t on s.t_no=t.t_no where t.t_no=4;
+
+select * from subject s join test t on s.t_no = t.t_no  where t.t_name='정보처리기사' and t.t_year=2019 and t.t_order=1;

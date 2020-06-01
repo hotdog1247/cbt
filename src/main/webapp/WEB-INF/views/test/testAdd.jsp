@@ -96,6 +96,10 @@
 		background: red;
 		height: 550px;
 	}
+	.exEdit input, .exEdit textarea{
+		color: white;
+		background-color: #003b32; 
+	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
@@ -178,7 +182,6 @@
 				})
 			}
 		})
-		/* $("#container1").empty(); */
 		var $h1 = $("<h1>");
 		var tName = $("<span>").html(selectedVal);
 		$h1.append(tName);
@@ -210,7 +213,6 @@
 				})
 			}
 		})
-		/* $("#container1").empty(); */
 		var $h1 = $("<h1>");
 		var tName = $("<span>").html(selectedName+" ");
 		var tYear = $("<span>").html(selectedYear+"년");
@@ -221,23 +223,62 @@
 		var selectedName = $("select[name='tName']").val();
 		var selectedYear = $("select[name='tYear']").val();
 		var selectedOrder = $("select[name='tOrder']").val();
+		$("select[name='sName']").empty();
+		var $soption = $("<option>").text("과목");
+		$("select[name='sName']").append($soption);
 		$.ajax({
 			url:"${pageContext.request.contextPath}/subject/listSubject",
 			type:"get",
 			headers:{"Content-Type":"application/json"},
 			data: {
 				tName : selectedName,
-				tYear : selectedYear
+				tYear : selectedYear,
+				tOrder : selectedOrder
 			},
 			dataType:"json",
 			success:function(res){
 				$.each(res, function(i, obj) {
-					var $option = $("<option>").text(obj);
+					var $option = $("<option>").text(obj.sName);
 					$option.attr("value", obj);
-					$("select[name='tYear']").append($option);
+					$("select[name='sName']").append($option);
 				})
 			}
 		})
+	})
+	$(document).on("submit", "#exSubmit", function() {
+/* 		var map2 = new Map();
+		var map3 = new Map();
+		var tName = $("select[name='tName']").val();
+		var tOrder = $("select[name='tOrder']").val();
+		var tYear = $("select[name='tYear']").val();
+		var sName = $("select[name='sName']").val();
+		map3.set("tName", tName);
+		map3.set("sName", sName);
+		map3.set("tOrder", tOrder);
+		map3.set("tYear", tYear);
+		map2.set("test", map3);
+		for(var i = 0; i<100;i++){
+ 			if($("input[name='examChk']").eq(i).prop("checked")){
+ 				var map = new Map();
+ 				var eNo = $("input[name='examChk']").eq(i).val();
+				var eName =$("input[name='examChk']").eq(i).parent().parent().next().find(".eName").val();
+				var eContent =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent").val();
+				var eContent2 =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent2").val();
+				var eContent3 =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent3").val();
+				var eContent4 =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent4").val();				
+				var eAnswer =$("input[name='examChk']").eq(i).parent().parent().next().find(".eAnswer").val();				
+				map.set("eNo", eNo);
+				map.set("eName", eName);
+				map.set("eContent", eContent);
+				map.set("eContent2", eContent2);
+				map.set("eContent3", eContent3);
+				map.set("eContent4", eContent4);
+				map.set("eAnswer", eAnswer);
+				map2.set("eNo"+i+1+"", map);
+			}
+		}
+		console.log(map2);
+		return map2; */
 	})
 </script>
 <%@ include file="../include/header.jsp" %>
@@ -247,51 +288,51 @@
 			<button type="button" id="btnAdd" data-toggle="collapse" data-target="#testForm">문제추가</button>
 		</div>
 	</div>
-	<div id="testForm" class="collapse">
-		<div class="row marginBot">
-			<div class="col-xs-2 col">
-				<select name="tName" class="btn btn-block btn-flat btn-ex">
-					<option>시험종류</option>
-					<c:forEach var="test" items="${list }">
-						<option value="${test}">${test}</option>
-					</c:forEach>
-				</select>
-			</div>
-			<div class="col-xs-2 col">
-				<select name="tYear" class="btn btn-block btn-flat btn-ex">
-					<option>년도</option>
-				</select>
-			</div>
-			<div class="col-xs-2 col">
-				<select name="tOrder" class="btn btn-block btn-flat btn-ex">
-					<option>차수</option>
-				</select>
-			</div>
-			<div class="col-xs-2 col">
-				<select name="sName" class="btn btn-block btn-flat btn-ex">
-					<option>과목</option>
-				</select>
-			</div>
-			<div class="col-xs-2 col">		
-				<input type="button" value="생성" class="btn btn-block btn-flat btn-ex" data-toggle="modal" data-target="#testModal">
-			</div>
-			<div class="col-xs-2 col">		
-				<input type="submit" value="선택" class="btn btn-block btn-flat btn-ex">
+	<form action="${pageContext.request.contextPath}/test/add" method="post" id="exSubmit">
+		<div id="testForm" class="collapse">
+			<div class="row marginBot">
+				<div class="col-xs-2 col">
+					<select name="tName" class="btn btn-block btn-flat btn-ex">
+						<option>시험종류</option>
+						<c:forEach var="test" items="${list }">
+							<option value="${test}">${test}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="col-xs-2 col">
+					<select name="tYear" class="btn btn-block btn-flat btn-ex">
+						<option>년도</option>
+					</select>
+				</div>
+				<div class="col-xs-2 col">
+					<select name="tOrder" class="btn btn-block btn-flat btn-ex">
+						<option>차수</option>
+					</select>
+				</div>
+				<div class="col-xs-2 col">
+					<select name="sName" class="btn btn-block btn-flat btn-ex">
+						<option>과목</option>
+					</select>
+				</div>
+				<div class="col-xs-2 col">		
+					<input type="button" value="생성" class="btn btn-block btn-flat btn-ex" data-toggle="modal" data-target="#testModal">
+				</div>
+				<div class="col-xs-2 col">		
+					<input type="submit" value="선택" class="btn btn-block btn-flat btn-ex" id="addExamSub">
+				</div>
 			</div>
 		</div>
-	</div>
-	<form action="${pageContext.request.contextPath}/test/add" method="post">
 		<div id="container1">
 			<c:forEach begin="1" end="100" step="1" var="i">
 				<div class="exEdit">
 					<div class="chkEx">
-						<span>${i }.</span>
-						<input type="checkbox" name="examChk">
+						<label>${i }.
+						<input type="checkbox" name="examChk" value="${i }"><i class="fas fa-check"></i></label>
 					</div>
 					<div class="formEx">
 						<p>
 							<label>시험설명(지문)</label>
-							<textarea rows="5" cols="110" name="eName" placeholder="시험설명"></textarea>
+							<textarea rows="5" cols="110" name="eName" placeholder="시험설명" class="eName"></textarea>
 						</p>
 						<p>
 							<label>부가설명(이미지)</label>
@@ -299,23 +340,23 @@
 						</p>
 						<p>
 							<label>보기1</label>
-							<input type="text" name="eContent" placeholder="보기1"><br>
+							<input type="text" name="eContent" placeholder="보기1" class="eContent"><br>
 						</p>
 						<p>
 							<label>보기2</label>
-							<input type="text" name="eContent2" placeholder="보기2"><br>
+							<input type="text" name="eContent2" placeholder="보기2" class="eContent2"><br>
 						</p>
 						<p>
 							<label>보기3</label>
-							<input type="text" name="eContent3" placeholder="보기3"><br>
+							<input type="text" name="eContent3" placeholder="보기3" class="eContent3"><br>
 						</p>
 						<p>
 							<label>보기4</label>
-							<input type="text" name="eContent4" placeholder="보기4">
+							<input type="text" name="eContent4" placeholder="보기4" class="eContent4">
 						</p>
 						<p>
 							<label>정답</label>
-							<input type="number" name="eAnswer" placeholder="정답" min="1" max="4">
+							<input type="number" name="eAnswer" placeholder="정답" min="1" max="4" class="eAnswer">
 						</p>
 						<p>			
 							<label>해설</label>			
