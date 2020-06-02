@@ -22,21 +22,37 @@ public class SubjectController {
 	private TestService testService;
 	@Autowired
 	private SubjectService subjectService;
-	
-	@ResponseBody
-	@RequestMapping(value = "/subject/listSubject", method = RequestMethod.GET)
-	public ResponseEntity<List<SubjectVO>> testOrderGet(TestVO test) throws Exception {
-		ResponseEntity<List<SubjectVO>> entity = null;
-		try {
-			List<SubjectVO> list = subjectService.readByTest(test);
-			for(SubjectVO s: list) {
-				System.out.println("s : "+s.toString());
-			}
-			entity = new ResponseEntity<List<SubjectVO>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<List<SubjectVO>>(HttpStatus.BAD_REQUEST);
-		}
-		return entity;
-	}
+//	
+//	@ResponseBody
+//	@RequestMapping(value = "/subject/listSubject", method = RequestMethod.GET)
+//	public ResponseEntity<List<SubjectVO>> testOrderGet(TestVO test) throws Exception {
+//		ResponseEntity<List<SubjectVO>> entity = null;
+//		try {
+//			List<SubjectVO> list = subjectService.readByTest(test);
+//			for(SubjectVO s: list) {
+//				System.out.println("s : "+s.toString());
+//			}
+//			entity = new ResponseEntity<List<SubjectVO>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			entity = new ResponseEntity<List<SubjectVO>>(HttpStatus.BAD_REQUEST);
+//		}
+//		return entity;
+//	}
+//	@ResponseBody
+//	@RequestMapping(value = "/subject/listSubject", method = RequestMethod.GET)
+//	public ResponseEntity<List<SubjectVO>> testOrderGet(TestVO test) throws Exception {
+//		ResponseEntity<List<SubjectVO>> entity = null;
+//		try {
+//			List<SubjectVO> list = subjectService.readByTest(test);
+//			for(SubjectVO s: list) {
+//				System.out.println("s : "+s.toString());
+//			}
+//			entity = new ResponseEntity<List<SubjectVO>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			entity = new ResponseEntity<List<SubjectVO>>(HttpStatus.BAD_REQUEST);
+//		}
+//		return entity;
+//	}
 }

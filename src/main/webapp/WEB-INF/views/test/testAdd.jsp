@@ -100,6 +100,32 @@
 		color: white;
 		background-color: #003b32; 
 	}
+	input{
+		color: white;
+		background-color: #003b32;
+	}
+	.examEx{
+		width: 1100px;
+		margin: 20px auto;
+		padding: 15px auto;
+		font-size: 1.5em;
+	}
+	.examWrap{
+		width: 1000px;
+	}
+	.btnWrap{
+		width: 100px;
+	}
+	.btnWrap button{
+		width: 100px;
+		height:50px;
+	}
+	.mod{
+		background-color:red;
+	}
+	.del{
+		background-color:blue;
+	}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
@@ -223,9 +249,9 @@
 		var selectedName = $("select[name='tName']").val();
 		var selectedYear = $("select[name='tYear']").val();
 		var selectedOrder = $("select[name='tOrder']").val();
-		$("select[name='sName']").empty();
-		var $soption = $("<option>").text("과목");
-		$("select[name='sName']").append($soption);
+		/* $("select[name='sName']").empty(); */
+/* 		var $soption = $("<option>").text("과목");
+		$("select[name='sName']").append($soption); */
 		$.ajax({
 			url:"${pageContext.request.contextPath}/subject/listSubject",
 			type:"get",
@@ -237,15 +263,55 @@
 			},
 			dataType:"json",
 			success:function(res){
+				console.log(res);
 				$.each(res, function(i, obj) {
-					var $option = $("<option>").text(obj.sName);
+					/* var $option = $("<option>").text(obj.sName);
 					$option.attr("value", obj);
-					$("select[name='sName']").append($option);
+					$("select[name='sName']").append($option); */
+					$conDiv = $("<div>").addClass("examEx").css("overflow", "hidden");
+					$div = $("<div>").addClass("examWrap").css("float","left");
+					$div2 = $("<div>").addClass("btnWrap").css("float","right");
+					$p = $("<p>");
+					$eNo = $("<span class='eNo'>").text(obj.eNo+". ");
+					$eName = $("<span class='eName'>").text(obj.eName);
+					/* $eNo = $("<input name='eNo'>").val(obj.eNo);
+					$eName = $("<input name='eName'>").val(obj.eName); */
+					if(obj.eDescription!=0){
+						$eDescription = $("<img>").attr("src", "${pageContext.request.contextPath}/displayFile?fileName="+obj.tNo.tYear+"_"+obj.tNo.tOrder+"_"+obj.tNo.tName+"/img/"+obj.eNo+".png");
+					}
+					$eAnswer = $("<span class='eAnswer'>").text(" 답 : "+obj.eAnswer);
+					$eContent = $("<p class='eContent'>").text("1. "+obj.eContent);
+					$eContent2 = $("<p class='eContent2'>").text("2. "+obj.eContent2);
+					$eContent3 = $("<p class='eContent3'>").text("3. "+obj.eContent3);
+					$eContent4 = $("<p class='eContent4'>").text("4. "+obj.eContent4);
+					$modBtn = $("<button class='mod'>").text("수정").css("display", "block").attr("eNo", obj.eNo);
+					$delBtn = $("<button class='del'>").text("삭제").css("display", "block").attr("eNo", obj.eNo);
+					/* $eAnswer = $("<input name='eAnswer'>").val(obj.eAnswer);
+					$eContent = $("<input name='eContent'>").val(obj.eContent);
+					$eContent2 = $("<input name='eContent2'>").val(obj.eContent2);
+					$eContent3 = $("<input name='eContent3'>").val(obj.eContent3);
+					$eContent4 = $("<input name='eContent4'>").val(obj.eContent4); */
+					$p.append($eNo);
+					$p.append($eName);
+					$p.append($eAnswer);
+					$div.append($p);
+					if(obj.eDescription!=0){
+						$div.append($eDescription);
+					}
+					$div.append($eContent);
+					$div.append($eContent2);
+					$div.append($eContent3);
+					$div.append($eContent4);
+					$div2.append($modBtn);
+					$div2.append($delBtn);
+					$conDiv.append($div);
+					$conDiv.append($div2);
+					$("#container1").append($conDiv);
 				})
 			}
 		})
 	})
-	$(document).on("submit", "#exSubmit", function() {
+		$(document).on("click", ".mod", function() {
 /* 		var map2 = new Map();
 		var map3 = new Map();
 		var tName = $("select[name='tName']").val();
@@ -309,21 +375,21 @@
 						<option>차수</option>
 					</select>
 				</div>
-				<div class="col-xs-2 col">
+<!-- 				<div class="col-xs-2 col">
 					<select name="sName" class="btn btn-block btn-flat btn-ex">
 						<option>과목</option>
 					</select>
+				</div> -->
+				<div class="col-xs-3 col">		
+					<input type="button" value="새로 생성" class="btn btn-block btn-flat btn-ex" data-toggle="modal" data-target="#testModal">
 				</div>
-				<div class="col-xs-2 col">		
-					<input type="button" value="생성" class="btn btn-block btn-flat btn-ex" data-toggle="modal" data-target="#testModal">
-				</div>
-				<div class="col-xs-2 col">		
-					<input type="submit" value="선택" class="btn btn-block btn-flat btn-ex" id="addExamSub">
+				<div class="col-xs-3 col">		
+					<input type="submit" value="문제 추가" class="btn btn-block btn-flat btn-ex" id="addExamSub">
 				</div>
 			</div>
 		</div>
 		<div id="container1">
-			<c:forEach begin="1" end="100" step="1" var="i">
+<%-- 			<c:forEach begin="1" end="100" step="1" var="i">
 				<div class="exEdit">
 					<div class="chkEx">
 						<label>${i }.
@@ -364,7 +430,7 @@
 						</p>
 					</div>
 				</div>
-			</c:forEach>
+			</c:forEach> --%>
 		</div>
 	</form>
 	<div id="testModal" class="modal fade" role="dialog">

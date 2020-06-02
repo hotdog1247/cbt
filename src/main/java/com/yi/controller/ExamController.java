@@ -198,4 +198,23 @@ public class ExamController {
 		}
 		return entity;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/subject/listSubject", method = RequestMethod.GET)
+	public ResponseEntity<List<ExamVO>> testOrderGet(TestVO test) throws Exception {
+		ResponseEntity<List<ExamVO>> entity = null;
+		try {
+			System.out.println("test : "+test.toString());
+			TestVO tNo = testService.readBytYearAndtNameAndtOrder(test.gettName(), test.gettYear(), test.gettOrder());
+			List<ExamVO> list = examService.list2(tNo);
+			for(ExamVO e: list) {
+				System.out.println("e : "+e.toString());
+			}
+			entity = new ResponseEntity<List<ExamVO>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<ExamVO>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }
