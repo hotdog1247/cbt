@@ -284,8 +284,8 @@
 					$eContent2 = $("<p class='eContent2'>").text("2. "+obj.eContent2);
 					$eContent3 = $("<p class='eContent3'>").text("3. "+obj.eContent3);
 					$eContent4 = $("<p class='eContent4'>").text("4. "+obj.eContent4);
-					$modBtn = $("<button class='mod'>").text("수정").css("display", "block").attr("eNo", obj.eNo);
-					$delBtn = $("<button class='del'>").text("삭제").css("display", "block").attr("eNo", obj.eNo);
+					$modBtn = $("<button class='mod'>").text("수정").css("display", "block").attr("eNo", obj.eNo).attr("sNo", obj.sNo.sNo);
+					$delBtn = $("<button class='del'>").text("삭제").css("display", "block").attr("eNo", obj.eNo).attr("sNo", obj.sNo.sNo);
 					/* $eAnswer = $("<input name='eAnswer'>").val(obj.eAnswer);
 					$eContent = $("<input name='eContent'>").val(obj.eContent);
 					$eContent2 = $("<input name='eContent2'>").val(obj.eContent2);
@@ -311,40 +311,19 @@
 			}
 		})
 	})
-		$(document).on("click", ".mod", function() {
-/* 		var map2 = new Map();
-		var map3 = new Map();
+	
+	$(document).on("click", ".mod", function() {
+		var eNo = $(this).attr("eNo");
+		var sNo = $(this).attr("sNo");
 		var tName = $("select[name='tName']").val();
-		var tOrder = $("select[name='tOrder']").val();
 		var tYear = $("select[name='tYear']").val();
-		var sName = $("select[name='sName']").val();
-		map3.set("tName", tName);
-		map3.set("sName", sName);
-		map3.set("tOrder", tOrder);
-		map3.set("tYear", tYear);
-		map2.set("test", map3);
-		for(var i = 0; i<100;i++){
- 			if($("input[name='examChk']").eq(i).prop("checked")){
- 				var map = new Map();
- 				var eNo = $("input[name='examChk']").eq(i).val();
-				var eName =$("input[name='examChk']").eq(i).parent().parent().next().find(".eName").val();
-				var eContent =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent").val();
-				var eContent2 =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent2").val();
-				var eContent3 =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent3").val();
-				var eContent4 =$("input[name='examChk']").eq(i).parent().parent().next().find(".eContent4").val();				
-				var eAnswer =$("input[name='examChk']").eq(i).parent().parent().next().find(".eAnswer").val();				
-				map.set("eNo", eNo);
-				map.set("eName", eName);
-				map.set("eContent", eContent);
-				map.set("eContent2", eContent2);
-				map.set("eContent3", eContent3);
-				map.set("eContent4", eContent4);
-				map.set("eAnswer", eAnswer);
-				map2.set("eNo"+i+1+"", map);
-			}
-		}
-		console.log(map2);
-		return map2; */
+		var tOrder = $("select[name='tOrder']").val();
+		console.log(eNo);
+		console.log(sNo);
+		console.log(tName);
+		console.log(tYear);
+		console.log(tOrder);
+		window.location.herf="${pageContext.request.contextPath}/exam/mod?eNo="+eNo+"&tName="+tName+"&tYear="+tYear+"&tOrder="+tOrder+"&sNo="+sNo;
 	})
 </script>
 <%@ include file="../include/header.jsp" %>
@@ -354,7 +333,7 @@
 			<button type="button" id="btnAdd" data-toggle="collapse" data-target="#testForm">문제추가</button>
 		</div>
 	</div>
-	<form action="${pageContext.request.contextPath}/test/add" method="post" id="exSubmit">
+<%-- 	<form action="${pageContext.request.contextPath}/test/add" method="post" id="exSubmit"> --%>
 		<div id="testForm" class="collapse">
 			<div class="row marginBot">
 				<div class="col-xs-2 col">
@@ -432,7 +411,7 @@
 				</div>
 			</c:forEach> --%>
 		</div>
-	</form>
+	<!-- </form> -->
 	<div id="testModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 	    	<div class="modal-content">

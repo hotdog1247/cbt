@@ -217,4 +217,26 @@ public class ExamController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping(value = "/exam/mod", method = RequestMethod.GET)
+	public String examModGet(TestVO test, SubjectVO subject, ExamVO exam, Model model) throws Exception {
+		System.out.println("exam/mod 안인가?");
+		TestVO tNo = testService.readByNo(test.gettNo());
+		SubjectVO sNo = subjectService.readByNo(tNo, subject);
+		ExamVO ex = examService.readByNo(tNo, sNo, exam.geteNo());
+		model.addAttribute("exam",ex);
+		return "exam/mod";
+	}
+	
+	@RequestMapping(value = "/exam/mod", method = RequestMethod.POST)
+	public String examModPost(TestVO test, SubjectVO subject, ExamVO exam, Model model) throws Exception {
+//		TestVO tNo = testService.readByNo(test.gettNo());
+//		SubjectVO sNo = subjectService.readByNo(tNo, subject);
+//		ExamVO ex = examService.readByNo(tNo, sNo, exam.geteNo());
+//		model.addAttribute("exam",ex);
+		exam.settNo(test);
+		exam.setsNo(subject);
+		examService.update(exam);
+		return "exam/mod";
+	}
 }
