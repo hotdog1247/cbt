@@ -264,6 +264,7 @@
 			dataType:"json",
 			success:function(res){
 				console.log(res);
+				$("#container1").empty();
 				$.each(res, function(i, obj) {
 					/* var $option = $("<option>").text(obj.sName);
 					$option.attr("value", obj);
@@ -308,6 +309,10 @@
 					$conDiv.append($div2);
 					$("#container1").append($conDiv);
 				})
+				$addBtn = $("<button id='addBtnEx'>").text("추가").css("display", "block").css("width",200+"px").css("height", 100+"px").css("background-color"," #b48464").css("margin", 0+" auto").css("border",5+"px outset #572313").attr("data-toggle", "modal").attr("data-target","#examModal");
+				$addBtnDir=$("<div>").addClass("examEx").css("overflow", "hidden");
+				$addBtnDir.append($addBtn);
+				$("#container1").append($addBtnDir);
 			}
 		})
 	})
@@ -318,13 +323,122 @@
 		var tName = $("select[name='tName']").val();
 		var tYear = $("select[name='tYear']").val();
 		var tOrder = $("select[name='tOrder']").val();
-		console.log(eNo);
-		console.log(sNo);
-		console.log(tName);
-		console.log(tYear);
-		console.log(tOrder);
-		window.location.herf="${pageContext.request.contextPath}/exam/mod?eNo="+eNo+"&tName="+tName+"&tYear="+tYear+"&tOrder="+tOrder+"&sNo="+sNo;
+		console.log("eNo : "+eNo);
+		console.log("sNo : "+sNo);
+		console.log("tName : "+tName);
+		console.log("tYear : "+tYear);
+		console.log("tOrder : "+tOrder);
+		location.href="${pageContext.request.contextPath}/exam/mod?eNo="+eNo+"&tName="+tName+"&tYear="+tYear+"&tOrder="+tOrder+"&sNo="+sNo;
+/* 		window.location.herf="${pageContext.request.contextPath}/exam/mod?eNo="+eNo+"&tName="+tName+"&tYear="+tYear+"&tOrder="+tOrder+"&sNo="+sNo; */
+		/* <a href="${pageContext.request.contextPath}/board/read?bNo=${board.bNo}&page=${pageMaker.cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}">${board.bTitle } [${board.replyCnt}]</a> */
 	})
+	$(document).on("click", "#addBtnEx", function() {
+		makeExam();
+		$("select[name='newSName']").empty();
+		var tName = $("select[name='tName']").val();
+		var tYear = $("select[name='tYear']").val();
+		var tOrder = $("select[name='tOrder']").val();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/exam/listsName",
+			type:"get",
+			headers:{"Content-Type":"application/json"},
+			data: {
+				tName : tName,
+				tYear : tYear,
+				tOrder : tOrder
+			},
+			dataType:"json",
+			success:function(res){
+				$.each(res, function(i, obj) {
+					var $option = $("<option>").text(obj.sName);
+					$option.attr("value", obj.sNo);
+					$("select[name='newSName']").append($option);
+				})
+			}
+		})
+		var i = $(".examEx").length;
+		/* alert(i); */
+		$("input[name='newENo']").val(""+i);
+	})
+	$(document).on("click", "input[name='exAdd']", function() {
+		var tName = $("select[name='tName']").val();
+		var tYear = $("select[name='tYear']").val();
+		var tOrder = $("select[name='tOrder']").val();
+		var sNo = $("select[name='newSName']").val();
+		var eNo = $("input[name='newENo']").val();
+		var eAnswer = $("input[name='newEAnswer']").val();
+		var eName = $("textarea[name='newEName']").val();
+		var eContent = $("textarea[name='newEContent']").val();
+		var eContent2 = $("textarea[name='newEContent2']").val();
+		var eContent3 = $("textarea[name='newEContent3']").val();
+		var eContent4 = $("textarea[name='newEContent4']").val();
+		alert("확인");
+		$.ajax({
+			url:"${pageContext.request.contextPath}/exam/exAdd",
+			type:"get",
+			headers:{"Content-Type":"application/json"},
+			data: {
+				tName : tName,
+				tYear : tYear,
+				tOrder : tOrder,
+				sNo : sNo,
+				eNo : eNo,
+				eAnswer : eAnswer,
+				eName : eName,
+				eContent : eContent,
+				eContent2 : eContent2,
+				eContent3 : eContent3,
+				eContent4 : eContent4
+			},
+			dataType:"json",
+			success:function(res){
+ 				console.log("tjdrhd");
+				$conDiv = $("<div>").addClass("examEx").css("overflow", "hidden");
+				$div = $("<div>").addClass("examWrap").css("float","left");
+				$div2 = $("<div>").addClass("btnWrap").css("float","right");
+				$p = $("<p>");
+				$eNo = $("<span class='eNo'>").text(obj.eNo+". ");
+				$eName = $("<span class='eName'>").text(obj.eName);
+				if(obj.eDescription!=0){
+					$eDescription = $("<img>").attr("src", "${pageContext.request.contextPath}/displayFile?fileName="+obj.tNo.tYear+"_"+obj.tNo.tOrder+"_"+obj.tNo.tName+"/img/"+obj.eNo+".png");
+				}
+				$eAnswer = $("<span class='eAnswer'>").text(" 답 : "+obj.eAnswer);
+				$eContent = $("<p class='eContent'>").text("1. "+obj.eContent);
+				$eContent2 = $("<p class='eContent2'>").text("2. "+obj.eContent2);
+				$eContent3 = $("<p class='eContent3'>").text("3. "+obj.eContent3);
+				$eContent4 = $("<p class='eContent4'>").text("4. "+obj.eContent4);
+				$modBtn = $("<button class='mod'>").text("수정").css("display", "block").attr("eNo", obj.eNo).attr("sNo", obj.sNo.sNo);
+				$delBtn = $("<button class='del'>").text("삭제").css("display", "block").attr("eNo", obj.eNo).attr("sNo", obj.sNo.sNo);
+				$p.append($eNo);
+				$p.append($eName);
+				$p.append($eAnswer);
+				$div.append($p);
+				if(obj.eDescription!=0){
+					$div.append($eDescription);
+				}
+				$div.append($eContent);
+				$div.append($eContent2);
+				$div.append($eContent3);
+				$div.append($eContent4);
+				$div2.append($modBtn);
+				$div2.append($delBtn);
+				$conDiv.append($div);
+				$conDiv.append($div2);
+				$("#container1").append($conDiv); 
+			}
+		})
+		makeExam();
+		/* $("select[name='newSName']").empty(); */
+	})
+	function makeExam() {
+		$("textarea[name='newEName']").val("");
+		$("textarea[name='newEContent']").val("");
+		$("textarea[name='newEContent2']").val("");
+		$("textarea[name='newEContent3']").val("");
+		$("textarea[name='newEContent4']").val("");
+		$("input[name='newEAnswer']").val("");
+		$("input[name='newENo']").val("");
+	}
 </script>
 <%@ include file="../include/header.jsp" %>
 <div class="content">
@@ -336,7 +450,7 @@
 <%-- 	<form action="${pageContext.request.contextPath}/test/add" method="post" id="exSubmit"> --%>
 		<div id="testForm" class="collapse">
 			<div class="row marginBot">
-				<div class="col-xs-2 col">
+				<div class="col-xs-3 col">
 					<select name="tName" class="btn btn-block btn-flat btn-ex">
 						<option>시험종류</option>
 						<c:forEach var="test" items="${list }">
@@ -344,12 +458,12 @@
 						</c:forEach>
 					</select>
 				</div>
-				<div class="col-xs-2 col">
+				<div class="col-xs-3 col">
 					<select name="tYear" class="btn btn-block btn-flat btn-ex">
 						<option>년도</option>
 					</select>
 				</div>
-				<div class="col-xs-2 col">
+				<div class="col-xs-3 col">
 					<select name="tOrder" class="btn btn-block btn-flat btn-ex">
 						<option>차수</option>
 					</select>
@@ -362,9 +476,9 @@
 				<div class="col-xs-3 col">		
 					<input type="button" value="새로 생성" class="btn btn-block btn-flat btn-ex" data-toggle="modal" data-target="#testModal">
 				</div>
-				<div class="col-xs-3 col">		
+				<!-- <div class="col-xs-3 col">		
 					<input type="submit" value="문제 추가" class="btn btn-block btn-flat btn-ex" id="addExamSub">
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div id="container1">
@@ -445,6 +559,57 @@
 	        					<input type="button" value="과목추가" name="subAdd" class="btn btn-block btn-flat btn-ex">
 	        				</div>        					
 	        			</div>	
+	        		</div>
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-default btn-ex" data-dismiss="modal">Close</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	<div id="examModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-body">
+					<div class="row">
+						<input type="hidden" name="newENo">
+						<div class="col-xs-6">
+	        				<select name="newSName" class="btn btn-block btn-flat btn-ex">
+	        				</select>
+	        			</div>
+						<div class="col-xs-6">
+	        				<input type="number" name="newEAnswer" placeholder="시험답" class="btn btn-block btn-flat btn-ex" min="1" max="4">
+	        			</div>
+	        		</div>
+	        		<div class="row">
+						<div class="col-xs-12 marginTop">
+	        				<textarea rows="5" cols="50" name="newEName" placeholder="시험문제" class="btn btn-block btn-flat btn-ex"></textarea>
+	        			</div>
+	        		</div>
+	        		<div class="row">
+	        			<div class="col-xs-12 marginTop">
+	        				<textarea rows="5" cols="50" name="newEContent" placeholder="지문1" class="btn btn-block btn-flat btn-ex"></textarea>
+	        			</div>
+	        		</div>
+	        		<div class="row">
+	        			<div class="col-xs-12 marginTop">
+	        				<textarea rows="5" cols="50" name="newEContent2" placeholder="지문2" class="btn btn-block btn-flat btn-ex"></textarea>
+	        			</div>
+	        		</div>
+	        		<div class="row">
+	        			<div class="col-xs-12 marginTop">
+	        				<textarea rows="5" cols="50" name="newEContent3" placeholder="지문3" class="btn btn-block btn-flat btn-ex"></textarea>
+	        			</div>
+	        		</div>
+	        		<div class="row">
+	        			<div class="col-xs-12 marginTop">
+	        				<textarea rows="5" cols="50" name="newEContent4" placeholder="지문4" class="btn btn-block btn-flat btn-ex"></textarea>
+	        			</div>
+	        		</div>
+	       			<div class="row">
+	        			<div class="col-xs-12 marginTop">
+	        				<input type="button" value="문제추가"  name="exAdd" class="btn btn-block btn-flat btn-ex">
+	        			</div>
 	        		</div>
 	      		</div>
 	      		<div class="modal-footer">

@@ -218,7 +218,27 @@ public class ExamController {
 		return entity;
 	}
 	
+	
+	
 	@RequestMapping(value = "/exam/mod", method = RequestMethod.GET)
+//	public String examModPost(@PathVariable TestVO test, SubjectVO subject, ExamVO exam, Model model) throws Exception {
+	public String examModPost(int eNo,int sNo, String tName, int tYear, int tOrder, Model model) throws Exception {
+//		public String examModPost(@PathVariable String eNo, @PathVariable String sNo, @PathVariable String tName,@PathVariable String tYear,@PathVariable String tOrder, Model model) throws Exception {
+//		TestVO tNo = testService.readByNo(test.gettNo());
+//		SubjectVO sNo = subjectService.readByNo(tNo, subject);
+//		ExamVO ex = examService.readByNo(tNo, sNo, exam.geteNo());
+//		model.addAttribute("exam",ex);
+//		exam.settNo(test);
+//		exam.setsNo(subject);
+//		examService.update(exam);
+		TestVO tNo = testService.readBytYearAndtNameAndtOrder(tName, tYear, tOrder);
+		SubjectVO s = new SubjectVO(sNo);
+		SubjectVO sub = subjectService.readByNo(tNo, s);
+		ExamVO exam = examService.readByNo(tNo, sub, eNo);
+		model.addAttribute("exam", exam);
+		return "exam/modExam";
+	}
+	@RequestMapping(value = "/exam/mod", method = RequestMethod.POST)
 	public String examModGet(TestVO test, SubjectVO subject, ExamVO exam, Model model) throws Exception {
 		System.out.println("exam/mod 안인가?");
 		TestVO tNo = testService.readByNo(test.gettNo());
@@ -228,15 +248,42 @@ public class ExamController {
 		return "exam/mod";
 	}
 	
-	@RequestMapping(value = "/exam/mod", method = RequestMethod.POST)
-	public String examModPost(TestVO test, SubjectVO subject, ExamVO exam, Model model) throws Exception {
-//		TestVO tNo = testService.readByNo(test.gettNo());
-//		SubjectVO sNo = subjectService.readByNo(tNo, subject);
-//		ExamVO ex = examService.readByNo(tNo, sNo, exam.geteNo());
-//		model.addAttribute("exam",ex);
-		exam.settNo(test);
-		exam.setsNo(subject);
-		examService.update(exam);
-		return "exam/mod";
+	@ResponseBody
+	@RequestMapping(value = "/exam/listsName", method = RequestMethod.GET)
+	public ResponseEntity<List<SubjectVO>> addExSubGet(TestVO test) throws Exception {
+		ResponseEntity<List<SubjectVO>> entity = null;
+		try {
+			TestVO tNo = testService.readBytYearAndtNameAndtOrder(test.gettName(), test.gettYear(), test.gettOrder());
+			List<SubjectVO> list = subjectService.list2(tNo);
+			entity = new ResponseEntity<List<SubjectVO>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<SubjectVO>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/exam/exAdd", method = RequestMethod.GET)
+//	public ResponseEntity<ExamVO> addExGet(TestVO test, SubjectVO subject, ExamVO exam) throws Exception {
+//	public ResponseEntity<ExamVO> addExGet(ExamVO exam) throws Exception {
+	public ResponseEntity<ExamVO> addExGet(String tName, String tYear, String tOrder, String sNo, String eNo, String eName, String eAnswer, String eContent, String eContent2, String eContent3, String eContent4) throws Exception {
+		System.out.println("fffffffffffff");
+		ResponseEntity<ExamVO> entity = null;
+		try {
+			TestVO tNo = testService.readBytYearAndtNameAndtOrder(tName, Integer.parseInt(tYear), Integer.parseInt(tOrder));
+			SubjectVO s = new SubjectVO(Integer.parseInt(sNo)); 
+			SubjectVO sub = subjectService.readByNo(tNo, s);
+			ExamVO exam = new ExamVO(tNo, sub, Integer.parseInt(eNo), eName, 0, eContent, eContent2, eContent3, eContent4, Integer.parseInt(eAnswer), "", 0, 0); 
+			
+			System.out.println("exam : " + exam.toString());
+			examService.insert(exam);
+			ExamVO exam2 = examService.readByNo(tNo, sub, exam.geteNo());
+			entity = new ResponseEntity<ExamVO>(exam2, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<ExamVO>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 }
